@@ -144,32 +144,20 @@ exports.updatePost = async (req, res) => {
 };
 
 exports.deletePost = async (req, res) => {
-  const postId = req.params.id;
-
   try {
+    const { postId } = req.params;
     const post = await Post.findById(postId);
 
     if (!post) {
-      handleNotFound(res, 'Post not found');
-      return;
+      return res.status(404).json({ message: 'Post not found' });
     }
 
-    // Delete images from Cloudinary
-    if (post.images && post.images.length > 0) {
-      for (const image of post.images) {
-        await cloudinary.uploader.destroy(image.public_id);
-      }
-    }
+    await post.remove();
 
-    // Remove the post from the database
-    await post.remove(); // Use remove method to delete the document
-
-    res.status(200).json({
-      success: true,
-      message: 'Post deleted successfully',
-    });
+    return res.json({ message: 'Post deleted successfully' });
   } catch (error) {
-    handleServerError(res, error, 'Error deleting post');
+    console.error('Error deleting post:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -243,6 +231,18 @@ exports.getPostById = async (req, res) => {
   } catch (error) {
     console.error('Error fetching post details:', error);
     handleServerError(res, error, 'Internal Server Error');
+  }
+};
+
+exports.getUserPosts = async (req, res) => {
+  const userId = req.user._id;
+
+  try {
+    const userPosts = await Post.find({ userId });
+    res.status(200).json(userPosts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Error fetching user posts' });
   }
 };
 

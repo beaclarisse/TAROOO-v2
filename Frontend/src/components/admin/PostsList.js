@@ -31,7 +31,7 @@ const PostsList = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: "light",
         });
 
     let navigate = useNavigate();
@@ -151,7 +151,7 @@ const PostsList = () => {
     };
 
     return (
-        <Box sx={{ height: 730, width: "90%", paddingTop: 5 }} backgroundColor="#f4effc">
+        <Box sx={{ height: 730, width: "90%", paddingTop: 5 }} style= {{background: 'white'}}>
             <Fragment>
                 <MetaData title={"All Posts"} />
                 <div className="row">

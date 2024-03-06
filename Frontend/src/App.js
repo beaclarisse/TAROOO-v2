@@ -48,10 +48,47 @@ import TaroDiseases from './components/TaroDiseases';
 import DiseaseDetails from "./components/diseases/DiseaseDetails";
 import TaroPosts from './components/TaroPosts';
 
+//Questions
+import NewQuestion from './components/admin/NewQuestions';
+import QuestionsList from './components/admin/ListQuestion';
+import UpdateQuestion from './components/admin/UpdateQuestion';
+
+
+
+import SurveyAnalysis from './components/admin/SurveyAnalysis';
+
+//farmer
+import FQuestionsList from './components/admin/farmer/ListFQuestion';
+import FUpdateQuestion from './components/admin/farmer/UpdateQuestion';
+import FnewQuestion from './components/admin/farmer/NewFQuestion';
+
+//Seller
+import SQuestionsList from './components/admin/seller/ListSQuestions';
+import SUpdateQuestion from './components/admin/seller/UpdateSQuestion';
+import SnewQuestion from './components/admin/seller/NewSQuestion';
+
+//overall
+import CreateSurveyList from './components/admin/overallSurvey/createSurveyList';
+import OverallSurveyList from './components/admin/overallSurvey/overSurveyList';
+//import UpdateSurveyList from './components/admin/overallSurvey/updateSurveyList';
+import UpdateSurveyList from './components/admin/overallSurvey/updateSurveyList';
+
+
+
+//Answer
+import SurveyForm from './components/Question/Survey';
+import FSurveyForm from './components/Question/farmerSurvey';
+import SSurveyForm from './components/Question/sellerSurvey';
+import OverallSurvey from './components/Question/overallSurvey';
+
+
+
 
 import Forum from './components/Forum/Forum';
 import PostDetail from './components/Forum/PostDetail';
 import EditPost from './components/Forum/EditPost';
+
+import UserPostList from './components/UserPostList';
 
 function App() {
   useEffect(() => {
@@ -81,6 +118,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+
           <Route
             path="/profile/update"
             element={
@@ -212,6 +251,100 @@ function App() {
           <Route path="/TaroDiseases" element={<TaroDiseases />} exact="true" />
           <Route path="/Forum" element={<Forum />} />
           <Route path="/edit-post/:id" element={<EditPost />} />
+
+
+          <Route path="/surveyAnalysis" element={
+            <ProtectedRoute isAdmin={true}>
+              <SurveyAnalysis />
+            </ProtectedRoute>
+          } />
+          {/* Consumer */}
+          <Route path="/questions" element={
+            <ProtectedRoute isAdmin={true}>
+              <QuestionsList />
+            </ProtectedRoute>
+          } />
+          <Route path="/questions/create" element={
+            <ProtectedRoute isAdmin={true}>
+              <NewQuestion />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/questions/update/:id" element={
+            <ProtectedRoute isAdmin={true}>
+              <UpdateQuestion />
+            </ProtectedRoute>
+          } />
+
+          {/* Farmer */}
+          <Route path="/farmerQuestion" element={
+            <ProtectedRoute isAdmin={true}>
+              <FQuestionsList />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/farmerquestions/create" element={
+            <ProtectedRoute isAdmin={true}>
+              <FnewQuestion />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/farmerquestions/update/:id" element={
+            <ProtectedRoute isAdmin={true}>
+              <FUpdateQuestion />
+            </ProtectedRoute>
+          } />
+
+          {/* Seller */}
+          <Route path="/sellerQuestion" element={
+            <ProtectedRoute isAdmin={true}>
+              <SQuestionsList />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/sellerquestions/create" element={
+            <ProtectedRoute isAdmin={true}>
+              <SnewQuestion />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/sellerquestions/update/:id" element={
+            <ProtectedRoute isAdmin={true}>
+              <SUpdateQuestion />
+            </ProtectedRoute>
+          } />
+
+          {/* Overall */}
+          <Route path="/overallSurvey" element={
+            <ProtectedRoute isAdmin={true}>
+              <OverallSurveyList />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/overallSurvey/create" element={
+            <ProtectedRoute isAdmin={true}>
+              <CreateSurveyList />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/overallSurvey/update/:id" element={
+            <ProtectedRoute isAdmin={true}>
+              <UpdateSurveyList />
+            </ProtectedRoute>
+          } />
+
+
+          <Route path="/survey" element={<SurveyForm />} />
+
+          <Route path="/farmerSurvey" element={<FSurveyForm />} />
+
+          <Route path="/sellerSurvey" element={<SSurveyForm />} />
+
+          <Route path="/UserPostList" exact component={UserPostList} />
+
+          <Route path="/allSurvey" element={<OverallSurvey />} />
+
+
 
         </Routes>
         <ToastContainer />

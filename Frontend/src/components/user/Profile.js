@@ -83,7 +83,7 @@ const Profile = () => {
                 </Fragment>
             )}
             {user.role == "admin" && (
-                <Box sx={{ height: 660, width: "100%", paddingTop: 5 }} backgroundColor="#f4effc">
+                <Box sx={{ height: 660, width: "100%", paddingTop: 5 }} style={{ background: 'white' }}>
                     <Fragment>
                         <div className="row">
                             <div className="col-12 col-md-2">

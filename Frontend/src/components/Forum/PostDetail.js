@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Header from '../layout/Header';
 import { useNavigate } from 'react-router-dom';
-// import Loader from '../layout/Loader';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -16,7 +15,6 @@ const PostDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-
 
   const fetchComments = async () => {
     try {
@@ -78,55 +76,56 @@ const PostDetail = () => {
   const handleEdit = async () => {
     try {
       const postResponse = await axios.get(`http://localhost:3000/api/v1/updatepost/${id}`);
-
       navigate(`/edit-post/${id}`, { state: { post: postResponse.data } });
     } catch (error) {
       console.error('Error fetching post for editing:', error);
     }
   };
 
-
-  const handleDelete = async () => {
-    try {
-
-      const confirmDeletion = window.confirm('Are you sure you want to delete this post?');
-
-      if (confirmDeletion) {
-
-        await axios.delete(`http://localhost:3000/api/v1/DeletePost/${id}`);
-
+  const handleDelete = () => {
+    axios
+      .delete(`http://localhost:4001/api/v1/deletePost/${id}`)
+      .then(() => {
+        // Update state or perform any other necessary actions
         console.log('Post deleted successfully');
-      }
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    }
+      })
+      .catch((err) => {
+        console.error(err);
+        console.log('Failed to delete post');
+      });
   };
 
-
   return (
-    <div>
-      <Header />
+    <div className="post-detail-container" style={{ background: "white"}}>
+      {/* <Header /> */}
       {[1, 2, 3, 4, 5].map((_, index) => (
         <div key={index} className="space-before-post-container" />
       ))}
-      <div className="post-detail-container white-background">
+      <div className="content-wrapper">
         <div className="post-content-wrapper">
           <div className="user-details">
-            <p>User ID: {user.id}</p>
-            {/* Conditionally render edit and delete buttons */}
-            {user.id === post.userId && (
+            <span className="user-icon">👤</span>
+            {user && (
+              <span className="username">{user.username}</span>
+            )}
+
+            {user && user.id === post.userId && (
               <div className="edit-delete-icons">
                 <EditIcon onClick={handleEdit} className="edit-icon" />
                 <DeleteIcon onClick={handleDelete} className="delete-icon" />
               </div>
             )}
           </div>
-          <h2>{post.title}</h2>
+          <h2>{post.title}</h2> 
           <p>{post.content}</p>
           {post.images && post.images.length > 0 && (
-            <img src={post.images[0].url} alt="Post Image" />
+            <img
+              src={post.images[0].url}
+              alt="Post"
+              className="post-image"
+            />
           )}
-  
+
           {/* Comment Section */}
           <form onSubmit={handleCommentSubmit}>
             <label htmlFor="newComment">Add a Comment:</label>
@@ -139,7 +138,7 @@ const PostDetail = () => {
               {isSubmitting ? 'Submitting...' : 'Submit Comment'}
             </button>
           </form>
-  
+
           <div className="comments-section">
             <h3>Comments</h3>
             {isLoading ? (
@@ -149,7 +148,9 @@ const PostDetail = () => {
                 {comments.length > 0 ? (
                   comments.map((comment) => (
                     <div key={comment._id} className="comment-container">
-                      <p>{comment?.content ? comment.content : 'No content available'}</p>
+                      <span className="user-icon">👤</span>
+                      <span className="username">{comment.username}</span>
+                      <p className="comment-content">{comment?.content ? comment.content : 'No content available'}</p>
                     </div>
                   ))
                 ) : (
@@ -162,8 +163,7 @@ const PostDetail = () => {
       </div>
     </div>
   );
-  };
-  
-  export default PostDetail;
+};
 
-  
+export default PostDetail;
+

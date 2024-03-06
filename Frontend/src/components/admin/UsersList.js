@@ -120,7 +120,7 @@ const UsersList = () => {
     };
 
     return (
-        <Box sx={{ height: 730, width: "90%", paddingTop: 5 }} backgroundColor="#f5f5f5">
+        <Box sx={{ height: 730, width: "90%", paddingTop: 5 }} style={{ background: 'white' }}>
             {/* <Typography variant="h3">Products</Typography> */}
             <Fragment>
                 <MetaData title={"All Users"} />

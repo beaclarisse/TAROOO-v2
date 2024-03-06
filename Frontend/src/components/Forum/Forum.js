@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Header from '../layout/Header';
 // import Loader from '../layout/Loader';
+// const jwt = require("jsonwebtoken");
 
 const User = ({ username }) => (
   <div className="user">
@@ -45,6 +46,7 @@ const Forum = () => {
       const response = await axios.post('http://localhost:3000/api/v1/posts', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          // Authorization: `Bearer ${user.token}`,
         },
       });
 

@@ -684,7 +684,7 @@ ul.CTAs a {
   background-color: #f9f9f9; /* Change to your desired background color */
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(167, 163, 163, 0.1);
 }
 
 /* Form label */
@@ -715,11 +715,12 @@ button[type="submit"] {
 
 /* Posts container */
 .posts-container {
-  background-color: #f9f9f9;
+  background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
+
 
 /* Post card */
 .post-card {
@@ -727,7 +728,7 @@ button[type="submit"] {
   background-color: #fff;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(255, 254, 254, 0.1);
 }
 
 /* Post title */
@@ -738,37 +739,64 @@ button[type="submit"] {
 }
 
 /* Post content */
-.post-content {
-  color: #333;
+.post-content-wrapper {
+  position: relative;
 }
-.post-detail-container {
+
+.user-details {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 100vh;
-  background-color: white; /* Set white background */
+}
+
+.edit-delete-icons {
+  display: flex;
+  align-items: center;
+}
+
+.edit-icon,
+.delete-icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.post-detail-container.white-background {
+  background-color: white;
+  width: 100vw; /* Set width to 100% of viewport width */
+  height: 100vh; /* Set height to 100% of viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .post-content-wrapper {
-  max-width: 600px;
+  max-width: 800px; /* Set the maximum width for content */
+  width: 100%;
   padding: 20px;
-  border-radius: 8px;
-  background-color: #fff; /* Set white background for the content wrapper */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
-  text-align: center; /* Center text content */
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* Optional border styling */
 }
 
-.post-content-wrapper h2 {
-  color: #333; /* Set text color */
-}
-
-.post-content-wrapper p {
-  color: #555; /* Set text color */
+.space-before-post-container {
+  height: 20px; /* Adjust the height as needed for the desired space */
 }
 
 
-
-
+.loader {
+  width: 80px;
+  height: 20px;
+  color: #514b82;
+  background:
+    radial-gradient(farthest-side,currentColor 98%,#0000) left  /20px 20px,
+    radial-gradient(farthest-side,currentColor 98%,#0000) right /20px 20px,
+    radial-gradient(farthest-side,#000 98%,#0000) center/5px 5px,
+    linear-gradient(currentColor 0 0) center/100% 2px;
+  background-repeat: no-repeat;
+  animation: l9 1s cubic-bezier(.5,-150,.5,150) infinite;
+}
+@keyframes l9 { 
+    100% { transform:rotate(1deg)} 
+}
 
 /* footer {
   text-align: center;

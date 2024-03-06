@@ -7,6 +7,7 @@ const auth = require("./routes/auth");
 const taro = require("./routes/taro");
 const disease = require("./routes/disease");
 const forum = require("./routes/Forum");
+const comment = require("./routes/comment");
 
 app.use(
   cors({
@@ -22,5 +23,6 @@ app.use("/api/v1", auth);
 app.use("/api/v1", taro);
 app.use("/api/v1", disease);
 app.use("/api/v1", forum);
+app.use("/api/v1", comment);
 
 module.exports = app;

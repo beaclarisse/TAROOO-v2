@@ -51,6 +51,7 @@ import TaroPosts from './components/TaroPosts';
 
 import Forum from './components/Forum/Forum';
 import PostDetail from './components/Forum/PostDetail';
+import EditPost from './components/Forum/EditPost';
 
 function App() {
   useEffect(() => {
@@ -209,9 +210,8 @@ function App() {
 
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/TaroDiseases" element={<TaroDiseases />} exact="true" />
-          <Route path="/Forum" element={<Forum />}
-
-          />
+          <Route path="/Forum" element={<Forum />} />
+          <Route path="/edit-post/:id" element={<EditPost />} />
 
         </Routes>
         <ToastContainer />

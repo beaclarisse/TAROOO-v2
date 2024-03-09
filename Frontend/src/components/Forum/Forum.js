@@ -1,120 +1,132 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import SaveIcon from '@mui/icons-material/Save';
+import CommentIcon from '@mui/icons-material/Comment';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import ReactPaginate from 'react-paginate';
+import Sidebar from '../layout/SideBar';
 import Header from '../layout/Header';
-// import Loader from '../layout/Loader';
-// const jwt = require("jsonwebtoken");
-
-const User = ({ username }) => (
-  <div className="user">
-    <span className="user-icon">👤</span>
-    <span className="username">{username}</span>
-  </div>
-);
 
 const Forum = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({});
-  const [addingPost, setAddingPost] = useState(false);
-
+  const [pageNumber, setPageNumber] = useState(0);
+  const postsPerPage = 3;
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/v1/posts')
-      .then(response => setPosts(response.data))
-      .catch(error => console.error('Error fetching posts:', error));
+    const fetchData = async () => {
+      try {
+        const responsePosts = await axios.get('http://localhost:3000/api/v1/posts');
+        setPosts(responsePosts.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewPost({ ...newPost, [name]: value });
+  const pageCount = Math.ceil(posts.length / postsPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
   };
 
-  const handleImageChange = (e) => {
-    const images = e.target.files[0];
-    setNewPost({ ...newPost, images });
-  };
+  const DisplayPost = ({ post }) => {
+    const [user, setUser] = useState(null);
 
-  const handlePostSubmit = async (e) => {
-    e.preventDefault();
+    useEffect(() => {
+      const fetchUserData = async () => {
+        try {
 
-    const formData = new FormData();
-    formData.append('title', newPost.title);
-    formData.append('content', newPost.content);
-    formData.append('images', newPost.images);
+          if (post.user) {
+            const responseUser = await axios.get(`http://localhost:3000/api/v1/user/${post.user}`);
+            setUser(responseUser.data);
+          } else {
+            setUser({ name: "Anonymous" });
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          setUser({ name: "Anonymous" });
+        }
+      };
 
-    try {
-      const response = await axios.post('http://localhost:3000/api/v1/posts', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          // Authorization: `Bearer ${user.token}`,
-        },
-      });
+      fetchUserData();
+    }, [post.user]);
 
-      setPosts([response.data, ...posts]);
-      setNewPost({ title: '', content: '', images: null });
-      setAddingPost(false);
-    } catch (error) {
-      console.error('Error creating post:', error);
+    if (!user) {
+      return null;
     }
+
+    return (
+      <div className="col-sm-12 col-md-4 my-3" key={post._id}>
+        <div className="card mb-3 rounded" style={{ width: '18rem', height: '20rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10rem' }}>
+            <img className="card-img-top" src={post.images[0]?.url} alt="Post" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </div>
+          <div className="card-body text-center">
+            <h5 className="card-title" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{post.title}</h5>
+            <h6 className="card-subtitle mb-2 text-muted" style={{ fontSize: '1rem', marginBottom: '1rem' }}>
+              Posted by: {user && user.name ? user.name || user.handle : "Anonymous"}
+            </h6>
+            {post.avatar && <img src={post.avatar} alt={`${user.name || user.handle}'s avatar`} className="mb-2" style={{ maxWidth: '50px', borderRadius: '50%' }} />}
+            <div className="icon-container d-flex align-items-center justify-content-around mt-2">
+              <FavoriteIcon color="error" fontSize="small" />
+              <SaveIcon color="primary" fontSize="small" />
+              <CommentIcon color="action" fontSize="small" />
+            </div>
+            <Link to={`/post/${post._id}`} id="view_btn" className="btn btn-block mt-2" style={{ background: '#33FF6E', marginTop: 'auto' }}>
+              View Details
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   };
 
-  return (
-    <div className="forum-container">
-      <Header />
+  const displayPosts = posts
+    .slice(pageNumber * postsPerPage, (pageNumber + 1) * postsPerPage)
+    .map((post) => <DisplayPost key={post._id} post={post} />);
 
-      {addingPost ? (
-        <div className="add-post-form">
-          <form onSubmit={handlePostSubmit} encType="multipart/form-data">
-            <label>Title:</label>
-            <input type="text" name="title" value={newPost.title} onChange={handleInputChange} />
-
-            <label>Content:</label>
-            <textarea name="content" value={newPost.content} onChange={handleInputChange}></textarea>
-
-            <label>Image:</label>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-
-            <button type="submit">Submit Post</button>
-          </form>
+    return (
+      <div className="d-flex align-items-start vh-100 bg-white">
+        <Header />
+        <div className="d-flex flex-column w-25">
+          {/* <Sidebar /> */}
         </div>
-      ) : (
-        <div className="posts-container">
-          <h2 className="posts-header" align="center">Post Forum</h2>
-          <div className="add-post-container">
-            <button
-              type="button"
-              onClick={() => setAddingPost(!addingPost)}
-              style={{
-                borderRadius: '10px',
-                backgroundColor: 'green',
-                color: 'white',
-                padding: '10px 20px',
-                cursor: 'pointer',
-              }}
-            >
-              {addingPost ? 'Cancel' : 'Add Post'}
-            </button>
-
+        <div className="w-75 p-4 rounded">
+          <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            Post Forum
+          </h2>
+          <div className="d-flex flex-wrap justify-content-around">
+            {displayPosts}
           </div>
-          {posts.map(post => (
-            <div key={post._id} className="post-card">
-              <User username={post.username} />
-              <h3 className="post-title">{post.title}</h3>
-              <p className="post-content">{post.content}</p>
-              {post.images && post.images.length > 0 && (
-                <img
-                  src={post.images[0].url}
-                />
-              )}
-              <Link to={{ pathname: `/post/${post._id}`, state: { post } }} className="view-post-link">
-                View Post
-              </Link>
-            </div>
-          ))}
+          <div className="pagination-container d-flex justify-content-center mt-3">
+            <ReactPaginate
+              previousLabel={<NavigateBeforeIcon />}
+              nextLabel={<NavigateNextIcon />}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName={'pagination'}
+              previousLinkClassName={'pagination__link btn btn-sm'}
+              nextLinkClassName={'pagination__link btn btn-sm'}
+              disabledClassName={'pagination__link--disabled'}
+              activeClassName={'pagination__link--active'}
+              pageClassName={'pagination__number'}
+              breakClassName={'pagination__break'}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+            />
+          </div>
+          <Link to="/AddPost" className="btn btn-primary mt-3">
+            Add Post
+          </Link>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+    
 };
 
 export default Forum;

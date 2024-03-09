@@ -8,22 +8,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const PostDetail = () => {
   const [post, setPost] = useState({});
-  const [user, setUser] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const fetchComments = async () => {
-    try {
-      const commentsResponse = await axios.get(`http://localhost:3000/api/v1/getComment/${id}`);
-      setComments(commentsResponse.data.comments);
-    } catch (error) {
-      console.error('Error fetching comments:', error);
-    }
-  };
+  // const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,16 +24,8 @@ const PostDetail = () => {
         const postResponse = await axios.get(`http://localhost:3000/api/v1/posts/${id}`);
         setPost(postResponse.data);
 
-        if (postResponse.data.userId && user) {
-          const userResponse = await axios.get(`http://localhost:3000/api/v1/users/${postResponse.data.userId}`, {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          });
-          setUser(userResponse.data);
-        }
-
-        await fetchComments();
+        const commentsResponse = await axios.get(`http://localhost:3000/api/v1/getComment/${id}`);
+        setComments(commentsResponse.data.comments);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -51,7 +34,32 @@ const PostDetail = () => {
     };
 
     fetchData();
-  }, [id, user]);
+  }, [id, isSubmitting]);
+
+
+  const handleEdit = async () => {
+    try {
+
+      const postResponse = await axios.get(`http://localhost:3000/api/v1/updatepost/${id}`);
+      navigate(`/edit-post/${id}`, { state: { post: postResponse.data } });
+    } catch (error) {
+      console.error('Error fetching post for editing:', error);
+    }
+  };
+
+
+  const handleDelete = () => {
+    axios
+      .delete(`http://localhost:4001/api/v1/deletePost/${id}`)
+      .then(() => {
+        console.log('Post deleted successfully');
+      })
+      .catch((err) => {
+        console.error(err);
+        console.log('Failed to delete post');
+      });
+  };
+
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -62,7 +70,14 @@ const PostDetail = () => {
       const response = await axios.post(`http://localhost:3000/api/v1/addComment`, {
         postId: id,
         content: newComment,
-      });
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
 
       setComments([...comments, response.data.comment]);
       setNewComment('');
@@ -73,31 +88,8 @@ const PostDetail = () => {
     }
   };
 
-  const handleEdit = async () => {
-    try {
-      const postResponse = await axios.get(`http://localhost:3000/api/v1/updatepost/${id}`);
-      navigate(`/edit-post/${id}`, { state: { post: postResponse.data } });
-    } catch (error) {
-      console.error('Error fetching post for editing:', error);
-    }
-  };
-
-  const handleDelete = () => {
-    axios
-      .delete(`http://localhost:4001/api/v1/deletePost/${id}`)
-      .then(() => {
-        // Update state or perform any other necessary actions
-        console.log('Post deleted successfully');
-      })
-      .catch((err) => {
-        console.error(err);
-        console.log('Failed to delete post');
-      });
-  };
-
   return (
-    <div className="post-detail-container" style={{ background: "white"}}>
-      {/* <Header /> */}
+    <div className="post-detail-container" style={{ background: "white" }}>
       {[1, 2, 3, 4, 5].map((_, index) => (
         <div key={index} className="space-before-post-container" />
       ))}
@@ -105,18 +97,10 @@ const PostDetail = () => {
         <div className="post-content-wrapper">
           <div className="user-details">
             <span className="user-icon">👤</span>
-            {user && (
-              <span className="username">{user.username}</span>
-            )}
-
-            {user && user.id === post.userId && (
-              <div className="edit-delete-icons">
-                <EditIcon onClick={handleEdit} className="edit-icon" />
-                <DeleteIcon onClick={handleDelete} className="delete-icon" />
-              </div>
-            )}
           </div>
-          <h2>{post.title}</h2> 
+
+          {/* Display post details */}
+          <h2>{post.title}</h2>
           <p>{post.content}</p>
           {post.images && post.images.length > 0 && (
             <img
@@ -126,7 +110,7 @@ const PostDetail = () => {
             />
           )}
 
-          {/* Comment Section */}
+          {/* Comment form */}
           <form onSubmit={handleCommentSubmit}>
             <label htmlFor="newComment">Add a Comment:</label>
             <textarea
@@ -139,6 +123,7 @@ const PostDetail = () => {
             </button>
           </form>
 
+          {/* Comments section */}
           <div className="comments-section">
             <h3>Comments</h3>
             {isLoading ? (
@@ -149,13 +134,20 @@ const PostDetail = () => {
                   comments.map((comment) => (
                     <div key={comment._id} className="comment-container">
                       <span className="user-icon">👤</span>
-                      <span className="username">{comment.username}</span>
-                      <p className="comment-content">{comment?.content ? comment.content : 'No content available'}</p>
+                      {comment.comus ? (
+                        <>
+                          <span className="username">{comment.comus.name}</span>
+                          <p className="comment-content">{comment?.content ? comment.content : 'No content available'}</p>
+                        </>
+                      ) : (
+                        <p>User information not available</p>
+                      )}
                     </div>
                   ))
                 ) : (
                   <p>No comments available</p>
                 )}
+
               </div>
             )}
           </div>
@@ -166,4 +158,3 @@ const PostDetail = () => {
 };
 
 export default PostDetail;
-

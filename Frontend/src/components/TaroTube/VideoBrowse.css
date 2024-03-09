@@ -1,0 +1,39 @@
+.root {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .form {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+  .videosList {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .videoItem {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .videoIframeContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  iframe {
+    width: 100%;
+    max-width: 800px;
+    height: 450px; /* Adjust the height as needed */
+    border: none;
+  }
+
+  

@@ -15,6 +15,7 @@ const {
     getUserDetails,
     updateUser,
     deleteUser, 
+    getUserById,
     googlelogin
 } = require("../controllers/authController");
 
@@ -34,12 +35,8 @@ router.put("/password/update", isAuthenticatedUser, updatePassword);
 
 //Profile
 router.get("/profile", isAuthenticatedUser, getUserProfile);
-router.put(
-    "/profile/update",
-    isAuthenticatedUser,
-    upload.single("avatar"),
-    updateProfile
-);
+router.get('/user/:id', isAuthenticatedUser, getUserById);
+router.put("/profile/update",isAuthenticatedUser,upload.single("avatar"),updateProfile);
 
 
 // Admin Controls

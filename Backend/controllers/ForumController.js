@@ -218,21 +218,20 @@ exports.deletePost = async (req, res) => {
 
 exports.getPostById = async (req, res) => {
   const postId = req.params.id;
-
   try {
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate('user', 'useravatar');
 
     if (!post) {
       handleNotFound(res, 'Post not found');
       return;
     }
-
     res.status(200).json(post);
   } catch (error) {
     console.error('Error fetching post details:', error);
     handleServerError(res, error, 'Internal Server Error');
   }
 };
+
 
 exports.getUserPosts = async (req, res) => {
   const userId = req.user._id;

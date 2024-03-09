@@ -306,6 +306,23 @@ exports.deleteUser = async (req, res, next) => {
     });
 };
 
+exports.getUserById = async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id);
+  
+      if (!user) {
+        return next(new ErrorHandler(`User not found with ID: ${req.params.id}`, 404));
+      }
+  
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
 exports.googlelogin = async (req, res, next) => {
     console.log(req.body.response);
     const userfind = await User.findOne({ googleId: req.body.response.id })

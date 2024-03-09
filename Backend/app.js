@@ -8,6 +8,7 @@ const taro = require("./routes/taro");
 const disease = require("./routes/disease");
 const forum = require("./routes/Forum");
 const comment = require("./routes/comment");
+const videos = require("./routes/video");
 
 const answer = require("./routes/answer");
 const question = require("./routes/question")
@@ -34,6 +35,7 @@ app.use("/api/v1", taro);
 app.use("/api/v1", disease);
 app.use("/api/v1", forum);
 app.use("/api/v1", comment);
+app.use("/api/v1", videos);
 
 
 ///questions

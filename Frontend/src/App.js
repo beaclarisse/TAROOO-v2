@@ -53,8 +53,6 @@ import NewQuestion from './components/admin/NewQuestions';
 import QuestionsList from './components/admin/ListQuestion';
 import UpdateQuestion from './components/admin/UpdateQuestion';
 
-
-
 import SurveyAnalysis from './components/admin/SurveyAnalysis';
 
 //farmer
@@ -81,12 +79,15 @@ import FSurveyForm from './components/Question/farmerSurvey';
 import SSurveyForm from './components/Question/sellerSurvey';
 import OverallSurvey from './components/Question/overallSurvey';
 
-
-
-
+//Forum
 import Forum from './components/Forum/Forum';
 import PostDetail from './components/Forum/PostDetail';
 import EditPost from './components/Forum/EditPost';
+import AddPost from './components/Forum/AddPost';
+
+//Video
+import VideoBrowse from './components/TaroTube/VideoBrowse';
+import VideoListPage from './components/TaroTube/VideoListPage';
 
 import UserPostList from './components/UserPostList';
 
@@ -235,6 +236,7 @@ function App() {
               </ProtectedRoute>
             }
             exact="true" />
+
           <Route path="/TaroPosts" element={<TaroPosts />} exact="true" />
           <Route path="/Taro" element={<Taro />} exact="true" />
           <Route path="/search/:keyword" element={<TaroPosts />} exact="true" />
@@ -247,12 +249,23 @@ function App() {
             }
             exact="true" />
 
+          {/* Post Forum */}
           <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/AddPost" element={<AddPost />} />
+
+          {/* VideoBrowse */}
+          <Route path="/VideoBrowse" element={<VideoBrowse />} />
+          <Route path="/VideoListPage" element={<VideoListPage />} />
+
+
+
+          {/* AdminPost */}
           <Route path="/TaroDiseases" element={<TaroDiseases />} exact="true" />
           <Route path="/Forum" element={<Forum />} />
+
           <Route path="/edit-post/:id" element={<EditPost />} />
 
-
+          {/* Analytics */}
           <Route path="/surveyAnalysis" element={
             <ProtectedRoute isAdmin={true}>
               <SurveyAnalysis />
@@ -335,13 +348,9 @@ function App() {
 
 
           <Route path="/survey" element={<SurveyForm />} />
-
           <Route path="/farmerSurvey" element={<FSurveyForm />} />
-
           <Route path="/sellerSurvey" element={<SSurveyForm />} />
-
           <Route path="/UserPostList" exact component={UserPostList} />
-
           <Route path="/allSurvey" element={<OverallSurvey />} />
 
 

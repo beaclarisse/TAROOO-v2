@@ -8,6 +8,10 @@ exports.isAuthenticatedUser = async (req, res, next) => {
   const { token } = req.cookies;
   console.log(token);
 
+  if (req.originalUrl.includes('/api/v1/posts')) {
+    return next();
+  }
+
   if (!token) {
     return next(new ErrorHandler("Login first to access this resource.", 401));
   }

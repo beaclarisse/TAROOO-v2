@@ -60,7 +60,7 @@ const PostsList = () => {
         if (isDeleted) {
             notify("Post deleted successfully");
 
-            navigate("/admin/taroposts");
+            navigate("/admin/posts");
 
             dispatch({ type: DELETE_POST_RESET });
         }
@@ -76,14 +76,20 @@ const PostsList = () => {
                 },
 
                 {
-                    label: "Name",
-                    field: "name",
+                    label: "Title",
+                    field: "title",
                     sort: "asc",
                 },
 
                 {
                     label: "Subtitle",
                     field: "subtitle",
+                    sort: "asc",
+                },
+
+                {
+                    label: "Category",
+                    field: "category",
                     sort: "asc",
                 },
 
@@ -105,8 +111,9 @@ const PostsList = () => {
         taroPosts.forEach((post) => {
             data.rows.push({
                 id: post._id,
-                name: post.title,
+                title: post.title,
                 subtitle: post.subtitle,
+                category: post.category,
                 image: (
                     <Fragment>
                         <Carousel pause="hover">
@@ -127,7 +134,7 @@ const PostsList = () => {
                 actions: (
                     <Fragment>
                         <Link
-                            to={`/update/taro/${post._id}`}
+                            to={`/update/post/${post._id}`}
                             className="btn btn-primary py-1 px-2"
                         >
                             <i className="fa fa-pencil"></i>

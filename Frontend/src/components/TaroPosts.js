@@ -41,7 +41,7 @@ const TaroPosts = ({ match }) => {
   const getPost = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}api/v1/taro`
+        `${process.env.REACT_APP_API}api/v1/post`
       );
       setPost(data.post); // Set posts state with the fetched posts array
     } catch (error) {

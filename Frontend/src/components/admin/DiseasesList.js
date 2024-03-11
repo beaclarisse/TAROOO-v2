@@ -144,7 +144,7 @@ const DiseasesList = () => {
 
                         <button
                             className="btn btn-danger py-1 px-2 ml-2"
-                            onClick={() => deleteServiceHandler(service._id)}
+                            onClick={() => deleteDiseaseHandler(disease._id)}
                         >
                             <i className="fa fa-trash"></i>
                         </button>
@@ -182,7 +182,7 @@ const DiseasesList = () => {
                             }}
                         />
                         <Button size="large" variant="contained" color="primary"
-                            sx={{ marginBottom: 2 }} href="/service/new"> New Disease</Button>
+                            sx={{ marginBottom: 2 }} href="/disease/new"> New Disease</Button>
                         {loading ? (
                             <Loader />
                         ) : (

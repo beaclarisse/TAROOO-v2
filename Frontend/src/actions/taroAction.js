@@ -44,7 +44,7 @@ export const getPosts =
                 dispatch({
                     type: ALL_POSTS_REQUEST,
                 });
-                let link = `/api/v1/taro`;
+                let link = `/api/v1/post`;
 
                 const { data } = await axios.get(link);
        
@@ -64,11 +64,11 @@ export const getAdminPosts = () => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_POSTS_REQUEST });
 
-        const { data } = await axios.get(`/api/v1/admin/taroposts`);
+        const { data } = await axios.get(`/api/v1/admin/posts`);
 
         dispatch({
             type: ADMIN_POSTS_SUCCESS,
-            payload: data.taroPosts
+            payload: data.post
         });
     } catch (error) {
         dispatch({
@@ -83,7 +83,7 @@ export const getPost = () => async (dispatch) => {
     try {
         dispatch({ type: HOME_POSTS_REQUEST });
 
-        const { data } = await axios.get(`/api/v1/admin/taroposts`);
+        const { data } = await axios.get(`/api/v1/admin/posts`);
 
         dispatch({
             type: HOME_POSTS_SUCCESS,
@@ -132,11 +132,11 @@ export const getPostDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: POST_DETAILS_REQUEST });
 
-        const { data } = await axios.get(`/api/v1/taro/${id}`);
+        const { data } = await axios.get(`/api/v1/post/${id}`);
 
         dispatch({
             type: POST_DETAILS_SUCCESS,
-            payload: data.post,
+            payload: data.taros,
         });
     } catch (error) {
         dispatch({
@@ -157,7 +157,7 @@ export const updatePost = (id, postData) => async (dispatch) => {
         };
 
         const { data } = await axios.put(
-            `/api/v1/update/taro/${id}`,
+            `/api/v1/update/post/${id}`,
             postData,
             config
         );
@@ -180,7 +180,7 @@ export const deletePost = (id) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_POST_REQUEST });
 
-        const { data } = await axios.delete(`/api/v1/remove/taro/${id}`);
+        const { data } = await axios.delete(`/api/v1/remove/post/${id}`);
 
         dispatch({
             type: DELETE_POST_SUCCESS,

@@ -8,13 +8,25 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import './VideoBrowse.css'; 
+import { useNavigate } from 'react-router-dom'
+import './VideoBrowse.css';
 
 const VideoBrowse = () => {
   const [videos, setVideos] = useState([]);
   const [newVideoTitle, setNewVideoTitle] = useState('');
   const [newVideoDescription, setNewVideoDescription] = useState('');
   const [newVideoLink, setNewVideoLink] = useState('');
+  const [category, setCategory] = useState(''); // Added category state
+
+  const categories = [
+    'Cultivation',
+    'Taro Diseases',
+    'Preventive Measures',
+    'Practices',
+    'Benefits',
+    'Risks',
+  ]
+  let navigate = useNavigate()
 
   useEffect(() => {
     fetchVideos();
@@ -37,6 +49,7 @@ const VideoBrowse = () => {
         await axios.post('/api/v1/AddVids', {
           title: newVideoTitle,
           description: newVideoDescription,
+          category: category, // Use the category state
           link: videoId,
         });
 
@@ -85,6 +98,14 @@ const VideoBrowse = () => {
           value={newVideoDescription}
           onChange={(e) => setNewVideoDescription(e.target.value)}
         />
+        <div className="form-group">
+          <label htmlFor="category_field">Category</label>
+          <select className="form-control" id="category_field" value={category} onChange={(e) => setCategory(e.target.value)}>
+            {categories.map(category => (
+              <option key={category} value={category} >{category}</option>
+            ))}
+          </select>
+        </div>
         <TextField
           label="YouTube Video URL"
           fullWidth

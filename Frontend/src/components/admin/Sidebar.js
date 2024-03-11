@@ -11,6 +11,7 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -24,7 +25,9 @@ import SportsMotorsportsIcon from '@mui/icons-material/SportsMotorsports';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import WidgetsIcon from '@mui/icons-material/Widgets';
-
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import PollIcon from '@mui/icons-material/Poll';
+//
 import { Route, Link, Routes } from "react-router-dom";
 import { logout, loadUser } from "../../actions/userActions";
 import "../../App.css";
@@ -32,7 +35,6 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
-import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 
 const drawerWidth = 180;
 
@@ -56,12 +58,10 @@ function Sidebar(props) {
         right: 0,
         padding: '1rem',
     };
-    const handleClicks = (event) => {
-        setAnchorEl(event.currentTarget);
-      };
-      const handleCloses = () => {
-        setAnchorEl(null);
-      };
+    
+
+    
+
     const container = window !== undefined ? () => window().document.body : undefined;
 
     const notify = (message = "") =>
@@ -91,7 +91,14 @@ function Sidebar(props) {
     const profileHandler = () => {
         dispatch(loadUser());
     };
-
+    //Question Dropdown
+    const [anchorEls, setAnchorEls] = useState(null);
+    const handleClicks = (event) => {
+        setAnchorEls(event.currentTarget);
+      };
+      const handleCloses = () => {
+        setAnchorEls(null);
+      };
 
     //Avatar DropDown
     const [anchorEl, setAnchorEl] = useState(null);
@@ -101,6 +108,16 @@ function Sidebar(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    //SurveyDropdown
+    const [anchorElss, setAnchorElss] = useState(null);
+    const handleClickss = (event) => {
+        setAnchorElss(event.currentTarget);
+    };
+    const handleClosess = () => {
+        setAnchorElss(null);
+    };
+
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleCloser = (event) => {
@@ -110,8 +127,6 @@ function Sidebar(props) {
 
         setOpen(false);
     };
-    
-
     const drawer = (
         <div>
             {/* <img src="/images/ -logo.png" width="auto" style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px' }} /> */}
@@ -142,7 +157,7 @@ function Sidebar(props) {
                                 component={Link}
                                 to="/admin/posts"
                             >
-                                <SportsMotorsportsIcon />
+                                <PostAddIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Posts</ListItemText>
                             </IconButton>
                         </ListItemIcon>
@@ -163,7 +178,6 @@ function Sidebar(props) {
                         </ListItemIcon>
                     </ListItemButton>
                 </ListItem>
-
                 <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon style={iconStyle}>
@@ -178,9 +192,9 @@ function Sidebar(props) {
                         <ListItemText primary="Questions" onClick={handleClicks} />
                         <Menu
                             id="questions-dropdown"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
+                            anchorEl={anchorEls}
+                            open={Boolean(anchorEls)}
+                            onClose={handleCloses}
                         >
                             <MenuItem component={Link} to="/farmerQuestion">
                                 Questions for Farmers
@@ -191,29 +205,63 @@ function Sidebar(props) {
                             <MenuItem component={Link} to="/questions">
                                 Questions for Consumers
                             </MenuItem>
-                            <MenuItem component={Link} to="/overallSurvey">
+                            {/* <MenuItem component={Link} to="/overallSurvey">
                                 Overall Survey
-                            </MenuItem>
+                            </MenuItem> */}
+                            
                         </Menu>
                     </ListItemButton>
                 </ListItem>
 
-                <ListItem disablePadding>
+                {/* <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon style={iconStyle}>
                             <IconButton
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/surveyAnalysis"
+                                to="/Dashboard"
                             >
                                 <StackedBarChartIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Survey</ListItemText>
                             </IconButton>
                         </ListItemIcon>
+
+                    </ListItemButton>
+                </ListItem> */}
+
+                {/* Survey */}
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                onClick={handleClickss}
+                            >
+                                <PollIcon />
+                            </IconButton>
+                        </ListItemIcon>
+                        <ListItemText primary="Survey" onClick={handleClickss} />
+                        <Menu
+                            id="questions-dropdown"
+                            anchorEl={anchorElss}
+                            open={Boolean(anchorElss)}
+                            onClose={handleClosess}
+                        >
+                            <MenuItem component={Link} to="/Dashboard">
+                                Survey for Farmers
+                            </MenuItem>
+                            <MenuItem component={Link} to="/SellerDashboard">
+                                Survey for Sellers
+                            </MenuItem>
+                            <MenuItem component={Link} to="/ConsumerDashboard">
+                                Survey for Consumers
+                            </MenuItem>
+                            
+                        </Menu>
                     </ListItemButton>
                 </ListItem>
-
                 {/* <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon style={iconStyle}>
@@ -234,8 +282,6 @@ function Sidebar(props) {
         </div>
     );
 
-    
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -250,8 +296,8 @@ function Sidebar(props) {
                 <Toolbar>
                     {user ? (
                         <Fragment>
-
-                            <Typography>Taro E-Assist</Typography>
+                            <Button href="/" color="inherit"><Typography>Taro E-Assist</Typography></Button>
+                            
                             <Button sx={{ marginLeft: "auto" }} color="inherit" onClick={handleClick}>
                                 <Avatar src={user.avatar && user.avatar.url}
                                     alt={user && user.name} sx={{ width: 56, height: 54, marginLeft: "" }}>

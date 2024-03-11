@@ -1,9 +1,21 @@
 const Post = require('../models/Post');
 const cloudinary = require("cloudinary");
+// const Filter = require('bad-words')
+// const filipinoBarwords = require('filipino-badwords-list');
+
+// exports.getAllPosts = async (req, res) => {
+//   try {
+//     const posts = await Post.find();
+//     res.status(200).json(posts);
+//   } catch (error) {
+//     console.error('Error fetching posts:', error);
+//     handleServerError(res, error, 'Internal Server Error');
+//   }
+// };
 
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate('user', 'name');
     res.status(200).json(posts);
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -22,12 +34,9 @@ exports.createPost = async (req, res, next) => {
       images.push(image.path)
     })
   }
-
-
   if (req.file) {
     images.push(req.file.path);
   }
-
 
   if (req.body.images) {
     if (typeof req.body.images === 'string') {
@@ -37,12 +46,11 @@ exports.createPost = async (req, res, next) => {
     }
   }
 
-
   for (let i = 0; i < images.length; i++) {
     let imageDataUri = images[i];
     try {
       const result = await cloudinary.uploader.upload(`${imageDataUri}`, {
-        folder: 'ff-jbrew',
+        folder: 'gabi-taro',
         width: 1000,
         crop: 'auto',
       });
@@ -164,6 +172,7 @@ exports.deletePost = async (req, res) => {
 
 
 // exports.addComment = async (req, res) => {
+
 //   try {
 //     const { postId, content, userId } = req.body;
 //     const post = await Post.findById(postId);
@@ -216,10 +225,28 @@ exports.deletePost = async (req, res) => {
 //   }
 // };
 
+
+// exports.getPostById = async (req, res) => {
+//   const postId = req.params.id;
+//   try {
+//     const post = await Post.findById(postId).populate('user', 'name');
+
+//     if (!post) {
+//       handleNotFound(res, 'Post not found');
+//       return;
+//     }
+//     res.status(200).json(post);
+//   } catch (error) {
+//     console.error('Error fetching post details:', error);
+//     handleServerError(res, error, 'Internal Server Error');
+//   }
+// };
+
+
 exports.getPostById = async (req, res) => {
   const postId = req.params.id;
   try {
-    const post = await Post.findById(postId).populate('user', 'useravatar');
+    const post = await Post.findById(postId).populate('user', 'name');
 
     if (!post) {
       handleNotFound(res, 'Post not found');

@@ -2,87 +2,114 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import LinkIcon from '@mui/icons-material/Link';
+import CircularProgress from '@mui/material/CircularProgress';
 import './VideoListPage.css';
+import Header from '../layout/Header';
+// import Sidebar from "/src/components/layout/Sidebar";
 
 const VideoListPage = () => {
   const [videos, setVideos] = useState([]);
   const [playingVideo, setPlayingVideo] = useState(null);
-  const [expandedDescriptions, setExpandedDescriptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([
+    'Cultivation',
+    'Taro Diseases',
+    'Preventive Measures',
+    'Practices',
+    'Benefits',
+    'Risks',
+  ]);
 
-  const handleToggleVideo = (videoId) => {
-    setPlayingVideo(playingVideo === videoId ? null : videoId);
-  };
+  const fetchCategoriesAndVideos = async () => {
+    setLoading(true);
+    setError(null);
 
-  const handleToggleDescription = (videoId) => {
-    setExpandedDescriptions((prev) =>
-      prev.includes(videoId) ? prev.filter((id) => id !== videoId) : [...prev, videoId]
-    );
-  };
-
-  useEffect(() => {
-    fetchVideos();
-  }, []);
-
-  const fetchVideos = async () => {
     try {
-      const response = await axios.get('/api/v1/AllVids');
-      setVideos(response.data.videos);
+      const categoriesResponse = await axios.get('/api/v1/videos/category');
+      const receivedCategories = categoriesResponse.data.categories;
+
+      if (Array.isArray(receivedCategories)) {
+        setCategories(receivedCategories);
+      } else {
+        console.error('Invalid categories data:', receivedCategories);
+      }
+
+      const videosResponse = await axios.get(`/api/v1/videos/${selectedCategory || 'all'}`);
+      setVideos(videosResponse.data.videos);
     } catch (error) {
-      console.error('Error fetching videos:', error);
+      console.error('Error fetching categories and videos:', error);
+      setError('Error fetching data. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleToggleVideo = (videoId) => {
+    setPlayingVideo((prevPlayingVideo) => (prevPlayingVideo === videoId ? null : videoId));
+  };
+
+  useEffect(() => {
+    fetchCategoriesAndVideos();
+  }, [selectedCategory]);
+
   return (
-    <Paper className="root" style={{ background: 'white' }}>
-      <div className="videoList">
-        {/* Other videos */}
-        {videos.map((video) => (
-          <div key={video._id} className={`videoItem ${playingVideo === video._id ? 'playing' : ''}`}>
-            <Typography variant="h6" className="videoTitle" onClick={() => handleToggleVideo(video._id)}>
-              {video.title}
-            </Typography>
-            <div className="videoIframeContainer">
-              {playingVideo === video._id && (
-                <iframe
-                  title={video.title}
-                  src={`https://www.youtube.com/embed/${video.link}`}
-                  frameBorder="0"
-                  allowFullScreen
-                ></iframe>
+    <div className="root"> 
+      {/* <Sidebar /> */}
+      <Header />
+      <Paper style={{ background: 'white' }}>
+        {/* Category Dropdown */}
+        <div className={`categoryDropdown ${selectedCategory ? '' : ''}`}>
+          <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            <option value="">All Categories</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={`videoList ${selectedCategory ? 'small' : ''}`}>
+          {/* Loading State */}
+          {loading && <CircularProgress style={{ margin: '20px auto', display: 'block' }} />}
+
+          {/* Error State */}
+          {error && <Typography variant="body1" color="error">{error}</Typography>}
+
+          {/* Video List */}
+          {videos.map((video) => (
+            <div key={video._id} className="videoItem">
+              {/* Video content... */}
+              {playingVideo === video._id ? (
+                <>
+                  <iframe
+                    title={video.title}
+                    width="800"
+                    height="450"
+                    src={`https://www.youtube.com/embed/${video.link}`}
+                    frameBorder="0"
+                    allowFullScreen
+                  ></iframe>
+                  <Typography>{video.description}</Typography>
+                </>
+              ) : (
+                <>
+                  <Typography variant="h6">{video.title}</Typography>
+                  <Typography>{video.category}</Typography>
+                  <IconButton onClick={() => handleToggleVideo(video._id)}>
+                    <PlayArrowIcon />
+                  </IconButton>
+                </>
               )}
             </div>
-            {playingVideo === video._id && (
-              <div className="videoDetails">
-                <div className="videoDescription">
-                  <Typography>{video.description}</Typography>
-                  <span
-                    className="seeMoreButton"
-                    onClick={() => handleToggleDescription(video._id)}
-                  >
-                    See More
-                  </span>
-                </div>
-                <div className="commentSection">
-                  <IconButton className="likesIcon">
-                    <ThumbUpIcon />
-                  </IconButton>
-                  <IconButton className="linkButton">
-                    <LinkIcon />
-                  </IconButton>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </Paper>
+          ))}
+        </div>
+      </Paper>
+    </div>
   );
 };
 

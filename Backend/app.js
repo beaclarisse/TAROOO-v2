@@ -18,6 +18,7 @@ const fanswer = require("./routes/fanswer")
 const sanswer = require("./routes/sanswer")
 const allQuestions = require("./routes/allQuestion")
 const allAnswer = require("./routes/allAnswer")
+const chartRoutes = require("./routes/chartRoutes")
 
 
 app.use(
@@ -36,6 +37,8 @@ app.use("/api/v1", disease);
 app.use("/api/v1", forum);
 app.use("/api/v1", comment);
 app.use("/api/v1", videos);
+
+app.use("/api/v1", chartRoutes);
 
 
 ///questions

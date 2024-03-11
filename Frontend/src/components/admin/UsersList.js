@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { allUsers, clearErrors, deleteUser } from "../../actions/userActions";
 import { DELETE_USER_RESET } from "../../constants/userConstants";
 import { Box, Typography, Button, Divider } from '@mui/material';
+import { Card, Col, Row } from "react-bootstrap";
 
 const UsersList = () => {
+
+    
     const dispatch = useDispatch();
 
     let navigate = useNavigate();
@@ -118,11 +121,29 @@ const UsersList = () => {
 
         return data;
     };
+    const fetchData = async (endpoint, setData) => {
+        try {
+    
+          const { data } = await axios.get(`/api/v1/admin/${endpoint}`);
+          setData(data[endpoint]);
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      useEffect(() => {
+        fetchData("users", setUsers);
+        // fetchAnswer("answers", setAllAnswers )
+      }, []);
 
     return (
         <Box sx={{ height: 730, width: "90%", paddingTop: 5 }} style={{ background: 'white' }}>
             {/* <Typography variant="h3">Products</Typography> */}
             <Fragment>
+            <Row className="pr-5 mt-5">
+                    
+                  </Row>
                 <MetaData title={"All Users"} />
 
                 <div className="row">
@@ -131,6 +152,38 @@ const UsersList = () => {
                     </div>
 
                     <div className="col-18 col-md-10">
+                    {[
+                      { label: "Users", data: users, link: "/admin/users" },
+                    ].map((item, index) => (
+                      <Col key={index} xl={3} sm={6} mb={3}>
+                        <Card
+                          className={`bg-${index % 4 === 0
+                            ? "success"
+                            : index % 4 === 1
+                              ? "danger"
+                              : index % 4 === 2
+                                ? "info"
+                                : "warning"
+                            } text-white o-hidden h-100`}
+                        >
+                          <Card.Body>
+                            <div className="text-center card-font-size">
+                              {item.label}
+                              <br /> <b>{item.data && item.data.length}</b>
+                            </div>
+                          </Card.Body>
+                          <Link
+                            className="card-footer text-white clearfix small z-1"
+                            to={item.link}
+                          >
+                            <span className="float-left">View Details</span>
+                            <span className="float-right">
+                              <i className="fa fa-angle-right"></i>
+                            </span>
+                          </Link>
+                        </Card>
+                      </Col>
+                    ))}
                         {/* <h1 style={{ paddingTop: 60 }}>All Products</h1> */}
                         <br /><br />
                         <h1>Users</h1>
@@ -138,8 +191,8 @@ const UsersList = () => {
                         {/* <Divider sx={{ marginBottom: 3 }}></Divider> */}
                         <hr
                             style={{
-                                color: "#2f3c4c",
-                                backgroundColor: "#2f3c4c",
+                                color: "#95bfae",
+                                backgroundColor: "#95bfae",
                                 height: 5
                             }}
                         />

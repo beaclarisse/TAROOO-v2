@@ -6,7 +6,7 @@ const commentSchema = new mongoose.Schema({
     ref: 'Post',
     required: true,
   },
-  comus: {
+  commentor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', 
     required: true,
@@ -16,6 +16,11 @@ const commentSchema = new mongoose.Schema({
     required: true,
   },
 }, { timestamps: true });
+
+commentSchema.methods.getUser = async function () {
+  await this.populate('commentor').execPopulate();
+  return this.commentor;
+};
 
 const Comment = mongoose.model('Comment', commentSchema);
 

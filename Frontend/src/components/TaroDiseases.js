@@ -27,6 +27,11 @@ const TaroDiseases = () => {
 
   const handleClose = () => setOpen(false);
 
+  const truncateText = (text, limit) => {
+    if (text.length <= limit) return text;
+    return text.substring(0, limit) + "...";
+  };
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -69,7 +74,7 @@ const TaroDiseases = () => {
 
         {disease
           .reduce((rows, dis, index) => {
-            if (index % 4 === 0) rows.push([]);
+            if (index % 3 === 0) rows.push([]);
             rows[rows.length - 1].push(dis);
             return rows;
           }, [])
@@ -78,12 +83,12 @@ const TaroDiseases = () => {
               container
               item
               key={rowIndex}
-              spacing={2}
+              spacing={15}
               justifyContent="center"
             >
               {row.map((dis) => (
                 <Grid item key={dis.id} xs={12} sm={6} md={3}>
-                  <Card sx={{ maxWidth: 345 }}>
+                  <Card sx={{ maxWidth: 345, height: "100%" }}>
                     {/* Card content goes here */}
                     <CardMedia
                       sx={{ height: 140 }}
@@ -95,7 +100,8 @@ const TaroDiseases = () => {
                         {dis.name}
                       </Typography>
                       <Typography variant="body" color="text.secondary">
-                        {dis.description}
+                        {truncateText(dis.description, 120)}{" "}
+                        {/* Truncate text here */}
                       </Typography>
                     </CardContent>
                     <CardActions>
@@ -118,18 +124,14 @@ const TaroDiseases = () => {
         >
           <Fade in={open}>
             <Box sx={style}>
-              <Typography
-                id="transition-modal-title"
-                variant="h3"
-                component="h2"
-              >
+              <Typography id="transition-modal-title" variant="h4">
                 {selectedDisease && selectedDisease.name}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                 {selectedDisease && selectedDisease.description}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {selectedDisease && selectedDisease.part}
+                Part Affected: {selectedDisease && selectedDisease.part}
               </Typography>
             </Box>
           </Fade>

@@ -89,10 +89,10 @@ const Forum = () => {
 
     return (
       <div className="custom-col-md-6 my-3" key={post._id}>
-        <div className="card mb-3 rounded" style={{ width: '100%', height: '20rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10rem' }}>
-            <img className="card-img-top" src={post.images[0]?.url} alt="Post" style={{ maxWidth: '100%', maxHeight: '100%' }} />
-          </div>
+      <div className="card mb-3 rounded" style={{ width: '100%', height: '20rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10rem' }}>
+          <img className="card-img-top" src={post.images[0]?.url} alt="Post" style={{ maxWidth: '150%', maxHeight: '100%' }} />
+        </div>
           <div className="card-body text-center">
             <h5 className="card-title" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{post.title}</h5>
             {/* <h6 className="card-subtitle mb-2 text-muted" style={{ fontSize: '1rem', marginBottom: '1rem' }}>
@@ -104,7 +104,7 @@ const Forum = () => {
               <SaveIcon color="primary" fontSize="small" />
               <CommentIcon color="action" fontSize="small" />
             </div>
-            <Link to={`/post/${post._id}`} id="view_btn" className="btn btn-block mt-2" style={{ background: '#c8a2c8', marginTop: 'auto' }}>
+            <Link to={`/post/${post._id}`} id="view_btn" className="btn btn-block mt-2" style={{ background: '#000000 ', marginTop: 'auto' }}>
               View Details
             </Link>
           </div>
@@ -123,7 +123,7 @@ const Forum = () => {
         <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>
           Post Forum
         </h2>
-        <Link to="/AddPost" className="btn btn-primary mt-3" style={{ background: '#b57edc'}}>
+        <Link to="/AddPost" className="btn btn-primary mt-3" style={{ background: '#000000 '}}>
           Share Something
         </Link>
         <div className="d-flex flex-column">

@@ -71,8 +71,6 @@ import OverallSurveyList from './components/admin/overallSurvey/overSurveyList';
 //import UpdateSurveyList from './components/admin/overallSurvey/updateSurveyList';
 import UpdateSurveyList from './components/admin/overallSurvey/updateSurveyList';
 
-
-
 //Answer
 import SurveyForm from './components/Question/Survey';
 import FSurveyForm from './components/Question/farmerSurvey';
@@ -84,6 +82,11 @@ import Forum from './components/Forum/Forum';
 import PostDetail from './components/Forum/PostDetail';
 import EditPost from './components/Forum/EditPost';
 import AddPost from './components/Forum/AddPost';
+
+//charts
+import Dashboard from "./components/admin/Dashboard/Dashboard";
+import SellerDashboard from "./components/admin/Dashboard/SellerDashboard";
+import ConsumerDashboard from "./components/admin/Dashboard/ConsumerDashboard";
 
 //Video
 import VideoBrowse from './components/TaroTube/VideoBrowse';
@@ -106,6 +109,35 @@ function App() {
     <div className="App">
       <ThemeProvider theme={Taro}>
         <Routes>
+          
+          {/* charts */}
+          <Route
+            path="/Dashboard"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/SellerDashboard"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <SellerDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+
+          <Route
+            path="/ConsumerDashboard"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <ConsumerDashboard />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Routes for users */}
           <Route path="/register" element={<Register />} exact="true" />

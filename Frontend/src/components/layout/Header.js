@@ -29,7 +29,7 @@ const Header = () => {
   };
 
   const headerStyle = {
-    backgroundColor: "#78184a",
+    backgroundColor: "#000000",
   };
 
 //   #1b1b1c
@@ -55,7 +55,7 @@ const Header = () => {
 
               {user ? (
                 <div className="flexCenter h-menu" style={{ marginLeft: "auto" }}>
-                  <Button color="inherit" component={Link} to="/ShopProduct">
+                  <Button color="inherit" component={Link} to="/forum">
                     Forum
                   </Button>
                   <Button color="inherit" component={Link} to="/TaroPosts">

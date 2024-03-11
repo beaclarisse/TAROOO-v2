@@ -1,121 +1,108 @@
 import React, { Fragment, useState } from "react";
-// import "../../App.css";
-import { Route, Link, Routes } from "react-router-dom";
-import Search from "./Search";
-import { logout, loadUser } from "../../actions/userActions";
-import "../../App.css";
-import "../../Header.css";
-import "../../index.css";
-import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { AppBar, Toolbar, Typography, Button, Avatar, Menu, MenuItem, Divider } from "@mui/material";
+import { logout, loadUser } from "../../actions/userActions";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AppBar, Toolbar, Typography, Button, IconButton, Avatar, Menu, MenuItem, Divider, TextField } from "@mui/material";
-import { BsCart4 } from 'react-icons/bs';
-import { MdOutlineMiscellaneousServices } from 'react-icons/md';
 
 const Header = () => {
-    const notify = (message = "") =>
-        toast.success(message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
+  const notify = (message = "") => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { user, loading } = useSelector((state) => state.auth);
 
-    const { user, loading, admin } = useSelector((state) => state.auth);
-    // const { cartItems } = useSelector((state) => state.cart);
-    // const { cartItemss } = useSelector((state) => state.carts);
-    // const { cartItems } = useSelector((state) => state.cart);
+  const logoutHandler = () => {
+    dispatch(logout());
+    notify("Logged Out Successfully");
+  };
 
-    // const { cartItems } = useSelector(state => state.cart)
+  const headerStyle = {
+    backgroundColor: "#78184a",
+  };
 
-    const logoutHandler = () => {
-        dispatch(logout());
-        notify("Logged Out Successfully");
-    };
+//   #1b1b1c
 
-    const profileHandler = () => {
-        dispatch(loadUser());
-    };
+  // Avatar DropDown
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    const headerStyle = {
-        backgroundColor: "##1b1b1c"
-    }
-
-    //Avatar DropDown
-    const [anchorEl, setAnchorEl] = useState(null);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    const [open, setOpen] = React.useState(false);
-    const anchorRef = React.useRef(null);
-    const handleCloser = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
-    };
-    return (
-        <section className = "h-wrapper">
-        <div className="flexCenter innerWidth paddings h-container">
+  return (
+    <section className="h-wrapper">
+      <div className="flexCenter innerWidth paddings h-container">
         <Fragment>
-            <AppBar style={headerStyle}>
-                <Toolbar>
-                    {user ? (
-                        <div className="flexCenter h-menu">
-                        <Fragment>
-                            <Button color="inherit" href="/forum" style={{ textAlign: 'center' }}> Forum </Button>
-                            <Button color="inherit" href="/TaroPosts" style={{ textAlign: 'center' }}> About Taro </Button>
-                            <Button color="inherit" href="/TaroDiseases" style={{ textAlign: 'center' }}> Diseases </Button>
-                            <Button color="inherit" href="/ShopService" style={{ textAlign: 'center' }}> Preventive Measures </Button>
-                            <Button color="inherit" href="/ShopService" style={{ textAlign: 'center' }}> Preventive Measures </Button>
-                            
-                            <Button color="inherit" onClick={handleClick}>
-                                <Avatar src={user.avatar && user.avatar.url}
-                                    alt={user && user.name} sx={{ width: 56, height: 56, marginLeft: "auto" }}>
-                                </Avatar>
-                            </Button>
-                            <Menu
-                                id="dropdown-menu"
-                                anchorEl={anchorEl}
-                                keepMounted
-                                open={Boolean(anchorEl)}
-                                onClose={handleClose}
-                            >
-                                <MenuItem component={Link} to="/profile">Profile</MenuItem>
-                                <Divider />
-                                <MenuItem onClick={logoutHandler} to="/">Logout</MenuItem>
-                            </Menu>
-                        </Fragment>
-                        </div>
-                    ) : (
-                        !loading && (
-              
-                            <Fragment>
-                                <Typography component={Link} to="/" style={{ textDecoration: 'none' }} variant="h6" color="inherit" href="/" sx={{ fontSize: 24 }}>
-                                    TARO E-ASSIST
-                                </Typography>
-                                <Button sx={{ marginLeft: "auto" }} color="inherit" href="/login">Login</Button>
-                                <Button color="inherit" href="/register">Register</Button>
-                            </Fragment>
-                        )
-                    )}
-                </Toolbar>
-            </AppBar >
-        </Fragment >
-        </div>
+          <AppBar style={headerStyle}>
+            <Toolbar>
+              <Typography component={Link} to="/" style={{ textDecoration: "none" }} variant="h6" color="inherit" sx={{ fontSize: 24 }}>
+                TARO E-ASSIST
+              </Typography>
+
+              {user ? (
+                <div className="flexCenter h-menu" style={{ marginLeft: "auto" }}>
+                  <Button color="inherit" component={Link} to="/ShopProduct">
+                    Forum
+                  </Button>
+                  <Button color="inherit" component={Link} to="/TaroPosts">
+                    About Taro
+                  </Button>
+                  <Button color="inherit" component={Link} to="/TaroDiseases">
+                    Diseases
+                  </Button>
+                  <Button color="inherit" component={Link} to="/Preventive">
+                    Preventive Measures
+                  </Button>
+                  <Button color="inherit" component={Link} to="/VideoListPage">
+                    TaroTube
+                  </Button>
+
+                  <Button color="inherit" onClick={handleClick}>
+                    <Avatar src={user.avatar && user.avatar.url} alt={user && user.name} sx={{ width: 56, height: 56 }}>
+                    </Avatar>
+                    <Menu id="dropdown-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                      <MenuItem component={Link} to="/profile">
+                        Profile
+                      </MenuItem>
+                      <Divider />
+                      <MenuItem onClick={logoutHandler} to="/">
+                        Logout
+                      </MenuItem>
+                    </Menu>
+                  </Button>
+                </div>
+              ) : (
+                !loading && (
+                  <Fragment>
+                    <Button sx={{ marginLeft: "auto" }} color="inherit" component={Link} to="/login">
+                      Login
+                    </Button>
+                    <Button color="inherit" component={Link} to="/register">
+                      Register
+                    </Button>
+                  </Fragment>
+                )
+              )}
+            </Toolbar>
+          </AppBar>
+        </Fragment>
+      </div>
     </section>
-    );
+  );
 };
 
 export default Header;

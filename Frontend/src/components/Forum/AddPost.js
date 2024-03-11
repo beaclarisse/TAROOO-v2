@@ -3,30 +3,38 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Header from '../layout/Header'
 import { useNavigate } from 'react-router-dom';
-
+import Filter from 'bad-words';
 
 const AddPost = () => {
   const [title, setTitle] = useState('');
+  const filter = new Filter();
   const [content, setContent] = useState('');
   const [images, setImage] = useState(null);
   const [tags, setTags] = useState('');
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
+  // const handleTitleChange = (e) => {
+  //   setTitle(e.target.value);
+  // };
+
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    const cleanedTitle = filter.clean(e.target.value);
+    setTitle(cleanedTitle);
   };
 
   const handleContentChange = (e) => {
-    setContent(e.target.value);
+    const cleanedContent = filter.clean(e.target.value);
+    setContent(cleanedContent);
+  };
+
+  const handleTagsChange = (e) => {
+    const cleanedTags = filter.clean(e.target.value);
+    setTags(cleanedTags);
   };
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
-  };
-
-  const handleTagsChange = (e) => {
-    setTags(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -55,7 +63,7 @@ const AddPost = () => {
   return (
     <div className="container mt-5" style={{ background: 'white', padding: '20px', borderRadius: '10px' }}>
       <Header />
-      <h2>Add a New Post</h2>
+      <h2>Share Experience</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
@@ -82,8 +90,8 @@ const AddPost = () => {
           <input type="text" className="form-control" id="tags" value={tags} onChange={handleTagsChange} />
         </div>
         {user ? (
-          <button type="submit" className="btn btn-primary">
-            Submit
+          <button type="submit" className="btn btn-primary" style={{ background: '#b57edc'}} >
+            Add 
           </button>
         ) : (
           <div className="alert alert-danger mt-5" type="alert">

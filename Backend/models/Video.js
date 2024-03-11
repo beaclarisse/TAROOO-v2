@@ -9,10 +9,33 @@ const videoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  link: {
+  category: {
+    type: String,
+    required: [true, 'Please select category for this video'],
+    enum: {
+        values: [
+            'Cultivation',
+            'Taro Diseases',
+            'Preventive Measures',
+            'Practices',
+            'Benefits',
+            'Risks',
+        ],
+        message: 'Please select correct category for video'
+    }
+},
+   link: {
     type: String,
     required: true,
   },
+  // likes: [
+  //   {
+  //     user: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: 'User', 
+  //     },
+  //   },
+  // ],
 });
 
 const Video = mongoose.model('Video', videoSchema);

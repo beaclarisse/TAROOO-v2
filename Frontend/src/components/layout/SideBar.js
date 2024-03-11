@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import MenuIcon from '@mui/icons-material/Menu';
+// Sidebar.js
+import React from "react";
+import { Link } from "react-router-dom";
+import { Drawer, List, ListItem, ListItemText } from "@mui/material";
 
-const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
+const Sidebar = ({ open, onClose }) => {
   return (
-    <div>
-      <div className="hamburger-icon" onClick={toggleSidebar}>
-        <MenuIcon fontSize="large" />
-      </div>
-
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        {isSidebarOpen && (
-          <ul>
-            <li>
-              <Link to="/saved-posts">Saved Posts</Link>
-            </li>
-            <li>
-              <Link to="/liked-posts">Liked Posts</Link>
-            </li>
-          </ul>
-        )}
-      </div>
-    </div>
+    <Drawer open={open} onClose={onClose}>
+      <List>
+        <ListItem button component={Link} to="/forum" onClick={onClose}>
+          <ListItemText primary="Forum" />
+        </ListItem>
+        <ListItem button component={Link} to="/TaroPosts" onClick={onClose}>
+          <ListItemText primary="About Taro" />
+        </ListItem>
+        <ListItem button component={Link} to="/TaroDiseases" onClick={onClose}>
+          <ListItemText primary="Diseases" />
+        </ListItem>
+        <ListItem button component={Link} to="/preventive" onClick={onClose}>
+          <ListItemText primary="Preventive Measures" />
+        </ListItem>
+        <ListItem button component={Link} to="/consultation" onClick={onClose}>
+          <ListItemText primary="Consultation" />
+        </ListItem>
+      </List>
+    </Drawer>
   );
 };
 

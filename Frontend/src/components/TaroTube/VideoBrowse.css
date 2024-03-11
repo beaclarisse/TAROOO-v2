@@ -12,10 +12,19 @@
     margin-bottom: 20px;
   }
   
-  .videosList {
+
+  .categoryDropdown.small {
+    width: 200px; 
+  }
+  
+  .videoList.small {
+    width: 800px; 
+  }
+
+  /* .videosList {
     width: 100%;
     max-width: 800px;
-  }
+  } */
   
   .videoItem {
     margin-bottom: 20px;

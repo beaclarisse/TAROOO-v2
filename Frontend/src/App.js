@@ -254,7 +254,7 @@ function App() {
           <Route path="/AddPost" element={<AddPost />} />
 
           {/* VideoBrowse */}
-          <Route path="/VideoBrowse" element={<VideoBrowse />} />
+          <Route path="/admin/VideoBrowse" element={<VideoBrowse />} />
           <Route path="/VideoListPage" element={<VideoListPage />} />
 
 

@@ -1,8 +1,30 @@
 .root {
-  background-color: #f9f9f9;
+  background-color: #e6e6fa;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
+}
+
+/* .header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.taroTubeTitle {
+  margin-bottom: 10px;
+  background-color: #e6e6fa; */
+/* } */
+
+.categoryDropdown {
+  width: 300px; 
+  margin-right: 20px; 
+}
+
+
+.categoryDropdown.small {
+  width: 200px; 
 }
 
 .videoList {
@@ -10,6 +32,8 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px; /* Add space above the video container */
 }
 
 .videoItem {
@@ -21,6 +45,8 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
+  align-items: center;
+  text-align: center;
   background-color: white;
 }
 

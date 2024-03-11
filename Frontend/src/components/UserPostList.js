@@ -6,7 +6,7 @@ const UserPostList = () => {
 
   useEffect(() => {
     // Fetch user-specific posts
-    axios.get('http://localhost:3000/api/v1/userPosts') // Adjust the endpoint based on your server
+    axios.get('http://localhost:3000/api/v1/userPosts') 
       .then(response => setUserPosts(response.data))
       .catch(error => console.error('Error fetching user posts:', error));
   }, []);
@@ -24,7 +24,6 @@ const UserPostList = () => {
     }
   };
 
-  // Add handleEdit function if needed
 
   return (
     <div>

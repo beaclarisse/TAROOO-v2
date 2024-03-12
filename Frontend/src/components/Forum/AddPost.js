@@ -61,7 +61,7 @@ const AddPost = () => {
   };
   
   return (
-    <div className="container mt-5" style={{ background: 'white', padding: '20px', borderRadius: '10px' }}>
+    <div className="container mt-5" style={{ background: '#1b1b1b', padding: '20px', borderRadius: '10px' }}>
       <Header />
       <h2>Share Experience</h2>
       <form onSubmit={handleSubmit}>
@@ -90,7 +90,7 @@ const AddPost = () => {
           <input type="text" className="form-control" id="tags" value={tags} onChange={handleTagsChange} />
         </div>
         {user ? (
-          <button type="submit" className="btn btn-primary" style={{ background: '#b57edc'}} >
+          <button type="submit" className="btn btn-primary" style={{ background: '#232b2b'}} >
             Add 
           </button>
         ) : (

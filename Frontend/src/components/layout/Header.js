@@ -5,6 +5,7 @@ import { AppBar, Toolbar, Typography, Button, Avatar, Menu, MenuItem, Divider } 
 import { logout, loadUser } from "../../actions/userActions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ChatIcon from '@mui/icons-material/Chat';
 
 const Header = () => {
   const notify = (message = "") => {
@@ -32,7 +33,7 @@ const Header = () => {
     backgroundColor: "#000000",
   };
 
-//   #1b1b1c
+  //   #1b1b1c
 
   // Avatar DropDown
   const [anchorEl, setAnchorEl] = useState(null);
@@ -69,6 +70,9 @@ const Header = () => {
                   </Button>
                   <Button color="inherit" component={Link} to="/VideoListPage">
                     TaroTube
+                  </Button>
+                  <Button color="inherit" component={Link} to="/Consultation">
+                    <ChatIcon /> {/* chat consultation */}
                   </Button>
 
                   <Button color="inherit" onClick={handleClick}>

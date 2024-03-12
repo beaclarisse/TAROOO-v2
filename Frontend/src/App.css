@@ -116,7 +116,7 @@ nav {
 }
 
 .card-body {
-  padding-left: 0;
+  padding-left: 3;
 }
 
 .card-text {
@@ -500,6 +500,17 @@ footer {
   color: white;
 }
 
+.card {
+  background-color: #242124; /* Adjust card background color */
+  color: #fff; /* Adjust card text color */
+}
+
+/* forum */
+body {
+  background-color: #1b1b1b;
+  color: #ffffff;
+}
+
 /* Pagination */
 .page-item.active .page-link {
   background-color: #fa9c23;
@@ -513,6 +524,26 @@ footer {
 .page-link:hover {
   color: #fa9c23;
 }
+
+
+/* forum page */
+.pagination-box {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-number-btn {
+  margin-right: 5px; /* Adjust spacing between buttons if needed */
+  color:  #fff;
+}
+
+.pagination-number-btn.active {
+  background-color: #36454f; /* Adjust the color for the active button */
+  color: #fff; /* Adjust the text color for the active button */
+}
+
+
+
 
 /* Admin Sidebar */
 
@@ -705,7 +736,7 @@ textarea {
 
 /* Submit button */
 button[type="submit"] {
-  background-color: #007bff; /* Change to your desired button color */
+  background-color: #000000; /* Change to your desired button color */
   color: #fff;
   padding: 10px 15px;
   border: none;

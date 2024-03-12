@@ -14,6 +14,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import Filter from 'bad-words';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const PostDetail = () => {
@@ -25,6 +27,9 @@ const PostDetail = () => {
   const [DeleteCommentId, setDeleteCommentId] = useState(null);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteCommentId, setCommentIdToDelete] = useState(null);
+  const [filter] = useState(new Filter());
+  const [replyCommentId, setReplyCommentId] = useState(null);
+  const [newReply, setNewReply] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
   const user = getUser();
@@ -60,17 +65,16 @@ const PostDetail = () => {
   };
 
 
-  const handleDelete = () => {
-    axios
-      .delete(`http://localhost:4001/api/v1/deletePost/${id}`)
-      .then(() => {
-        console.log('Post deleted successfully');
-      })
-      .catch((err) => {
-        console.error(err);
-        console.log('Failed to delete post');
-      });
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:4001/api/v1/deletePost/${id}`);
+      console.log('Post deleted successfully');
+    } catch (err) {
+      console.error(err);
+      console.log('Failed to delete post');
+    }
   };
+  
 
 
   const handleDeleteComment = (commentId) => {
@@ -107,15 +111,16 @@ const PostDetail = () => {
     try {
       setIsSubmitting(true);
       const currentUser = getUser();
-
-      console.log('Current User:', currentUser);
+      const filteredComment = filter.clean(newComment);
 
       const response = await axios.post(
         `http://localhost:3000/api/v1/addComment`,
         {
           postId: id,
-          content: newComment,
+          content: filteredComment,
           commentor: currentUser.id,
+          // Add a flag to indicate if the comment contains profanity
+          containsProfanity: newComment !== filteredComment,
         },
         {
           headers: {
@@ -124,10 +129,31 @@ const PostDetail = () => {
         }
       );
 
-      console.log('Response:', response.data);
+      // If the comment contains profanity, do not add it to the state
+      if (newComment !== filteredComment) {
+        toast.warning("Your comment contains profanity and will be deleted.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
 
-      setComments([...comments, response.data.comment]);
+        // Delayed deletion after 5 seconds
+        setTimeout(async () => {
+          await axios.delete(
+            `http://localhost:3000/api/v1/deleteComment/${response.data.comment._id}`
+          );
+        }, 5000);
+      } else {
+        // If the comment is clean, add it to the state
+        setComments([...comments, response.data.comment]);
+      }
+
       setNewComment('');
+      setReplyCommentId(null);
+      setNewReply('');
     } catch (error) {
       console.error('Error creating comment:', error);
       console.log('Axios Error:', error.response);
@@ -136,8 +162,91 @@ const PostDetail = () => {
     }
   };
 
+  const handleReply = (commentId) => {
+    setReplyCommentId(commentId);
+  };
+
+  const handleReplySubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const currentUser = getUser();
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/addReply/${replyCommentId}`,
+        {
+          content: newReply,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        }
+      );
+  
+      const newReplyData = response.data.reply || response.data;
+  
+      setComments((prevComments) => {
+        const updatedComments = prevComments.map((prevComment) => {
+          if (prevComment._id === replyCommentId) {
+            return {
+              ...prevComment,
+              replies: [...prevComment.replies, newReplyData],
+            };
+          }
+          return prevComment;
+        });
+        return updatedComments;
+      });
+  
+      setNewReply('');
+      setReplyCommentId(null);
+    } catch (error) {
+      console.error('Error adding reply:', error);
+    }
+  };
+  
+
+
+
+
+
+  // const handleCommentSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     setIsSubmitting(true);
+  //     const currentUser = getUser();
+
+  //     console.log('Current User:', currentUser);
+
+  //     const response = await axios.post(
+  //       `http://localhost:3000/api/v1/addComment`,
+  //       {
+  //         postId: id,
+  //         content: newComment,
+  //         commentor: currentUser.id,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${currentUser.token}`,
+  //         },
+  //       }
+  //     );
+
+  //     console.log('Response:', response.data);
+
+  //     setComments([...comments, response.data.comment]);
+  //     setNewComment('');
+  //   } catch (error) {
+  //     console.error('Error creating comment:', error);
+  //     console.log('Axios Error:', error.response);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
   return (
-    <div className="post-detail-container" style={{ background: 'white' }}>
+    <div className="post-detail-container" style={{ background: '#1b1b1b' }}>
       <Header />
       {[1, 2, 3, 4, 5].map((_, index) => (
         <div key={index} className="space-before-post-container" />
@@ -170,10 +279,10 @@ const PostDetail = () => {
               </div>
               {post.user && post.user.id === user.id && (
                 <div>
-                  <IconButton onClick={handleEdit}>
+                  <IconButton onClick={handleEdit} style={{ color: 'white' }}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={handleDelete}>
+                  <IconButton onClick={handleDelete} style={{ color: 'white' }}>
                     <DeleteIcon />
                   </IconButton>
                 </div>
@@ -207,13 +316,44 @@ const PostDetail = () => {
                   comments.map((comment) => (
                     <div key={comment._id} className="comment-container">
                       <div>
-                      <span className="username" style={{ fontWeight: 'bold' }}>{comment.commentor.name}</span>
+                        <span className="username" style={{ fontWeight: 'bold' }}>{comment.commentor.name}</span>
                         <p className="comment-content">
                           {comment?.content ? comment.content : 'No content available'}
+                          {/* Add a button to trigger the reply */}
+                          <button onClick={() => handleReply(comment._id)}>Reply</button>
                         </p>
+
+                        {/* Conditionally render the text field for replies */}
+                        {replyCommentId === comment._id && (
+                          <form onSubmit={handleReplySubmit}>
+                            <TextField
+                              id="newReply"
+                              label="Reply"
+                              variant="outlined"
+                              value={newReply}
+                              onChange={(e) => setNewReply(e.target.value)}
+                            />
+                            <button type="submit" disabled={!newReply.trim()} className="submit-reply-button">
+                              Submit Reply
+                            </button>
+                          </form>
+                        )}
+
+                        {/* Render replies */}
+                        {comment.replies && comment.replies.length > 0 && (
+                          <div>
+                            <h4>Replies:</h4>
+                            {comment.replies.map((reply) => (
+                              <div key={reply._id} className="reply-container">
+                                <span className="username">{reply.replyBy.name}</span>
+                                <p className="reply-content">{reply.content}</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                       {comment.commentor.id === user.id && (
-                        <IconButton onClick={() => handleDeleteComment(comment._id)}>
+                        <IconButton onClick={() => handleDeleteComment(comment._id)} style={{ color: 'white' }}>
                           <MoreHorizIcon />
                         </IconButton>
                       )}

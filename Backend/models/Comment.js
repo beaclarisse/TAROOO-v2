@@ -8,13 +8,25 @@ const commentSchema = new mongoose.Schema({
   },
   commentor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', 
+    ref: 'User',
     required: true,
   },
   content: {
     type: String,
     required: true,
   },
+  replies: [{
+    content: {
+      type: String,
+      required: true,
+    },
+    commentor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    // Add any other properties you need for replies
+  }],
 }, { timestamps: true });
 
 commentSchema.methods.getUser = async function () {

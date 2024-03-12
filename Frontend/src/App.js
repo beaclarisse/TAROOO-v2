@@ -83,6 +83,13 @@ import PostDetail from './components/Forum/PostDetail';
 import EditPost from './components/Forum/EditPost';
 import AddPost from './components/Forum/AddPost';
 
+//Consult
+import Consult from './components/consult/Consult';
+import AddConsult from './components/consult/AddConsult';
+import ConsultDetail from './components/consult/ConsultDetails';
+
+import AdminConsultation from './components/admin/Dashboard/AdminConsultation';
+
 //charts
 import Dashboard from "./components/admin/Dashboard/Dashboard";
 import SellerDashboard from "./components/admin/Dashboard/SellerDashboard";
@@ -294,6 +301,15 @@ function App() {
           {/* AdminPost */}
           <Route path="/TaroDiseases" element={<TaroDiseases />} exact="true" />
           <Route path="/Forum" element={<Forum />} />
+
+            {/* Consultation */}
+          <Route path="/Consult" element={<Consult />} />
+          <Route path="/AddConsult" element={<AddConsult />} />
+          <Route path="/Consultation/:id" element={<ConsultDetail />} />
+
+          <Route path="/AdminConsultation" element={<AdminConsultation />} />
+
+
 
           <Route path="/edit-post/:id" element={<EditPost />} />
 

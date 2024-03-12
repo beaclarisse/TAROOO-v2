@@ -66,19 +66,19 @@ const SSurveyForm = () => {
 
   return (
     <Fragment>
-     <div className="survey-container" style={{ background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '90%', maxWidth: '800px', padding: '40px', border: '1px solid #ccc', borderRadius: '8px', margin: '40px auto 0' }}>
+     <div className="survey-container" style={{ background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '90%', maxWidth: '800px', padding: '40px',  margin: '40px auto 0' }}>
         <p className="form-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>
         Seller Questions
       </p>
       <div className="parts-container">
-        <Header />
+
         {/* Part 1 */}
         <div className="part-container-horizontal">
           <h2 className="part-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '20px', fontWeight: 'bold', color: '#333', textAlign: 'left',  marginBottom: '10px' }}>Base on your experience</h2>
           <form onSubmit={handleSubmit}>
             {part1Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black'  }}>{question.questionText}</p>
                 <select
                   value={formData[index]?.selectedOption}
                   onChange={(e) => handleInputChange(index, e)}
@@ -91,14 +91,15 @@ const SSurveyForm = () => {
               </div>
             ))}
           </form>
-          <h2 className="part-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '20px', fontWeight: 'bold', color: '#333', textAlign: 'left' }}>-------------</h2>
+          <h2 className="part-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '20px', fontWeight: 'bold', color: '#333', textAlign: 'left' }} />
           <form onSubmit={handleSubmit}>
             {part2Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
                 <select
                   value={formData[index + 1]?.selectedOption}
                   onChange={(e) => handleInputChange(index + 1, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
                 >
                   <option value="">Select an option</option>
                   {question.options.map((option) => (
@@ -109,14 +110,15 @@ const SSurveyForm = () => {
             ))}
           </form>
 
-          <h2 className="part-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '20px', fontWeight: 'bold', color: '#333', textAlign: 'left' }}>---------------</h2>
+          <h2 className="part-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '20px', fontWeight: 'bold', color: '#333', textAlign: 'left' }} />
           <form onSubmit={handleSubmit}>
             {part3Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
                 <select
                   value={formData[index + 2]?.selectedOption}
                   onChange={(e) => handleInputChange(index + 2, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
                 >
                   <option value="">Select an option</option>
                   {question.options.map((option) => (
@@ -126,14 +128,15 @@ const SSurveyForm = () => {
               </div>
             ))}
           </form>
-          <h2 className="part-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '20px', fontWeight: 'bold', color: '#333', textAlign: 'left' }}>-------------</h2>
+          <h2 className="part-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '20px', fontWeight: 'bold', color: '#333', textAlign: 'left' }} />
           <form onSubmit={handleSubmit}>
             {part4Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
                 <select
                   value={formData[index + 3]?.selectedOption}
                   onChange={(e) => handleInputChange(index + 3, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
                 >
                   <option value="">Select an option</option>
                   {question.options.map((option) => (
@@ -146,10 +149,11 @@ const SSurveyForm = () => {
           <form onSubmit={handleSubmit}>
             {part5Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
                 <select
                   value={formData[index + 4]?.selectedOption}
                   onChange={(e) => handleInputChange(index + 4, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
                 >
                   <option value="">Select an option</option>
                   {question.options.map((option) => (
@@ -163,10 +167,11 @@ const SSurveyForm = () => {
           <form onSubmit={handleSubmit}>
             {part6Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
                 <select
                   value={formData[index + 5]?.selectedOption}
                   onChange={(e) => handleInputChange(index + 5, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
                 >
                   <option value="">Select an option</option>
                   {question.options.map((option) => (
@@ -181,10 +186,11 @@ const SSurveyForm = () => {
           <form onSubmit={handleSubmit}>
             {part7Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
                 <select
                   value={formData[index + 6]?.selectedOption}
                   onChange={(e) => handleInputChange(index + 6, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
                 >
                   <option value="">Select an option</option>
                   {question.options.map((option) => (
@@ -198,10 +204,11 @@ const SSurveyForm = () => {
           <form onSubmit={handleSubmit}>
             {part8Questions.map((question, index) => (
               <div key={question._id} className="question-container">
-                <p className="question-text" style={{ textAlign: 'left' }}>{question.questionText}</p>
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
                 <select
                   value={formData[index + 7]?.selectedOption}
                   onChange={(e) => handleInputChange(index + 7, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
                 >
                   <option value="">Select an option</option>
                   {question.options.map((option) => (

@@ -35,6 +35,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 const drawerWidth = 180;
 
@@ -260,6 +261,21 @@ function Sidebar(props) {
                             </MenuItem>
                             
                         </Menu>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                component={Link}
+                                to="/AdminConsultation"
+                            >
+                                <Diversity3Icon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Consultation</ListItemText>
+                            </IconButton>
+                        </ListItemIcon>
                     </ListItemButton>
                 </ListItem>
                 {/* <ListItem disablePadding>

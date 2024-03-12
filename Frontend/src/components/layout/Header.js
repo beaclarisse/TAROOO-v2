@@ -71,7 +71,7 @@ const Header = () => {
                   <Button color="inherit" component={Link} to="/VideoListPage">
                     TaroTube
                   </Button>
-                  <Button color="inherit" component={Link} to="/Consultation">
+                  <Button color="inherit" component={Link} to="/Consult">
                     <ChatIcon /> {/* chat consultation */}
                   </Button>
 

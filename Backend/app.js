@@ -20,6 +20,9 @@ const allQuestions = require("./routes/allQuestion")
 const allAnswer = require("./routes/allAnswer")
 const chartRoutes = require("./routes/chartRoutes")
 
+const consultation = require("./routes/consultation")
+const ConsultComment = require("./routes/ConsultComment")
+
 
 app.use(
   cors({
@@ -52,5 +55,8 @@ app.use("/api/v1", answer);
 app.use("/api/v1", fanswer);
 app.use("/api/v1", sanswer);
 app.use("/api/v1", allAnswer )
+
+app.use("/api/v1", consultation)
+app.use("/api/v1", ConsultComment)
 
 module.exports = app;

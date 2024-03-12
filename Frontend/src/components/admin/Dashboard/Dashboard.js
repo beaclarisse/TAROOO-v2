@@ -41,8 +41,8 @@ const Dashboard = () => {
 
         <Col md={10} style={{ background: "white", border: "none"}}>
           <Card className="my-4" style={{ width: "100%", minHeight: "100vh" }}>
-            <Card.Body>
-              <h1 className="mb-4 mt-5">Survey and Analysis for Farmer</h1>
+            <Card.Body style={{ background: "white", border: "none" }}>
+              <h1 className="mb-4 mt-5" style={{ color: 'black' }}>Survey and Analysis for Farmer</h1>
               {loading ? (
                 <Loader />
               ) : (

@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from '../layout/Header'
 import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc'
+// import OtpInput from 'react-otp-input';
 
 import { Grid, Paper, Stack, TextField, FormGroup, Button, Typography, Divider } from '@mui/material';
 
@@ -34,8 +35,6 @@ const Login = () => {
                         }
                     })
                     .then((res) => {
-                        // setProfile(res.data);
-                        // console.log(res.data);
                         dispatch(glogin(res.data))
                     })
                     .catch((err) => console.log(err));

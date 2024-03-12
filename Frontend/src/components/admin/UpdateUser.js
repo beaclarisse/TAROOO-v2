@@ -22,7 +22,6 @@ const UpdateUser = () => {
     const [role, setRole] = useState("");
     const roles = [
         "admin",
-        "mechanic",
         "user"
     ];
     const dispatch = useDispatch();

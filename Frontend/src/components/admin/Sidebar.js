@@ -35,6 +35,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 const drawerWidth = 180;
 
@@ -170,7 +171,7 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/diseases"
+                                to="/admin/diseases"
                             >
                                 <HomeRepairServiceIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Diseases</ListItemText>
@@ -269,6 +270,21 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
+                                to="/AdminConsultation"
+                            >
+                                <Diversity3Icon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Consultation</ListItemText>
+                            </IconButton>
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem> */}
+                {/* <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                component={Link}
                                 to="/admin/orders"
                             >
                                 <ShoppingCartIcon />
@@ -297,6 +313,7 @@ function Sidebar(props) {
                     {user ? (
                         <Fragment>
                             <Button href="/" color="inherit"><Typography>Taro E-Assist</Typography></Button>
+                            <Button href="/AdminConsultation" color="inherit"><Typography>Consultation</Typography></Button>
                             
                             <Button sx={{ marginLeft: "auto" }} color="inherit" onClick={handleClick}>
                                 <Avatar src={user.avatar && user.avatar.url}
@@ -312,6 +329,7 @@ function Sidebar(props) {
                             >
                                 <MenuItem component={Link} to="/profile">Profile</MenuItem>
                                 <Divider />
+                                
                                 <MenuItem onClick={logoutHandler} to="/">Logout</MenuItem>
                             </Menu>
                         </Fragment>

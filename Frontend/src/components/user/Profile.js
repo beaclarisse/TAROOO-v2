@@ -13,75 +13,65 @@ const Profile = () => {
     return (
         <Fragment>
             {user.role !== "admin" && (
-                <Fragment>
-                    <Header />
-                    {loading ? (
-                        <Loader />
-                    ) : (
-                        <Fragment>
-                            <MetaData title={"Your Profile"} />
-
-                            {/* <h2 className="mt-5 ml-5">My Profile</h2> */}
-                            <br /><br /><br />
-                            <hr
-                                style={{
-                                    color: "#67568C",
-                                    backgroundColor: "#67568C",
-                                    height: 5
-                                }}
-                            />
-
-                            <div className="row justify-content-around mt-5 user-info">
-                                <div className="col-12 col-md-3">
-                                    <figure className="avatar avatar-profile">
-                                        <img
-                                            className="rounded-circle img-fluid"
-                                            src={user.avatar.url}
-                                            alt={user.name}
-                                        />
-                                    </figure>
-
-                                    <Link
-                                        to="/profile/update"
-                                        id="edit_profile"
-                                        className="btn btn-primary btn-block my-5"
-                                    >
-                                        Edit Profile
-                                    </Link>
-                                </div>
-
-                                <div className="col-12 col-md-5">
-                                    <h4>Full Name</h4>
-
-                                    <p>{user.name}</p>
-
-                                    <h4>Email Address</h4>
-
-                                    <p>{user.email}</p>
-
-                                    <h4>Joined On</h4>
-
-                                    <p>{String(user.createdAt).substring(0, 10)}</p>
-
-                                    {user.role !== "admin" && (
-                                        <Link to="/orders/me" className="btn btn-danger btn-block mt-5">
-                                            My Orders
+                <Box style={{ background: '#1b1b1b', paddingTop: 2 }}>
+                    <div className="container">
+                        <div className="col-12 col-md-2">
+                            <Header />
+                        </div>
+                        <div className="row">
+                            <div className="col-12 col-md-2"></div>
+                            <div className="col-12 col-md-10">
+                                <MetaData title={"Your Profile"} />
+                                <h1 style={{ marginTop: '40px' }}>Profile</h1>
+                                <hr
+                                    style={{
+                                        color: "#67568C",
+                                        backgroundColor: "#67568C",
+                                        height: 5,
+                                        marginBottom: 30
+                                    }}
+                                />
+                                <div className="row justify-content-around user-info">
+                                    <div className="col-12 col-md-3">
+                                        <figure className="avatar avatar-profile">
+                                            <img
+                                                className="rounded-circle img-fluid"
+                                                src={user.avatar.url}
+                                                alt={user.name}
+                                            />
+                                        </figure>
+                                        <Link
+                                            to="/profile/update"
+                                            className="btn btn-primary btn-block my-5"
+                                            style={{ background: '#67568C' }}
+                                        >
+                                            Edit Profile
                                         </Link>
-                                    )}
+                                    </div>
 
-                                    <Link
-                                        to="/password/update"
-                                        className="btn btn-primary btn-block mt-3"
-                                    >
-                                        Change Password
-                                    </Link>
+                                    <div className="col-12 col-md-5">
+                                        <h4>Full Name</h4>
+                                        <p>{user.name}</p>
+                                        <h4>Email Address</h4>
+                                        <p>{user.email}</p>
+                                        <h4>Joined On</h4>
+                                        <p>{String(user.createdAt).substring(0, 10)}</p>
+                                        
+                                        <Link
+                                            to="/password/update"
+                                            className="btn btn-primary btn-block mt-3"
+                                            style={{ background: '#67568C' }}
+                                        >
+                                            Change Password
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                            <br /><br />
-                        </Fragment>
-                    )}
-                </Fragment>
+                        </div>
+                    </div>
+                </Box>
             )}
+
             {user.role == "admin" && (
                 <Box sx={{ height: 660, width: "100%", paddingTop: 5 }} style={{ background: 'white' }}>
                     <Fragment>

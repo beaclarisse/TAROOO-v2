@@ -64,16 +64,17 @@ exports.loginUser = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
     res.cookie("token", null, {
-        expires: new Date(Date.now()),
-
+        expires: new Date(Date.now()), // Expires the token immediately
         httpOnly: true,
     });
 
     res.status(200).json({
         success: true,
-
         message: "Logged out",
     });
+
+    // Redirect the user to localhost:3000 after logging them out
+    res.redirect('http://localhost:3000'); // You can change the path if needed
 };
 
 exports.forgotPassword = async (req, res, next) => {
@@ -308,20 +309,31 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
     try {
-      const user = await User.findById(req.params.id);
-  
-      if (!user) {
-        return next(new ErrorHandler(`User not found with ID: ${req.params.id}`, 404));
-      }
-  
-      res.status(200).json({
-        success: true,
-        user,
-      });
+        if (req.params.id === 'null' || req.params.id === 'undefined') {
+            const user = await User.findById(req.user._id);
+            if (!user) {
+                return next(new ErrorHandler(`User not found with ID: ${req.params.id}`, 404));
+            }
+
+            res.status(200).json({
+                success: true,
+                user,
+            });
+        } else {
+            const user = await User.findById(req.params.id);
+            if (!user) {
+                return next(new ErrorHandler(`User not found with ID: ${req.params.id}`, 404));
+            }
+
+            res.status(200).json({
+                success: true,
+                user,
+            });
+        }
     } catch (error) {
-      next(error);
+        next(error);
     }
-  };
+};
 
 exports.googlelogin = async (req, res, next) => {
     console.log(req.body.response);

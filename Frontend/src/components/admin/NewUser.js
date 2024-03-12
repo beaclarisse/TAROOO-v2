@@ -70,18 +70,8 @@ const NewUser = () => {
             dispatch({ type: REGISTER_USER_RESET });
         }
     }, [dispatch, error, success, navigate]);
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         navigate("/admin/users");
-    //     }
-
-    //     if (error) {
-    //         dispatch(clearErrors());
-    //     }
-    // }, [dispatch, isAuthenticated, error, navigate]);
 
     const submitHandler = (data) => {
-        // e.preventDefault();
 
         const formData = new FormData();
         formData.set("name", data.name);

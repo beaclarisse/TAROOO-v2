@@ -78,7 +78,7 @@ const UpdatePost = () => {
         }
 
         if (isUpdated) {
-            navigate("/admin/taroposts");
+            navigate("/admin/posts");
 
             successMsg("Post updated successfully");
 

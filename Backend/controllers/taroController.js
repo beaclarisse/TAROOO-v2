@@ -35,8 +35,8 @@ exports.newPost = async (req, res, next) => {
   req.body.images = imagesLinks;
   req.body.user = req.user.id;
 
-  const taroPosts = await Taro.create(req.body);
-  if (!taroPosts)
+  const taros = await Taro.create(req.body);
+  if (!taros)
     return res.status(400).json({
       success: false,
       message: "Post not created",
@@ -44,18 +44,18 @@ exports.newPost = async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    taroPosts,
+    taros,
   });
 };
 
 exports.allPosts = async (req, res, next) => {
-  const taroPosts = await Taro.find();
-  let filteredPostsCount = taroPosts.length;
+  const taros = await Taro.find();
+  let filteredPostsCount = taros.length;
 
   res.status(200).json({
     success: true,
     filteredPostsCount,
-    taroPosts,
+    taros,
   });
 };
 
@@ -66,37 +66,37 @@ exports.getPosts = async (req, res, next) => {
   const apiFeatures = new APIFeatures(Taro.find(), req.query).search().filter();
 
   apiFeatures.pagination(resPerPage);
-  const taroPosts = await apiFeatures.query;
-  let filteredPostsCount = taroPosts.length;
+  const taros = await apiFeatures.query;
+  let filteredPostsCount = taros.length;
 
   res.status(200).json({
     success: true,
     resPerPage,
     postsCount,
     filteredPostsCount,
-    taroPosts,
+    taros,
   });
 };
 
 exports.getSinglePost = async (req, res, next) => {
-  const taroPosts = await Taro.findById(req.params.id);
+  const taros = await Taro.findById(req.params.id);
 
-  console.log(taroPosts);
+  console.log(taros);
 
-  if (!taroPosts) {
+  if (!taros) {
     return next(new ErrorHandler("Post not found", 404));
   }
 
   res.status(200).json({
     success: true,
-    taroPosts,
+    taros,
   });
 };
 
 exports.updatePost = async (req, res, next) => {
-  let taroPosts = await Taro.findById(req.params.id);
+  let taros = await Taro.findById(req.params.id);
 
-  if (!taroPosts) {
+  if (!taros) {
     return next(new ErrorHandler("Post not found", 404));
   }
 
@@ -111,9 +111,9 @@ exports.updatePost = async (req, res, next) => {
   if (images !== undefined) {
     // Deleting images associated with the post
 
-    for (let i = 0; i < taroPosts.images.length; i++) {
+    for (let i = 0; i < taros.images.length; i++) {
       const result = await cloudinary.v2.uploader.destroy(
-        taroPosts.images[i].public_id
+        taros.images[i].public_id
       );
     }
 
@@ -134,7 +134,7 @@ exports.updatePost = async (req, res, next) => {
     req.body.images = imagesLinks;
   }
 
-  taroPosts = await Taro.findByIdAndUpdate(req.params.id, req.body, {
+  taros = await Taro.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -142,28 +142,28 @@ exports.updatePost = async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    taroPosts,
+    taros,
   });
 };
 
 exports.deletePost = async (req, res, next) => {
-  let taroPosts = await Taro.findById(req.params.id);
+  let taros = await Taro.findById(req.params.id);
 
-  if (!taroPosts) {
+  if (!taros) {
     return res.status(404).json({
       success: false,
       message: "Post not found",
     });
   }
 
-  if (!taroPosts) {
+  if (!taros) {
     return next(new ErrorHandler("Post not found", 404));
   }
-  taroPosts = await Product.findByIdAndRemove(req.params.id);
+  taros = await Product.findByIdAndRemove(req.params.id);
 
   res.status(200).json({
     success: true,
-    taroPosts,
+    taros,
   });
 };
 
@@ -178,28 +178,28 @@ exports.createPostReview = async (req, res, next) => {
     comment,
   };
 
-  const taroPosts = await Taro.findById(postId);
-  const isReviewed = taroPosts.reviews.find(
+  const taros = await Taro.findById(postId);
+  const isReviewed = taros.reviews.find(
     (r) => r.user.toString() === req.user._id.toString()
   );
 
   if (isReviewed) {
-    taroPosts.reviews.forEach((review) => {
+    taros.reviews.forEach((review) => {
       if (review.user.toString() === req.user._id.toString()) {
         review.comment = comment;
         review.rating = rating;
       }
     });
   } else {
-    taroPosts.reviews.push(review);
-    taroPosts.numOfReviews = taroPosts.reviews.length;
+    taros.reviews.push(review);
+    taros.numOfReviews = taros.reviews.length;
   }
 
-  taroPosts.ratings =
-    taroPosts.reviews.reduce((acc, item) => item.rating + acc, 0) /
-    taroPosts.reviews.length;
+  taros.ratings =
+    taros.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    taros.reviews.length;
 
-  await taroPosts.save({ validateBeforeSave: false });
+  await taros.save({ validateBeforeSave: false });
 
   res.status(200).json({
     success: true,
@@ -207,24 +207,24 @@ exports.createPostReview = async (req, res, next) => {
 };
 
 exports.getPostReviews = async (req, res, next) => {
-  const taroPosts = await Taro.findById(req.params.id);
+  const taros = await Taro.findById(req.params.id);
 
   res.status(200).json({
     success: true,
-    reviews: taroPosts.reviews,
+    reviews: taros.reviews,
   });
 };
 
 exports.deleteReview = async (req, res, next) => {
-  const taroPosts = await Taro.findById(req.query.postId);
-  console.log(taroPosts);
+  const taros = await Taro.findById(req.query.postId);
+  console.log(taros);
 
-  const reviews = taroPosts.reviews.filter(
+  const reviews = taros.reviews.filter(
     (review) => review._id.toString() !== req.query.id.toString()
   );
   const numOfReviews = reviews.length;
   const ratings =
-    taroPosts.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    taros.reviews.reduce((acc, item) => item.rating + acc, 0) /
     reviews.length;
 
   await Taro.findByIdAndUpdate(

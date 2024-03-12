@@ -17,9 +17,9 @@ const Taro = ({ match }) => {
 
     const {
         loading,
-        taroPosts,
+        taros,
         filteredPostsCount,
-    } = useSelector((state) => state.taroPosts);
+    } = useSelector((state) => state.taros);
 
     useEffect(() => {
         dispatch(getPost());
@@ -32,16 +32,16 @@ const Taro = ({ match }) => {
     useEffect(() => {
         setDataSource(products.slice(0, loadedItems + 3));
         setLoadedItems(loadedItems + 3);
-    }, [taroPosts, loadedItems]);
+    }, [taros, loadedItems]);
 
     const fetchMoreData = () => {
-        if (dataSource.length < taroPosts.length) {
+        if (dataSource.length < taros.length) {
             setTimeout(() => {
                 const newData = products.slice(0, dataSource.length + 3);
                 setDataSource(newData);
             }, 500);
         } else {
-            setHasMore(dataSource.length < taroPosts.length);
+            setHasMore(dataSource.length < taros.length);
         }
     };
 

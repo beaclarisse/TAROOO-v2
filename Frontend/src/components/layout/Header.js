@@ -75,7 +75,7 @@ const Header = () => {
                     <ChatIcon /> {/* chat consultation */}
                   </Button>
 
-                  <Button color="inherit" onClick={handleClick}>
+                  <Button color="inherit" onClick={handleClick}  >
                     <Avatar src={user.avatar && user.avatar.url} alt={user && user.name} sx={{ width: 56, height: 56 }}>
                     </Avatar>
                     <Menu id="dropdown-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
@@ -83,10 +83,7 @@ const Header = () => {
                         Profile
                       </MenuItem>
                       <Divider />
-                      <MenuItem component={Link} to="/AdminConsultation">
-                        Consultation
-                      </MenuItem>
-                      <Divider />
+                      
                       <MenuItem onClick={logoutHandler} to="/">
                         Logout
                       </MenuItem>           

@@ -313,6 +313,7 @@ function Sidebar(props) {
                     {user ? (
                         <Fragment>
                             <Button href="/" color="inherit"><Typography>Taro E-Assist</Typography></Button>
+                            <Button href="/AdminConsultation" color="inherit"><Typography>Consultation</Typography></Button>
                             
                             <Button sx={{ marginLeft: "auto" }} color="inherit" onClick={handleClick}>
                                 <Avatar src={user.avatar && user.avatar.url}
@@ -328,8 +329,7 @@ function Sidebar(props) {
                             >
                                 <MenuItem component={Link} to="/profile">Profile</MenuItem>
                                 <Divider />
-                                <MenuItem component={Link} to="/AdminConsultation">Consultation</MenuItem>
-                                <Divider />
+                                
                                 <MenuItem onClick={logoutHandler} to="/">Logout</MenuItem>
                             </Menu>
                         </Fragment>

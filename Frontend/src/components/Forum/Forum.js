@@ -1,5 +1,3 @@
-// 
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -44,6 +42,7 @@ const Forum = () => {
 
   const DisplayPost = ({ post }) => {
     const [user, setUser] = useState(null);
+    const [commentCount, setCommentCount] = useState(0); 
 
     useEffect(() => {
       const fetchUserData = async () => {
@@ -63,6 +62,19 @@ const Forum = () => {
       fetchUserData();
     }, [post.user]);
   
+    useEffect(() => {
+      const fetchCommentCount = async () => {
+        try {
+          const responseComments = await axios.get(`http://localhost:3000/api/v1/getComment/${post._id}`);
+          setCommentCount(responseComments.data.comments.length);
+        } catch (error) {
+          console.error('Error fetching comment count:', error);
+        }
+      };
+  
+      fetchCommentCount();
+    }, [post._id]);
+
     if (!user) {
       return null;
     }
@@ -85,6 +97,7 @@ const Forum = () => {
             <div className="icon-container d-flex align-items-center">
               <FavoriteIcon color="error" fontSize="small" className="mr-2" />
               <CommentIcon color="white" fontSize="small" />
+              <span className="ml-1" style={{ color: '#ccc' }}>{commentCount}</span> {/* Display comment count */}
             </div>
           </div>
           {post.avatar && <img src={post.avatar} alt={`${user.name || user.handle}'s avatar`} className="mt-2" style={{ maxWidth: '30px', borderRadius: '50%' }} />}

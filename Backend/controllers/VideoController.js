@@ -1,14 +1,9 @@
 const Video = require('../models/video');
-
-exports.getAllVideos = async (req, res) => {
-  try {
-    const videos = await Video.find();
-    res.json({ success: true, videos });
-  } catch (error) {
-    console.error('Error fetching videos:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
-  }
+const handleServerError = (res, error, defaultMessage) => {
+  console.error('Error:', error);
+  res.status(500).json({ success: false, error: defaultMessage });
 };
+
 
 // const getVideoByCategory = async (req, res) => {
 //   const { category } = req.params;
@@ -39,6 +34,15 @@ exports.getAllVideos = async (req, res) => {
 //   }
 // };
 
+exports.getAllVideos = async (req, res) => {
+  try {
+    const videos = await Video.find();
+    res.json({ success: true, videos });
+  } catch (error) {
+    console.error('Error fetching videos:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
 
 exports.getVideoByCategory = async (req, res) => {
   const { category } = req.params;
@@ -57,6 +61,22 @@ exports.getVideoByCategory = async (req, res) => {
   }
 };
 
+exports.getVideoById = async (req, res) => {
+  const videoId = req.params.id;
+
+  try {
+    const video = await Video.findById(videoId);
+
+    if (!video) {
+      return res.status(404).json({ success: false, error: 'Video not found' });
+    }
+
+    res.status(200).json({ success: true, video });
+  } catch (error) {
+    console.error('Error fetching video by ID:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
 
 exports.addVideo = async (req, res) => {
   try {
@@ -70,7 +90,6 @@ exports.addVideo = async (req, res) => {
   }
 };
 
-
 exports.deleteVideoById = async (req, res) => {
   try {
     const videoId = req.params.id;
@@ -81,7 +100,6 @@ exports.deleteVideoById = async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 };
-
 
 exports.likeVideo = async (req, res) => {
   try {

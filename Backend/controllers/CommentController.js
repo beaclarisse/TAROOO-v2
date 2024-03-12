@@ -225,7 +225,7 @@ exports.getCommentsByPostId = async (req, res) => {
   try {
     const postId = req.params.postId;
     const comments = await Comment.find({ postId }).populate({
-      path: 'commentor',
+      path: 'commentor replies.rep',
       select: 'name avatar'
     });
 
@@ -267,67 +267,72 @@ exports.deleteComment = async (req, res) => {
 };
 
 
-
-exports.addReplyToComment = async (req, res, next) => {
+exports.getRepliesByCommentId = async (req, res) => {
   try {
-    const { commentId } = req.params;
-    console.log('Received commentId on the server:', commentId);
+    const commentId = req.params.commentId;
+    const comment = await Comment.findById(commentId).populate('replies.rep');
 
-    // Fetch the parent comment using the provided commentId
-    const parentComment = await Comment.findById(commentId);
-
-    // Ensure that the comment is found
-    if (!parentComment) {
-      console.log('Comment not found');
-      return res.status(404).json({
-        success: false,
-        message: 'Comment not found',
-      });
+    if (!comment) {
+      return res.status(404).json({ success: false, message: 'Comment not found' });
     }
 
-    // Log the existing replies before adding a new one
-    console.log('Existing Replies:', parentComment.replies);
+    // Extract replies from the comment and return them in the response
+    const replies = comment.replies.map((reply) => ({
+      content: reply.content,
+      rep: reply.rep
+        ? {
+            name: reply.rep.name || 'Unknown User',
+            avatar: reply.rep.avatar || 'default-avatar-url',
+            // Add other relevant user details if needed
+          }
+        : {
+            name: 'Unknown User',
+            avatar: 'default-avatar-url',
+          },
+    }));
 
-    // Ensure that req.user is defined and has an _id property
-    const userId = req.user && req.user._id;
-
-    if (!userId) {
-      console.log('User ID not found in the request');
-      return res.status(400).json({
-        success: false,
-        message: 'User ID not found in the request',
-      });
-    }
-
-    // Assume replyText is defined somewhere in your code
-    const replyText = req.body.content; // Change here
-
-    // Add the new reply to the comment's replies array
-    parentComment.replies.push({
-      comment: replyText,
-      user: userId,
-    });
-
-    // Save the changes
-    await parentComment.save();
-
-    console.log('Reply added successfully');
-
-    // Log the updated comment with the new reply
-    console.log('Updated Comment:', parentComment);
-
-    res.status(200).json({
-      success: true,
-      parentComment: parentComment,
-    });
+    return res.status(200).json({ success: true, replies });
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Error occurred',
-    });
+    console.error('Error getting replies by comment ID:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
+
+exports.addReplyToComment = async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+    const { content } = req.body;
+    const userId = req.user._id;
+    console.log('Received commentId:', commentId);
+    const comment = await Comment.findById(commentId);
+    console.log('Fetched comment from the database:', comment);
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found', commentId });
+    }
+    if (!content) {
+      return res.status(400).json({ message: 'Reply content is a required field', commentId });
+    }
+    const newReply = {
+      commentId,
+      content,
+      rep: userId,
+    };
+    comment.replies.push(newReply);
+    await comment.save();
+    await Comment.populate(comment, { path: 'replies.rep' });
+    return res.status(201).json({ message: 'Reply added successfully', comment });
+  } catch (error) {
+    console.error('Error adding reply to comment:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
+
+
+
+
 
 
 

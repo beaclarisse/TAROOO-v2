@@ -1,5 +1,23 @@
 const mongoose = require('mongoose');
 
+const replySchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+  },
+  rep: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+
+}, { timestamps: true });
+
+replySchema.methods.getUser = async function () {
+  await this.populate('rep', 'name avatar').execPopulate();
+  return this.rep;
+};
+
 const commentSchema = new mongoose.Schema({
   postId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -15,22 +33,11 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  replies: [{
-    content: {
-      type: String,
-      required: true,
-    },
-    commentor: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-    // Add any other properties you need for replies
-  }],
+  replies: [replySchema],
 }, { timestamps: true });
 
 commentSchema.methods.getUser = async function () {
-  await this.populate('commentor').execPopulate();
+  await this.populate('commentor', 'name avatar').execPopulate();
   return this.commentor;
 };
 

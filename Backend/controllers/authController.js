@@ -346,3 +346,24 @@ exports.googlelogin = async (req, res, next) => {
         sendToken(user, 200, res);
     }
 };
+
+const auth = async (req, res, next) => {
+    try {
+      const token = req.header('Authorization').replace('Bearer ', '');
+  
+      const user = await User.findById(decoded._id);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      if (user.role === 'admin') {
+        req.user = user; 
+        next();
+      } else {
+        throw new Error('Not authorized');
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      res.status(401).json({ error: 'Not authorized' });
+    }
+  };
+  

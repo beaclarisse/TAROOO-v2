@@ -9,5 +9,6 @@ router.get('/getComment/:postId', isAuthenticatedUser, commentController.getComm
 router.delete('/deleteComment/:commentId', isAuthenticatedUser, commentController.deleteComment);
 // router.post('/addReply/:commentId', isAuthenticatedUser, commentController.addReplyToComment);
 router.post('/addReply/:commentId', isAuthenticatedUser, commentController.addReplyToComment );
+router.get('/getRepliesByCommentId/:commentId', commentController.getRepliesByCommentId);
 
 module.exports = router;

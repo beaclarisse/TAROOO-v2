@@ -5,7 +5,9 @@ import { AppBar, Toolbar, Typography, Button, Avatar, Menu, MenuItem, Divider } 
 import { logout, loadUser } from "../../actions/userActions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ChatIcon from '@mui/icons-material/Chat';
+import GroupIcon from '@mui/icons-material/Group';
+import ForumIcon from '@mui/icons-material/Forum';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 const Header = () => {
   const notify = (message = "") => {
@@ -56,9 +58,6 @@ const Header = () => {
 
               {user ? (
                 <div className="flexCenter h-menu" style={{ marginLeft: "auto" }}>
-                  <Button color="inherit" component={Link} to="/forum">
-                    Forum
-                  </Button>
                   <Button color="inherit" component={Link} to="/TaroPosts">
                     About Taro
                   </Button>
@@ -68,13 +67,15 @@ const Header = () => {
                   <Button color="inherit" component={Link} to="/Preventive">
                     Preventive Measures
                   </Button>
-                  <Button color="inherit" component={Link} to="/VideoListPage">
-                    TaroTube
+                  <Button color="inherit" component={Link} to="/forum">
+                    <GroupIcon />
                   </Button>
                   <Button color="inherit" component={Link} to="/Consultation">
-                    <ChatIcon /> {/* chat consultation */}
+                    <ForumIcon /> {/* chat consultation */}
                   </Button>
-
+                  <Button color="inherit" component={Link} to="/VideoListPage">
+                  <YouTubeIcon /> 
+                  </Button>
                   <Button color="inherit" onClick={handleClick}>
                     <Avatar src={user.avatar && user.avatar.url} alt={user && user.name} sx={{ width: 56, height: 56 }}>
                     </Avatar>

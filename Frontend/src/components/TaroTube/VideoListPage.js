@@ -5,9 +5,11 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CircularProgress from '@mui/material/CircularProgress';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import './VideoListPage.css';
 import Header from '../layout/Header';
-// import Sidebar from "/src/components/layout/Sidebar";
+import { Link } from 'react-router-dom';
 
 const VideoListPage = () => {
   const [videos, setVideos] = useState([]);
@@ -57,33 +59,38 @@ const VideoListPage = () => {
   }, [selectedCategory]);
 
   return (
-    <div className="root"> 
-      {/* <Sidebar /> */}
+    <div className="root">
       <Header />
-      <Paper style={{ background: 'white' }}>
+      <Paper style={{ background: '#232b2b', color: '#fff', padding: '10px' }}>
         {/* Category Dropdown */}
-        <div className={`categoryDropdown ${selectedCategory ? '' : ''}`}>
-          <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            <option value="">All Categories</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Select Category' }}
+          style={{ minWidth: '150px', marginRight: '10px' }}
+        >
+         <MenuItem value="" style={{ backgroundColor: 'black', color: 'white' }}>
+            All Categories
+          </MenuItem>
+          {categories.map((category) => (
+            <MenuItem key={category} value={category} style={{ backgroundColor: 'black', color: 'white' }}>
+              {category}
+            </MenuItem>
+          ))}
+        </Select>
 
-        <div className={`videoList ${selectedCategory ? 'small' : ''}`}>
+        {/* Video List */}
+        <div className="videoList">
           {/* Loading State */}
           {loading && <CircularProgress style={{ margin: '20px auto', display: 'block' }} />}
 
           {/* Error State */}
           {error && <Typography variant="body1" color="error">{error}</Typography>}
 
-          {/* Video List */}
+          {/* Videos */}
           {videos.map((video) => (
             <div key={video._id} className="videoItem">
-              {/* Video content... */}
               {playingVideo === video._id ? (
                 <>
                   <iframe
@@ -98,7 +105,17 @@ const VideoListPage = () => {
                 </>
               ) : (
                 <>
-                  <Typography variant="h6">{video.title}</Typography>
+                  <Link to={`/tarotube/${video._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Paper style={{ padding: '10px', margin: '10px', textAlign: 'center' }}>
+                      <Typography variant="h6">{video.title}</Typography>
+                      <img
+                        src={`https://img.youtube.com/vi/${video.link}/0.jpg`}
+                        alt={video.title}
+                        style={{ width: '100%', height: 'auto', marginBottom: '8px' }}
+                      />
+                      <Typography>{video.category}</Typography>
+                    </Paper>
+                  </Link>
                   <Typography>{video.category}</Typography>
                   <IconButton onClick={() => handleToggleVideo(video._id)}>
                     <PlayArrowIcon />

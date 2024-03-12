@@ -83,6 +83,9 @@ import PostDetail from './components/Forum/PostDetail';
 import EditPost from './components/Forum/EditPost';
 import AddPost from './components/Forum/AddPost';
 
+//Admin
+import AdminForum from './components/admin/ForumList/AdminForum';
+
 //charts
 import Dashboard from "./components/admin/Dashboard/Dashboard";
 import SellerDashboard from "./components/admin/Dashboard/SellerDashboard";
@@ -91,6 +94,7 @@ import ConsumerDashboard from "./components/admin/Dashboard/ConsumerDashboard";
 //Video
 import VideoBrowse from './components/TaroTube/VideoBrowse';
 import VideoListPage from './components/TaroTube/VideoListPage';
+import TaroTubePage from './components/TaroTube/TaroTubePage';
 
 import UserPostList from './components/UserPostList';
 
@@ -109,7 +113,7 @@ function App() {
     <div className="App">
       <ThemeProvider theme={Taro}>
         <Routes>
-          
+
           {/* charts */}
           <Route
             path="/Dashboard"
@@ -285,9 +289,19 @@ function App() {
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/AddPost" element={<AddPost />} />
 
+          {/* Post Forum Admin */}
+          <Route path="/admin/forum"
+            element={
+              <ProtectedRoute>
+                <AdminForum />
+              </ProtectedRoute>
+            } exact="true" />
+
+
           {/* VideoBrowse */}
           <Route path="/admin/VideoBrowse" element={<VideoBrowse />} />
           <Route path="/VideoListPage" element={<VideoListPage />} />
+          <Route path="/tarotube/:id" element={<TaroTubePage />} />
 
 
 

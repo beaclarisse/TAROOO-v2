@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const User = require('../models/user');
 const cloudinary = require("cloudinary");
 // const Filter = require('bad-words')
 // const filipinoBarwords = require('filipino-badwords-list');
@@ -13,76 +14,6 @@ const cloudinary = require("cloudinary");
 //   }
 // };
 
-exports.getAllPosts = async (req, res) => {
-  try {
-    const posts = await Post.find().populate('user', 'name');
-    res.status(200).json(posts);
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-    handleServerError(res, error, 'Internal Server Error');
-  }
-};
-
-
-exports.createPost = async (req, res, next) => {
-
-  let imagesLinks = [];
-  let images = [];
-
-  if (req.files.length > 0) {
-    req.files.forEach(image => {
-      images.push(image.path)
-    })
-  }
-  if (req.file) {
-    images.push(req.file.path);
-  }
-
-  if (req.body.images) {
-    if (typeof req.body.images === 'string') {
-      images.push(req.body.images);
-    } else {
-      images = req.body.images
-    }
-  }
-
-  for (let i = 0; i < images.length; i++) {
-    let imageDataUri = images[i];
-    try {
-      const result = await cloudinary.uploader.upload(`${imageDataUri}`, {
-        folder: 'gabi-taro',
-        width: 1000,
-        crop: 'auto',
-      });
-
-      imagesLinks.push({
-        public_id: result.public_id,
-        url: result.secure_url,
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        success: false,
-        message: 'Error uploading image to Cloudinary',
-      });
-    }
-  }
-
-  req.body.images = imagesLinks;
-
-  const post = await Post.create(req.body);
-  if (!post) {
-    return res.status(400).json({
-      success: false,
-      message: 'Post not created',
-    });
-  }
-
-  res.status(201).json({
-    success: true,
-    post,
-  })
-}
 // exports.createPost = async (req, res) => {
 //   const { title, content } = req.body;
 //   let imagesLinks = [];
@@ -119,57 +50,6 @@ exports.createPost = async (req, res, next) => {
 //     handleServerError(res, error, 'Error creating post');
 //   }
 //  };
-
-exports.updatePost = async (req, res) => {
-  const postId = req.params.id;
-  const { title, content } = req.body;
-
-  try {
-    const updatedPost = await Post.findByIdAndUpdate(
-      postId,
-      { title, content },
-      { new: true, runValidators: true }
-    );
-
-    if (!updatedPost) {
-      return res.status(404).json({
-        success: false,
-        message: 'Post not found',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      post: updatedPost,
-    });
-  } catch (error) {
-    console.error('Error updating post:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Internal Server Error',
-    });
-  }
-};
-
-exports.deletePost = async (req, res) => {
-  try {
-    const { postId } = req.params;
-    const post = await Post.findById(postId);
-
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
-
-    await post.remove();
-
-    return res.json({ message: 'Post deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting post:', error);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-
 
 // exports.addComment = async (req, res) => {
 
@@ -243,6 +123,143 @@ exports.deletePost = async (req, res) => {
 // };
 
 
+
+//not yet okay
+exports.getAllPostsForAdmin = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const user = await User.findById(userId);
+    
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ error: 'Access denied. Admins only.' });
+    }
+    const posts = await Post.find().populate('user', 'name');
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Error fetching posts for admin:', error);
+    handleServerError(res, error, 'Internal Server Error');
+  }
+};
+
+exports.getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find().populate('user', 'name');
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    handleServerError(res, error, 'Internal Server Error');
+  }
+};
+
+exports.createPost = async (req, res, next) => {
+
+  let imagesLinks = [];
+  let images = [];
+
+  if (req.files.length > 0) {
+    req.files.forEach(image => {
+      images.push(image.path)
+    })
+  }
+  if (req.file) {
+    images.push(req.file.path);
+  }
+
+  if (req.body.images) {
+    if (typeof req.body.images === 'string') {
+      images.push(req.body.images);
+    } else {
+      images = req.body.images
+    }
+  }
+
+  for (let i = 0; i < images.length; i++) {
+    let imageDataUri = images[i];
+    try {
+      const result = await cloudinary.uploader.upload(`${imageDataUri}`, {
+        folder: 'gabi-taro',
+        width: 1000,
+        crop: 'auto',
+      });
+
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: 'Error uploading image to Cloudinary',
+      });
+    }
+  }
+
+  req.body.images = imagesLinks;
+
+  const post = await Post.create(req.body);
+  if (!post) {
+    return res.status(400).json({
+      success: false,
+      message: 'Post not created',
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    post,
+  })
+}
+
+exports.updatePost = async (req, res) => {
+  const postId = req.params.id;
+  const { title, content } = req.body;
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { title, content },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({
+        success: false,
+        message: 'Post not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      post: updatedPost,
+    });
+  } catch (error) {
+    console.error('Error updating post:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error',
+    });
+  }
+};
+
+exports.deletePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    await post.remove();
+
+    return res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 exports.getPostById = async (req, res) => {
   const postId = req.params.id;
   try {
@@ -259,7 +276,6 @@ exports.getPostById = async (req, res) => {
   }
 };
 
-
 exports.getUserPosts = async (req, res) => {
   const userId = req.user._id;
 
@@ -269,6 +285,34 @@ exports.getUserPosts = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'Error fetching user posts' });
+  }
+};
+
+// Not yet Working
+exports.updateHeartCount = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId, isHearted } = req.body;
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    if (!Array.isArray(post.hearts)) {
+      post.hearts = [];
+    }
+    const userIndex = post.hearts.findIndex((heart) => heart.userId === userId);
+
+    if (isHearted && userIndex === -1) {
+      post.hearts.push({ userId });
+    } else if (!isHearted && userIndex !== -1) {
+      post.hearts.splice(userIndex, 1);
+    }
+    const heartCount = post.hearts.length;
+    await post.save();
+    res.json({ heartCount });
+  } catch (error) {
+    console.error('Error updating heart count:', error);
+    handleServerError(res, error, 'Internal Server Error');
   }
 };
 
@@ -286,3 +330,7 @@ const handleNotFound = (res, message) => {
     message: message || 'Not Found',
   });
 };
+
+// module.exports = {
+//   updateHeartCount,
+// };

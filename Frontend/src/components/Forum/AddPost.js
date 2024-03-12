@@ -55,7 +55,7 @@ const AddPost = () => {
         },
       });
       navigate('/forum');
-    } catch (error) {
+    } catch (error) { 
       console.error('Error adding post:', error);
     }
   };

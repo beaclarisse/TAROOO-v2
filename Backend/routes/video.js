@@ -21,6 +21,7 @@ router.delete('/vid/:id', videoController.deleteVideoById);
 router.post('/likeVideo/:videoId', isAuthenticatedUser, videoController.likeVideo);
 
 router.get('/videos/:category', videoController.getVideoByCategory);
+router.get('/tarotube/:id', videoController.getVideoById);
 
 // Get videos by category
 // router.get('/videos/:category', videoController.getVideoByCategory);

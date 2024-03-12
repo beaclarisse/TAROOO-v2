@@ -6,14 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 // // const { ToastContainer } = require('react-toastify');
 // // require('react-toastify/dist/ReactToastify.css');
 
-// Define setUser function to update the user state
 let setUserFunction = null;
 
-// Function to set the setUser function
 export const setUser = (func) => {
     setUserFunction = func;
 }
-
 export const authenticate = (data, next) => {
     if (window !== 'undefined') {
         // console.log('authenticate', response)

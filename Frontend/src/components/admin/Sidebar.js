@@ -263,7 +263,7 @@ function Sidebar(props) {
                         </Menu>
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                {/* <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon style={iconStyle}>
                             <IconButton
@@ -277,7 +277,7 @@ function Sidebar(props) {
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>
-                </ListItem>
+                </ListItem> */}
                 {/* <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon style={iconStyle}>
@@ -327,6 +327,8 @@ function Sidebar(props) {
                                 onClose={handleClose}
                             >
                                 <MenuItem component={Link} to="/profile">Profile</MenuItem>
+                                <Divider />
+                                <MenuItem component={Link} to="/AdminConsultation">Consultation</MenuItem>
                                 <Divider />
                                 <MenuItem onClick={logoutHandler} to="/">Logout</MenuItem>
                             </Menu>

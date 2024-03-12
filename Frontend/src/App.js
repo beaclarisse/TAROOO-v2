@@ -90,6 +90,7 @@ import ConsultDetail from './components/consult/ConsultDetails';
 
 import AdminConsultation from './components/admin/Dashboard/AdminConsultation';
 
+
 //charts
 import Dashboard from "./components/admin/Dashboard/Dashboard";
 import SellerDashboard from "./components/admin/Dashboard/SellerDashboard";
@@ -309,6 +310,7 @@ function App() {
           <Route path="/Consultation/:id" element={<ConsultDetail />} />
 
           <Route path="/AdminConsultation" element={<AdminConsultation />} />
+
 
 
 

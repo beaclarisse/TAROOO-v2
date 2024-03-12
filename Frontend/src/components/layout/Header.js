@@ -83,9 +83,13 @@ const Header = () => {
                         Profile
                       </MenuItem>
                       <Divider />
+                      <MenuItem component={Link} to="/AdminConsultation">
+                        Consultation
+                      </MenuItem>
+                      <Divider />
                       <MenuItem onClick={logoutHandler} to="/">
                         Logout
-                      </MenuItem>
+                      </MenuItem>           
                     </Menu>
                   </Button>
                 </div>

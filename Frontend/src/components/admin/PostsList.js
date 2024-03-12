@@ -15,7 +15,7 @@ import {
 import { DELETE_POST_RESET } from "../../constants/taroConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography, Button, Divider } from "@mui/material";
-import { Card, Col, Row } from "react-bootstrap";
+// import { Card, Col, Row } from "react-bootstrap";
 
 const PostsList = () => {
   const dispatch = useDispatch();

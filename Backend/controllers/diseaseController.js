@@ -48,6 +48,17 @@ exports.newDisease = async (req, res, next) => {
   });
 };
 
+exports.allDiseases = async (req, res, next) => {
+  const disease = await Disease.find();
+  let filteredPostsCount = disease.length;
+
+  res.status(200).json({
+    success: true,
+    filteredPostsCount,
+    disease,
+  });
+};
+
 exports.getDisease = async (req, res, next) => {
   const disease = await Disease.find();
   let filteredDiseasesCount = disease.length;

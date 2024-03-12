@@ -139,7 +139,7 @@ const ResultByQuestionChart = () => {
 
                     // Add a page break for the next question
                     pdf.addPage();
-                }, 520)
+                }, 420)
                 // Convert the chart to an image
 
             } else {

@@ -5,21 +5,31 @@ import { registers, clearErrors } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Header from '../layout/Header'
+import { Button, Container, Typography, TextField, Checkbox } from '@mui/material';
+import { styled } from '@mui/system';
 
 import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBInput,
-  MDBIcon,
-  MDBCheckbox
+    MDBBtn,
+    MDBContainer,
+    MDBRow,
+    MDBCol,
+    MDBCard,
+    MDBCardBody,
+    MDBCardImage,
+    MDBInput,
+    MDBIcon,
+    MDBCheckbox
 }
-from 'mdb-react-ui-kit';
+    from 'mdb-react-ui-kit';
 import { FormGroup } from "react-bootstrap";
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
+import HttpsIcon from '@mui/icons-material/Https';
+import PhotoIcon from '@mui/icons-material/Photo';
+
+const StyledButton = styled(Button)({
+    marginTop: '20px',
+});
 
 function Register() {
 
@@ -32,6 +42,7 @@ function Register() {
     const [avatarPreview, setAvatarPreview] = useState(
         "/images/default_avatar.jpg"
     );
+
 
     const {
         register,
@@ -121,78 +132,88 @@ function Register() {
 
     return (
         <MDBContainer fluid>
-        <Header />
-        <MetaData title={"Register User"} />
+            <Header />
+            <MetaData title={"Register User"} />
 
-        <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
-            <MDBCardBody>
-            <MDBRow>
-                <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
+            <MDBCard className='text-black m-5' style={{ borderRadius: '25px' }}>
+                <MDBCardBody>
+                    <MDBRow>
+                        <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
 
-                <p classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-                
-                <form
-                    onSubmit={handleSubmit(submitHandler)}
-                    encType="multipart/form-data"
-                >
-                    <FormGroup>
-                        <div className="d-flex flex-row align-items-center mb-4 ">
-                            <MDBIcon fas icon="user me-3" size='lg'/>
-                            <MDBInput label='Your Name' type='text' className='w-100' id='name_field' 
-                                onChange={(e) => setName(e.target.value)} fullWidth
-                                {...register("name", {
-                                required: "Name is required."
-                            })}/>
-                        </div>
-                        {errors.name && <Typography style={errorStyle} variant="body1">{errors.name.message}</Typography>}
+                            <p classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                        <div className="d-flex flex-row align-items-center mb-4">
-                            <MDBIcon fas icon="envelope me-3" size='lg'/>
-                            <MDBInput label='Your Email' type='email' id='email_field'
-                                onChange={(e) => setEmail(e.target.value)} fullWidth
-                                {...register("email", {
-                                    required: "Email is required."
-                                })}/>
-                        </div>
-                        {errors.email && <Typography style={errorStyle} variant="body1">{errors.email.message}</Typography>}
+                            <form
+                                onSubmit={handleSubmit(submitHandler)}
+                                encType="multipart/form-data"
+                            >
+                                <FormGroup>
+                                    <div className="d-flex flex-row align-items-center mb-4 ">
+                                        <PersonIcon fas icon="user me-3" size='lg' />
+                                        <MDBInput label='Your Name' type='text' className='w-100' id='name_field'
+                                            onChange={(e) => setName(e.target.value)} fullWidth
+                                            {...register("name", {
+                                                required: "Name is required."
+                                            })} />
+                                    </div>
+                                    {errors.name && <Typography style={errorStyle} variant="body1">{errors.name.message}</Typography>}
 
-                        <div className="d-flex flex-row align-items-center mb-4">
-                            <MDBIcon fas icon="lock me-3" size='lg'/>
-                            <MDBInput label='Password' id='password_field'
-                                type='password'
-                                onChange={(e) => setPassword(e.target.value)} fullWidth
-                                {...register("password", {
-                                    required: "Password is required."
-                                })}/>
-                        </div>
-                        {errors.password && <Typography style={errorStyle} variant="body1">{errors.password.message}</Typography>}
+                                    <div className="d-flex flex-row align-items-center mb-4">
+                                        <EmailIcon fas icon="envelope me-3" size='lg' />
+                                        <MDBInput label='Your Email' type='email' id='email_field'
+                                            onChange={(e) => setEmail(e.target.value)} fullWidth
+                                            {...register("email", {
+                                                required: "Email is required."
+                                            })} />
+                                    </div>
+                                    {errors.email && <Typography style={errorStyle} variant="body1">{errors.email.message}</Typography>}
 
-                        <div className="d-flex flex-row align-items-center mb-4">
-                            <MDBIcon fas icon="user me-3" size='lg'/>
-                            <MDBInput label='Choose your Profile Image' type="file"
+                                    <div className="d-flex flex-row align-items-center mb-4">
+                                        <HttpsIcon fas icon="lock me-3" size='lg' />
+                                        <MDBInput label='Password' id='password_field'
+                                            type='password'
+                                            onChange={(e) => setPassword(e.target.value)} fullWidth
+                                            {...register("password", {
+                                                required: "Password is required."
+                                            })} />
+                                    </div>
+                                    {errors.password && <Typography style={errorStyle} variant="body1">{errors.password.message}</Typography>}
+
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <PhotoIcon fontSize='large' />
+                                        <input
+                                            type="file"
                                             name="avatar"
-                                            className="custom-file-input"
-                                            id="customFile"
-                                            accept="images/*"
-                                            onChange={onChange}/>
-                        </div>
+                                            accept="image/*"
+                                            onChange={onChange}
+                                        />
+                                    </div>
+                                    {avatarPreview && (
+                                        <img
+                                            src={avatarPreview}
+                                            alt="Avatar Preview"
+                                            style={{ maxWidth: "100%", maxHeight: "150px" }}
+                                        />
+                                    )}
 
-                        <div className='mb-4'>
+                                    {/* <div className='mb-4'>
                             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Subscribe to our newsletter' />
-                        </div>
+                        </div> */}
 
-                        <MDBBtn className='mb-4' size='lg' id="register_button" type="submit">Register</MDBBtn>
-                    </FormGroup>
-                </form>
-                </MDBCol>
+                                    
+                                </FormGroup>
+                                <StyledButton variant="contained" color="primary" type="submit">
+                                        Register
+                                    </StyledButton>
+                            </form>
+                        </MDBCol>
 
-                <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-                <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' fluid/>
-                </MDBCol>
+                        <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
+                            <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' fluid />
+                        </MDBCol>
 
-            </MDBRow>
-            </MDBCardBody>
-        </MDBCard>
+                    </MDBRow>
+                </MDBCardBody>
+            </MDBCard>
 
         </MDBContainer>
     );

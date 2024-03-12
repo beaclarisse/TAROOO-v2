@@ -38,7 +38,7 @@ import {
 } from "../constants/taroConstants";
 
 export const getPosts =
-    (keyword = "", currentPage = 1, price) =>
+    (keyword = "", currentPage = 1, category) =>
         async (dispatch) => {
             try {
                 dispatch({
@@ -60,7 +60,7 @@ export const getPosts =
             }
         };
 
-export const getAdminPosts = () => async (dispatch) => {
+export const allPosts = () => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_POSTS_REQUEST });
 
@@ -68,13 +68,12 @@ export const getAdminPosts = () => async (dispatch) => {
 
         dispatch({
             type: ADMIN_POSTS_SUCCESS,
-            payload: data.post
+            payload: data,
         });
     } catch (error) {
         dispatch({
             type: ADMIN_POSTS_FAIL,
-
-            payload: error.response.data.message,
+            payload: error.response.data.message || error.message,
         });
     }
 };

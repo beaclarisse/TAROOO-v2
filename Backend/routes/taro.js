@@ -21,12 +21,12 @@ const {
 } = require("../controllers/taroController");
 
 //Admin Access
-router.post("/taro/new", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), newPost);
-router.get("/taro", getPosts);
-router.get("/taro/:id", getSinglePost);
-router.put("/update/taro/:id", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), updatePost);
-router.delete("/remove/taro/:id", isAuthenticatedUser, authorizeRoles("admin"), deletePost);
-router.get("/admin/taroposts", isAuthenticatedUser, authorizeRoles("admin"), allPosts);
+router.post("/post/new", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), newPost);
+router.get("/post", getPosts);
+router.get("/post/:id", getSinglePost);
+router.put("/update/post/:id", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), updatePost);
+router.delete("/remove/post/:id", isAuthenticatedUser, authorizeRoles("admin"), deletePost);
+router.get("/admin/posts", isAuthenticatedUser, authorizeRoles("admin"), allPosts);
 
 //User Access 
 router.put("/create/review", isAuthenticatedUser, createPostReview);

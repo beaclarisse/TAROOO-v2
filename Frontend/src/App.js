@@ -36,7 +36,7 @@ import PostsList from './components/admin/PostsList';
 import NewPost from "./components/admin/NewPost";
 import UpdatePost from './components/admin/UpdatePost';
 
-import DiseaseList from './components/admin/DiseasesList'
+import DiseasesList from './components/admin/DiseasesList'
 import NewDisease from './components/admin/NewDisease';
 import UpdateDisease from './components/admin/UpdateDisease';
 
@@ -241,11 +241,12 @@ function App() {
             }
           />
 
+          {/* Route for Diseases */}
           <Route
-            path="/diseases"
+            path="/admin/diseases"
             element={
               <ProtectedRoute isAdmin={true}>
-                <DiseaseList />
+                <DiseasesList />
               </ProtectedRoute>
             }
           />

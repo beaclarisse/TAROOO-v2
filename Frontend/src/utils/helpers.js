@@ -68,8 +68,6 @@ export const successMsg = (message = '') => toast.success(message, {
 
 // module.exports = { getUser };
 
-
-
 // const { toast } = require('react-toastify');
 // require('react-toastify/dist/ReactToastify.css');
 

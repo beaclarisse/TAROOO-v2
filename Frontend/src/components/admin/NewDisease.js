@@ -38,7 +38,7 @@ const NewDisease = () => {
 
     let navigate = useNavigate();
 
-    const { loading, error, success } = useSelector((state) => state.newService);
+    const { loading = false, error, success } = useSelector((state) => state.newDisease || {});
 
     const message = (message = "") =>
         toast.success(message, {
@@ -67,9 +67,9 @@ const NewDisease = () => {
 
         formData.set("name", data.name);
 
-        formData.set("part", data.part);
-
         formData.set("description", data.description);
+
+        formData.set("part", data.part);
 
         images.forEach((image) => {
             formData.append("images", image);

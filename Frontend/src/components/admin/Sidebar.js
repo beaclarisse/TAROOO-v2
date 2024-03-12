@@ -171,7 +171,7 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/diseases"
+                                to="/admin/diseases"
                             >
                                 <HomeRepairServiceIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Diseases</ListItemText>

@@ -29,15 +29,21 @@ export const getDiseases =
                 dispatch({
                     type: ALL_DISEASES_REQUEST,
                 });
-                let link = `/api/v1/diseases`;
+                let link = `/api/v1/admin/diseases`;
 
-                const { data } = await axios.get(link);
-                console.log(data);
-                console.log(link);
-                dispatch({
-                    type: ALL_DISEASES_SUCCESS,
-                    payload: data,
-                });
+                const response = await axios.get(link);
+
+                if (response.data) {
+                    dispatch({
+                        type: ALL_DISEASES_SUCCESS,
+                        payload: response.data,
+                    });
+                } else {
+                    dispatch({
+                        type: ALL_DISEASES_FAIL,
+                        payload: "No data received",
+                    });
+                }
             } catch (error) {
                 dispatch({
                     type: ALL_DISEASES_FAIL,
@@ -46,24 +52,30 @@ export const getDiseases =
             }
         };
 
-export const getAdminDiseases = () => async (dispatch) => {
-    try {
-        dispatch({ type: ADMIN_DISEASES_REQUEST });
-
-        const { data } = await axios.get(`/api/v1/diseases`);
-d
-        dispatch({
-            type: ADMIN_DISEASES_SUCCESS,
-
-            payload: data.diseases,
-        });
-    } catch (error) {
-        dispatch({
-            type: ADMIN_DISEASES_FAIL,
-            payload: error.response.data.message,
-        });
-    }
-};
+        export const allDiseases = () => async (dispatch) => {
+            try {
+                dispatch({ type: ADMIN_DISEASES_REQUEST });
+        
+                const response = await axios.get(`/api/v1/admin/diseases`);
+        
+                if (response.data && response.data.diseases) {
+                    dispatch({
+                        type: ADMIN_DISEASES_SUCCESS,
+                        payload: response.data.diseases,
+                    });
+                } else {
+                    dispatch({
+                        type: ADMIN_DISEASES_FAIL,
+                        payload: "No diseases data received",
+                    });
+                }
+            } catch (error) {
+                dispatch({
+                    type: ADMIN_DISEASES_FAIL,
+                    payload: error.response.data.message,
+                });
+            }
+        };
 
 export const newDisease = (diseasesData) => async (dispatch) => {
     try {

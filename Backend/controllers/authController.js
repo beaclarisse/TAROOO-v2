@@ -64,16 +64,17 @@ exports.loginUser = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
     res.cookie("token", null, {
-        expires: new Date(Date.now()),
-
+        expires: new Date(Date.now()), // Expires the token immediately
         httpOnly: true,
     });
 
     res.status(200).json({
         success: true,
-
         message: "Logged out",
     });
+
+    // Redirect the user to localhost:3000 after logging them out
+    res.redirect('http://localhost:3000'); // You can change the path if needed
 };
 
 exports.forgotPassword = async (req, res, next) => {

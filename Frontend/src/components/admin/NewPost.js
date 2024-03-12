@@ -49,8 +49,8 @@ const NewPost = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
-  const newProductState = useSelector((state) => state.newProduct || {});
-  const { loading, error, success } = newProductState;
+  const newPostState = useSelector((state) => state.newPost || {});
+  const { loading, error, success } = newPostState;
 
   const message = (message = "") =>
     toast.success(message, {
@@ -65,7 +65,7 @@ const NewPost = () => {
 
     if (success) {
       toast("New Post!", "Success");
-      navigate("/admin/taroposts");
+      navigate("/admin/posts");
 
       message("Post created successfully");
 

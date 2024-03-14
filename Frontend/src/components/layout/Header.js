@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Toolbar, Typography, Button, Avatar, Menu, MenuItem, Divider } from "@mui/material";
 import { logout, loadUser } from "../../actions/userActions";
@@ -23,13 +23,16 @@ const Header = () => {
       theme: "light",
     });
   };
-
+  let navigate = useNavigate()
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.auth);
 
   const logoutHandler = () => {
+    navigate("/");
     dispatch(logout());
     notify("Logged Out Successfully");
+    
+    
   };
 
   const headerStyle = {
@@ -67,7 +70,7 @@ const Header = () => {
                   </Button>
                   <Button color="inherit" component={Link} to="/TaroPreventives">
                     Preventive Measures
-                  </Button>
+                  </Button> */}
                   <Button color="inherit" component={Link} to="/forum">
                     <GroupIcon />
                   </Button>
@@ -75,7 +78,7 @@ const Header = () => {
                     <ForumIcon /> {/* chat consultation */}
                   </Button>
                   <Button color="inherit" component={Link} to="/VideoListPage">
-                  <YouTubeIcon /> 
+                    <YouTubeIcon />
                   </Button>
                   <Button color="inherit" component={Link} to="/Infographic">
                   <ArtTrackIcon /> 
@@ -94,10 +97,10 @@ const Header = () => {
                         Profile
                       </MenuItem>
                       <Divider />
-                      
+
                       <MenuItem onClick={logoutHandler} to="/">
                         Logout
-                      </MenuItem>           
+                      </MenuItem>
                     </Menu>
                   </Button>
                 </div>

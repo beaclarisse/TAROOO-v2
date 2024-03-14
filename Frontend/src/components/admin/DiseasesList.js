@@ -8,13 +8,15 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 import {
-    allDiseases,
-    clearErrors,
-    deleteDisease,
-  } from "../../actions/diseaseAction";
+  allDiseases,
+  clearErrors,
+  deleteDisease,
+} from "../../actions/diseaseAction";
 import { DELETE_DISEASE_RESET } from "../../constants/diseaseConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography, Button, Divider } from "@mui/material";
+import { Card, Col, Row } from "react-bootstrap";
+
 
 const DiseasesList = () => {
   const dispatch = useDispatch();
@@ -28,14 +30,14 @@ const DiseasesList = () => {
   const { isDeleted } = useSelector((state) => state.disease);
 
   const errMsg = (message = "") =>
-  toast.error(message, {
-    position: toast.POSITION.BOTTOM_CENTER,
-  });
+    toast.error(message, {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
 
-    const successMsg = (message = "") =>
-  toast.success(message, {
-    position: toast.POSITION.BOTTOM_CENTER,
-  });
+  const successMsg = (message = "") =>
+    toast.success(message, {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
 
   console.log(diseases)
   useEffect(() => {
@@ -56,6 +58,8 @@ const DiseasesList = () => {
     const deleteDiseaseHandler = (id) => {
         dispatch(deleteDisease(id));
       };
+      
+   
 
   const getDiseases = () => {
     const data = {
@@ -83,7 +87,7 @@ const DiseasesList = () => {
       rows: [],
     };
 
-    if (diseases && diseases.length > 0) {
+    
       diseases.forEach((disease) => {
         data.rows.push({
           id: disease._id,
@@ -107,66 +111,111 @@ const DiseasesList = () => {
           ),
         });
       });
-    }
+    
 
     return data;
   };
 
-//   const deleteDiseaseHandler = (id) => {
-//     dispatch(deleteDisease(id));
-//   };
+  
+  const fetchData = async (endpoint, setData) => {
+    try {
+      const { data } = await axios.get(`/api/v1/admin/${endpoint}`);
+      setData(data[endpoint]);
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+    useEffect(() => {
+      fetchData("diseases", getDiseases);
+      // fetchAnswer("answers", setAllAnswers )
+    }, []);
+    console.log(fetchData)
 
-  return (
-    <Box
-      sx={{ height: 730, width: "90%", paddingTop: 5 }}
-      style={{ background: "white" }}    
-    >
-      <Fragment>
-        <MetaData title={"All Diseases"} />
+    return (
+      <Box
+        sx={{ height: 730, width: "90%", paddingTop: 5 }}
+        style={{ background: "white" }}
+      >
+        <Fragment>
+          <MetaData title={"All Diseases"} />
 
-        <div className="row">
-          <div className="col-12 col-md-2">
-            <Sidebar />
-          </div>
+          <div className="row">
+            <div className="col-12 col-md-2">
+              <Sidebar />
+            </div>
 
-          <div className="col-12 col-md-10">
-            <br />
-            <br />
-            <h1>Diseases</h1>
-            <hr
-              style={{
-                color: "#95bfae",
-                backgroundColor: "#95bfae",
-                height: 5,
-              }}
-            />
-            <Button
-              size="large"
-              variant="contained"
-              color="primary"
-              sx={{ marginBottom: 2 }}
-              href="/disease/new"
-            >
-              {" "}
-              New Disease
-            </Button>
-            {loading ? (
-              <Loader />
-            ) : (
-              <MDBDataTable
-                data={getDiseases()}
-                className="px-3"
-                bordered
-                striped
-                hover
-                noBottomColumns
-              />
+            <div className="col-12 col-md-10">
+            {[{ label: "diseases", data: diseases, link: "/admin/diseases" }].map(
+              (item, index) => (
+                <Col key={index} xl={3} sm={6} mb={3}>
+                  <Card
+                    className={`bg-${
+                      index % 4 === 0
+                        ? "success"
+                        : index % 4 === 1
+                        ? "danger"
+                        : index % 4 === 2
+                        ? "info"
+                        : "warning"
+                    } text-white o-hidden h-100`}
+                  >
+                    <Card.Body>
+                      <div className="text-center card-font-size">
+                        {item.label}
+                        <br /> <b>{item.data && item.data.length}</b>
+                      </div>
+                    </Card.Body>
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to={item.link}
+                    >
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
+                  </Card>
+                </Col>
+              )
             )}
+              <br />
+              <br />
+              <h1>Diseases</h1>
+              <hr
+                style={{
+                  color: "#95bfae",
+                  backgroundColor: "#95bfae",
+                  height: 5,
+                }}
+              />
+              <Button
+                size="large"
+                variant="contained"
+                color="primary"
+                sx={{ marginBottom: 2 }}
+                href="/disease/new"
+              >
+                {" "}
+                New Disease
+              </Button>
+              {loading ? (
+                <Loader />
+              ) : (
+                <MDBDataTable
+                  data={getDiseases()}
+                  className="px-3"
+                  bordered
+                  striped
+                  hover
+                  noBottomColumns
+                />
+              )}
+            </div>
           </div>
-        </div>
-      </Fragment>
-    </Box>
-  );
-};
+        </Fragment>
+      </Box>
+    );
+  };
 
-export default DiseasesList;
+  export default DiseasesList;

@@ -44,7 +44,7 @@ const DiseaseDetails = () => {
       ) : (
         <div className="container">
           <MetaData title={disease.name} />
-  
+
           <div className="row d-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="disease_image">
               <Carousel pause="hover">
@@ -60,22 +60,17 @@ const DiseaseDetails = () => {
                   ))}
               </Carousel>
             </div>
-  
+
             <div className="col-12 col-lg-5 mt-1">
-              <h3>{disease.name}</h3>
-  
-              <p id="disease_id">Post # {disease._id}</p>
-  
+              <h3 style={{ color: 'black' }}>{disease.name}</h3>
+              <p id="disease_id" style={{ color: 'black' }}>Post # {disease._id}</p>
               <hr />
-  
-              <p id="disease_part">Reference: {disease.part}</p>
-  
+              <p id="disease_part" style={{ color: 'black' }}>Reference: {disease.part}</p>
               <hr />
-  
-              <h4 className="mt-2">Description:</h4>
-  
-              <p>{disease.description}</p>
+              <h4 className="mt-2" style={{ color: 'black' }}>Description:</h4>
+              <p style={{ color: 'black' }}>{disease.description}</p>
             </div>
+
           </div>
         </div>
       )}

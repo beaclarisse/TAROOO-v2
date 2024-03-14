@@ -4,6 +4,7 @@ const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const cloudinary = require("cloudinary");
 const crypto = require("crypto");
+const { sendCodeToEmail, verifyAccount, verifyEmailCode } = require('../utils/verification')
 
 exports.registerUser = async (req, res, next) => {
     console.log(req.body);
@@ -32,8 +33,38 @@ exports.registerUser = async (req, res, next) => {
         }
     })
 
+    const newUser = await User.findById(user._id);
+    const emailCode = await newUser.getEmailCodeVerification()
+    newUser.save({ validateBeforeSave: false });
+    sendCodeToEmail(newUser, emailCode);
+
     sendToken(user, 200, res)
 };
+
+exports.verifyCode = async (req, res, next) => {
+
+    const { code } = req.body;
+    console.log(code)
+
+    const user = await User.findById(req.user._id);
+
+    const isVerified = verifyEmailCode(user, req, res, next);
+
+    if (!isVerified) {
+        return;
+    }
+
+    if (user.emailCodeVerification === code) {
+        const verifiedUser = await verifyAccount(user)
+        sendToken(verifiedUser, 200, res);
+    } else {
+        res.status(500).json({
+            success: false,
+            message: 'Error occured, please try again later'
+        })
+    }
+
+}
 
 exports.loginUser = async (req, res, next) => {
     const { email, password } = req.body;
@@ -66,15 +97,16 @@ exports.logout = async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()), // Expires the token immediately
         httpOnly: true,
-    });
-
-    res.status(200).json({
-        success: true,
         message: "Logged out",
-    });
+    }).redirect('http://localhost:3000');
 
-    // Redirect the user to localhost:3000 after logging them out
-    res.redirect('http://localhost:3000'); // You can change the path if needed
+    // res.status(200).json({
+    //     success: true,
+    //     message: "Logged out",
+    // });
+
+    // // Redirect the user to localhost:3000 after logging them out
+    // res.redirect('http://localhost:3000'); // You can change the path if needed
 };
 
 exports.forgotPassword = async (req, res, next) => {
@@ -361,21 +393,20 @@ exports.googlelogin = async (req, res, next) => {
 
 const auth = async (req, res, next) => {
     try {
-      const token = req.header('Authorization').replace('Bearer ', '');
-  
-      const user = await User.findById(decoded._id);
-      if (!user) {
-        throw new Error('User not found');
-      }
-      if (user.role === 'admin') {
-        req.user = user; 
-        next();
-      } else {
-        throw new Error('Not authorized');
-      }
+        const token = req.header('Authorization').replace('Bearer ', '');
+
+        const user = await User.findById(decoded._id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        if (user.role === 'admin') {
+            req.user = user;
+            next();
+        } else {
+            throw new Error('Not authorized');
+        }
     } catch (error) {
-      console.error('Authentication error:', error);
-      res.status(401).json({ error: 'Not authorized' });
+        console.error('Authentication error:', error);
+        res.status(401).json({ error: 'Not authorized' });
     }
-  };
-  
+};

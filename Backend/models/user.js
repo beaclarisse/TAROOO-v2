@@ -54,7 +54,14 @@ const userSchema = new mongoose.Schema({
         default: Date.now,
     },
 
-
+    isEmailVerified: {
+        type: Boolean,
+        default: false,
+    },
+    emailCodeVerification: {
+        type: String,
+    },
+    emailCodeExpire: Date,
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 });
@@ -97,6 +104,25 @@ userSchema.methods.getResetPasswordToken = function () {
 
     return resetToken;
 };
+
+userSchema.methods.getEmailCodeVerification = async function () {
+    const code = codeGenerator(6);
+    this.emailCodeVerification = code.trim();
+    this.emailCodeExpire = Date.now() + 5 * 60 * 1000;
+    return code;
+}
+
+const characters = '0123456789';
+
+const codeGenerator = (length) => {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
 
 // Return JWT token
 

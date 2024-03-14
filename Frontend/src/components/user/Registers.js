@@ -71,7 +71,7 @@ function Register() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/");
+            navigate("/verification");
         }
 
         if (error) {

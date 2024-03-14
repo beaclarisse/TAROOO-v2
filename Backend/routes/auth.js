@@ -14,9 +14,10 @@ const {
     allUsers,
     getUserDetails,
     updateUser,
-    deleteUser, 
+    deleteUser,
     getUserById,
-    googlelogin
+    googlelogin,
+    verifyCode
 } = require("../controllers/authController");
 
 const {
@@ -27,6 +28,7 @@ const {
 router.post("/register", upload.single("avatar"), registerUser);
 router.post("/login", loginUser);
 router.route("/logout").get(logout);
+router.post('/verify', isAuthenticatedUser, verifyCode)
 
 //Password
 router.route("/password/forgot").post(forgotPassword);
@@ -36,7 +38,7 @@ router.put("/password/update", isAuthenticatedUser, updatePassword);
 //Profile
 router.get("/profile", isAuthenticatedUser, getUserProfile);
 router.get('/user/:id', isAuthenticatedUser, getUserById);
-router.put("/profile/update",isAuthenticatedUser,upload.single("avatar"),updateProfile);
+router.put("/profile/update", isAuthenticatedUser, upload.single("avatar"), updateProfile);
 
 
 // Admin Controls

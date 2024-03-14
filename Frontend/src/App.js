@@ -114,6 +114,8 @@ import TaroTubePage from "./components/TaroTube/TaroTubePage";
 
 import UserPostList from "./components/UserForumList/UserPostList";
 
+import Verification from './components/user/Verification'
+
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -138,6 +140,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path='/verification' element={<Verification />} />
 
           <Route
             path="/SellerDashboard"

@@ -163,13 +163,13 @@ const NewDisease = () => {
                                         />
                                         {errors.description && <Typography style={errorStyle} variant="body1">{errors.description.message}</Typography>}
 
-                                        <TextField label='Part' variant='standard' id='part_field'
+                                        <TextField label='Reference' variant='standard' id='part_field'
                                             type='string'
                                             onChange={(e) => setPart(e.target.value)} fullWidth
                                             {...register("part", {
                                                 required: "Part is required."
                                             })} />
-                                        {errors.price && <Typography style={errorStyle} variant="body1">{errors.price.message}</Typography>}
+                                        {errors.part && <Typography style={errorStyle} variant="body1">{errors.part.message}</Typography>}
 
                                         <div className="custom-file">
                                             <input

@@ -108,7 +108,7 @@ export const newPost = (postData) => async (dispatch) => {
         };
 
         const { data } = await axios.post(
-            `/api/v1/taro/new`,
+            `/api/v1/post/new`,
             // `/api/v1/post/new`,
             postData,
             config

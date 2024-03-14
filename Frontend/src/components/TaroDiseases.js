@@ -9,11 +9,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import * as React from "react";
+// import "../App.css";
 
 const TaroDiseases = () => {
   const [disease, setDisease] = useState([]);
@@ -47,7 +47,7 @@ const TaroDiseases = () => {
   const getDisease = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}api/v1/diseases`
+        `${process.env.REACT_APP_API}api/v1/disease`
       );
       setDisease(data.disease);
     } catch (error) {
@@ -101,7 +101,6 @@ const TaroDiseases = () => {
                       </Typography>
                       <Typography variant="body" color="text.secondary">
                         {truncateText(dis.description, 120)}{" "}
-                        {/* Truncate text here */}
                       </Typography>
                     </CardContent>
                     <CardActions>
@@ -131,7 +130,7 @@ const TaroDiseases = () => {
                 {selectedDisease && selectedDisease.description}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Part Affected: {selectedDisease && selectedDisease.part}
+                Reference: {selectedDisease && selectedDisease.part}
               </Typography>
             </Box>
           </Fade>

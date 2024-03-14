@@ -68,7 +68,7 @@ const DiseaseDetails = () => {
   
               <hr />
   
-              <p id="disease_part">Part Affected: {disease.part}</p>
+              <p id="disease_part">Reference: {disease.part}</p>
   
               <hr />
   

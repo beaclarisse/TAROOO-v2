@@ -113,7 +113,7 @@ const NewUser = () => {
         height: '80vh',
         width: 800,
         margin: "100px auto",
-        backgroundColor: "#f5f5f5"
+        backgroundColor: "white",
     }
 
     const errorStyle = {

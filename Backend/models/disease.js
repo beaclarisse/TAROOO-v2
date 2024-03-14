@@ -15,9 +15,7 @@ const diseaseSchema = new mongoose.Schema({
 
   part: {
     type: String,
-    required: [true, "Please enter the part of Taro affected"],
-    trim: true,
-    maxLength: [30, "It cannot exceed 30 characters"],
+    required: [true, "Please enter the reference"],
   },
 
   images: [

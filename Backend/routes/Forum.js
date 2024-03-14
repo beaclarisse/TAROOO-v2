@@ -18,7 +18,10 @@ router.post('/AddPost', isAuthenticatedUser, upload.array('images', 10), forumCo
 router.get('/posts/:id', isAuthenticatedUser, forumController.getPostById);
 router.get('/posts', isAuthenticatedUser, forumController.getAllPosts);
 
-router.post('/updateHeartCount/:id', forumController.updateHeartCount);
+
+router.get('/user/forumList/:id', isAuthenticatedUser, forumController.getForumByUser);
+
+router.post('/posts/:postId/like', isAuthenticatedUser, forumController.likePost);
 
 router.put('/updatePost/:id', forumController.updatePost);
 router.delete('/deletePost/:id', forumController.deletePost);

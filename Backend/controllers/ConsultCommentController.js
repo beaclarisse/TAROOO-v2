@@ -5,8 +5,6 @@ const User = require('../models/user');
 const Filter = require('bad-words');
 const filter = new Filter();
 
-
-
 exports.createComment = async (req, res) => {
   try {
     const postId = req.body.postId;

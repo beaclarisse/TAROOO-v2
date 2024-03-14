@@ -87,9 +87,7 @@ import AddPost from './components/Forum/AddPost';
 import Consult from './components/consult/Consult';
 import AddConsult from './components/consult/AddConsult';
 import ConsultDetail from './components/consult/ConsultDetails';
-
 import AdminConsultation from './components/admin/Dashboard/AdminConsultation';
-
 
 //Admin
 import AdminForum from './components/admin/ForumList/AdminForum';
@@ -104,7 +102,7 @@ import VideoBrowse from './components/TaroTube/VideoBrowse';
 import VideoListPage from './components/TaroTube/VideoListPage';
 import TaroTubePage from './components/TaroTube/TaroTubePage';
 
-import UserPostList from './components/UserPostList';
+import UserPostList from './components/UserForumList/UserPostList';
 
 function App() {
   useEffect(() => {
@@ -297,14 +295,17 @@ function App() {
           {/* Post Forum */}
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/AddPost" element={<AddPost />} />
+          <Route path="/user/forumList/:userId" element={<UserPostList />} />
 
-          {/* Post Forum Admin */}
+          <Route path="/admin/forum" element={<AdminForum />} />
+
+          {/* Post Forum Admin
           <Route path="/admin/forum"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <AdminForum />
-              </ProtectedRoute>
-            } exact="true" />
+              // </ProtectedRoute>
+            } exact="true" /> */}
 
 
           {/* VideoBrowse */}
@@ -325,10 +326,7 @@ function App() {
 
           <Route path="/AdminConsultation" element={<AdminConsultation />} />
 
-
-
-
-          <Route path="/edit-post/:id" element={<EditPost />} />
+          <Route path="/EditPost/:id" element={<EditPost />} />
 
           {/* Analytics */}
           <Route path="/surveyAnalysis" element={

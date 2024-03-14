@@ -77,7 +77,8 @@ const Consult = () => {
         );
     };
 
-    const displayPosts = consults
+    const displayPosts = [...consults]
+        .reverse()
         .slice(pageNumber * postsPerPage, (pageNumber + 1) * postsPerPage)
         .map((consult) => <DisplayPost key={consult._id} consult={consult} />);
 

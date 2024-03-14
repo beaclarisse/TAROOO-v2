@@ -125,14 +125,9 @@ const cloudinary = require("cloudinary");
 
 
 //not yet okay
+
 exports.getAllPostsForAdmin = async (req, res) => {
   try {
-    const { userId } = req.user;
-    const user = await User.findById(userId);
-    
-    if (!user || user.role !== 'admin') {
-      return res.status(403).json({ error: 'Access denied. Admins only.' });
-    }
     const posts = await Post.find().populate('user', 'name');
     res.status(200).json(posts);
   } catch (error) {
@@ -263,7 +258,9 @@ exports.deletePost = async (req, res) => {
 exports.getPostById = async (req, res) => {
   const postId = req.params.id;
   try {
-    const post = await Post.findById(postId).populate('user', 'name');
+    const post = await Post.findById(postId)
+      .populate('user', 'name')
+      .populate('likes', 'name'); 
 
     if (!post) {
       handleNotFound(res, 'Post not found');
@@ -275,6 +272,22 @@ exports.getPostById = async (req, res) => {
     handleServerError(res, error, 'Internal Server Error');
   }
 };
+
+// exports.getPostById = async (req, res) => {
+//   const postId = req.params.id;
+//   try {
+//     const post = await Post.findById(postId).populate('user', 'name');
+
+//     if (!post) {
+//       handleNotFound(res, 'Post not found');
+//       return;
+//     }
+//     res.status(200).json(post);
+//   } catch (error) {
+//     console.error('Error fetching post details:', error);
+//     handleServerError(res, error, 'Internal Server Error');
+//   }
+// };
 
 exports.getUserPosts = async (req, res) => {
   const userId = req.user._id;
@@ -288,31 +301,38 @@ exports.getUserPosts = async (req, res) => {
   }
 };
 
-// Not yet Working
-exports.updateHeartCount = async (req, res) => {
+exports.likePost = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { userId, isHearted } = req.body;
-    const post = await Post.findById(id);
+    const { postId } = req.params;
+    const { userId } = req.body;
+    const post = await Post.findById(postId);
     if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ message: 'Post not found' });
     }
-    if (!Array.isArray(post.hearts)) {
-      post.hearts = [];
+    const alreadyLiked = post.likes.includes(userId);
+    if (alreadyLiked) {
+      post.likes = post.likes.filter(id => id !== userId);
+    } else {
+      post.likes.push(userId);
     }
-    const userIndex = post.hearts.findIndex((heart) => heart.userId === userId);
-
-    if (isHearted && userIndex === -1) {
-      post.hearts.push({ userId });
-    } else if (!isHearted && userIndex !== -1) {
-      post.hearts.splice(userIndex, 1);
-    }
-    const heartCount = post.hearts.length;
     await post.save();
-    res.json({ heartCount });
+    // Send the updated like count along with the response
+    res.status(200).json({ likeCount: post.likes.length, liked: !alreadyLiked });
   } catch (error) {
-    console.error('Error updating heart count:', error);
-    handleServerError(res, error, 'Internal Server Error');
+    console.error('Error liking/unliking post:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// UserLists - Not yet working
+
+exports.getForumByUser = async (req, res) => {
+  try {
+      const userPost = await Post.find({ user: req.params.userId }).populate('user', 'name');
+      res.status(200).json(userPost);
+  } catch (error) {
+      console.error('Error fetching user forums:', error);
+      handleServerError(res, error, 'Internal Server Error');
   }
 };
 

@@ -217,8 +217,6 @@ const intervalId = setInterval(async () => {
   stopInterval();
 }, 5000);
 
-
-
 //  setInterval(checkAndDeleteComments, 24 * 60 * 60 * 1000); 
 
 exports.getCommentsByPostId = async (req, res) => {
@@ -241,31 +239,45 @@ exports.getCommentsByPostId = async (req, res) => {
   }
 };
 
-
 exports.deleteComment = async (req, res) => {
-  const commentId = req.params.commentId;
-
   try {
+    const commentId = req.params.commentId;
     const comment = await Comment.findById(commentId);
-
     if (!comment) {
-      return res.status(404).json({ success: false, message: 'Comment not found' });
-    }
-    if (!(comment instanceof mongoose.Document)) {
-      return res.status(500).json({ success: false, message: 'Invalid comment document' });
-    }
-    if (comment.pendingDeletion) {
-      await comment.remove();
-      return res.status(200).json({ success: true, message: 'Comment deleted successfully' });
+      return res.status(404).json({ error: 'Comment not found' });
     }
 
-    res.status(403).json({ success: false, message: 'You are not authorized to delete this comment' });
+    await Comment.findByIdAndDelete(commentId);
+    res.json({ message: 'Comment deleted successfully' });
   } catch (error) {
     console.error('Error deleting comment:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
+exports.EditComment = async (req, res, next) => {
+  try {
+      const { commentId, postId,  comment } = req.body;
+      const Post = await Forum.findById(postId);
+      
+      Post.Comments
+          .find(comment => comment._id.toString() == commentId)
+          .comment = comment;
+      Topic.save();
+      res.status(200).json({
+          success: true,
+          Post: Post
+      })
+
+  } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+          success: false,
+          message: 'Error occured'
+      })
+
+  }
+}
 
 exports.getRepliesByCommentId = async (req, res) => {
   try {
@@ -281,14 +293,14 @@ exports.getRepliesByCommentId = async (req, res) => {
       content: reply.content,
       rep: reply.rep
         ? {
-            name: reply.rep.name || 'Unknown User',
-            avatar: reply.rep.avatar || 'default-avatar-url',
-            // Add other relevant user details if needed
-          }
+          name: reply.rep.name || 'Unknown User',
+          avatar: reply.rep.avatar || 'default-avatar-url',
+          // Add other relevant user details if needed
+        }
         : {
-            name: 'Unknown User',
-            avatar: 'default-avatar-url',
-          },
+          name: 'Unknown User',
+          avatar: 'default-avatar-url',
+        },
     }));
 
     return res.status(200).json({ success: true, replies });
@@ -326,6 +338,8 @@ exports.addReplyToComment = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
 
 
 

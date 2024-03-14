@@ -9,6 +9,10 @@ import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom'
+import Pagination from '@mui/material/Pagination';
+import Box from '@mui/material/Box';
+import Header from '../layout/Header'
+import Grid from '@mui/material/Grid';
 import './VideoBrowse.css';
 
 const VideoBrowse = () => {
@@ -73,6 +77,13 @@ const VideoBrowse = () => {
     return match ? match[1] : null;
   };
 
+  const videosPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   const handleDeleteVideo = async (videoId) => {
     try {
       await axios.delete(`/api/v1/vid/${videoId}`);
@@ -82,8 +93,10 @@ const VideoBrowse = () => {
     }
   };
 
+
   return (
     <Paper className="root" style={{ background: "white" }}>
+      <Header />
       <Typography variant="h4">TaroTube</Typography>
       <form className="form">
         <TextField
@@ -118,26 +131,35 @@ const VideoBrowse = () => {
       </form>
       <div className="videosList">
         <List>
-          {videos.map((video) => (
-            <ListItem key={video._id} className="videoItem">
-              <div className="videoIframeContainer">
-                <iframe
-                  title={video.title}
-                  width="560"
-                  height="315"
-                  src={`https://www.youtube.com/embed/${video.link}`}
-                  frameBorder="0"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <Typography variant="h6">{video.title}</Typography>
-              <Typography>{video.description}</Typography>
-              <IconButton onClick={() => handleDeleteVideo(video._id)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-          ))}
+          {videos.slice((currentPage - 1) * videosPerPage, currentPage * videosPerPage)
+            .map((video) => (
+              <ListItem key={video._id} className="videoItem">
+                <div className="videoIframeContainer">
+                  <iframe
+                    title={video.title}
+                    width="560"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${video.link}`}
+                    frameBorder="0"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <Typography variant="h6">{video.title}</Typography>
+                <Typography>{video.description}</Typography>
+                <IconButton onClick={() => handleDeleteVideo(video._id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </ListItem>
+            ))}
         </List>
+        <Box mt={4} display="flex" justifyContent="center">
+          <Pagination
+            count={Math.ceil(videos.length / videosPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Box>
       </div>
     </Paper>
   );

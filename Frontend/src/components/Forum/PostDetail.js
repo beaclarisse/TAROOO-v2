@@ -22,6 +22,7 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublishIcon from '@mui/icons-material/Publish';
+import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 
 
 const PostDetail = () => {
@@ -39,10 +40,8 @@ const PostDetail = () => {
   const navigate = useNavigate();
   const user = getUser();
   const [repliesVisible, setRepliesVisible] = useState(false);
-  const [heartCount, setHeartCount] = useState(0);
-  const [isHearted, setIsHearted] = useState(false);
-  const [isHeartSubmitting, setIsHeartSubmitting] = useState(false);
-
+  const [likeCount, setLikeCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   const toggleRepliesVisibility = () => {
     setRepliesVisible((prev) => !prev);
@@ -58,6 +57,7 @@ const PostDetail = () => {
 
         const commentsResponse = await axios.get(`http://localhost:3000/api/v1/getComment/${id}`);
         setComments(commentsResponse.data.comments);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -69,8 +69,8 @@ const PostDetail = () => {
 
   const handleEdit = async () => {
     try {
-      const postResponse = await axios.get(`http://localhost:3000/api/v1/updatepost/${id}`);
-      navigate(`/edit-post/${id}`, { state: { post: postResponse.data } });
+      const postResponse = await axios.get(`http://localhost:3000/api/v1/updatePost/${id}`);
+      navigate(`/EditPost/${id}`, { state: { post: postResponse.data } });
     } catch (error) {
       console.error('Error fetching post for editing:', error);
     }
@@ -92,6 +92,21 @@ const PostDetail = () => {
     setDeleteDialogOpen(true);
   };
 
+  // const handleDeleteComment = (commentId, commentorId) => {
+  //   const currentUser = getUser();
+  //   console.log("Current user ID:", currentUser.id);
+  //   console.log("Commentor ID:", commentorId);
+
+  //   // Check if the current user is the commentor
+  //   if (currentUser && commentorId === currentUser.id) {
+  //     setCommentIdToDelete(commentId);
+  //     setDeleteDialogOpen(true);
+  //   } else {
+  //     // Display an error message or handle it as appropriate
+  //     console.error("Unauthorized to delete this comment");
+  //   }
+  // };
+
   const handleConfirmDeleteComment = async () => {
     try {
       if (deleteCommentId === null) {
@@ -99,7 +114,7 @@ const PostDetail = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/v1/deleteComment/${deleteCommentId}`);
+      await axios.delete(`http://localhost:3000/api/v1/udelete/${deleteCommentId}`);
       setComments((prevComments) => prevComments.filter((comment) => comment._id !== deleteCommentId));
     } catch (error) {
       console.error('Error deleting comment:', error);
@@ -217,32 +232,27 @@ const PostDetail = () => {
     }
   };
 
-  const handleHeartClick = async () => {
-    if (isHeartSubmitting) {
-      return;
-    }
+  const handleLike = async () => {
     try {
-      const currentUser = getUser();
-      setIsHeartSubmitting(true);
-      const updatedHeartState = !isHearted;
-      setIsHearted(updatedHeartState);
-      setHeartCount((prevCount) => (updatedHeartState ? prevCount + 1 : prevCount - 1));
-      await axios.post(
-        `http://localhost:3000/api/v1/updateHeartCount/${id}`,
-        {
-          userId: currentUser.id,
-          isHearted: updatedHeartState,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`,
-          },
-        }
-      );
+      await handleLikePost(id);
     } catch (error) {
-      console.error('Error updating heart count:', error);
-    } finally {
-      setIsHeartSubmitting(false);
+      console.error('Error liking/unliking post:', error);
+    }
+  };
+
+  const handleLikePost = async () => {
+    try {
+      let response;
+      if (isLiked) {
+        response = await axios.delete(`http://localhost:3000/api/v1/posts/${id}/like`);
+      } else {
+        response = await axios.post(`http://localhost:3000/api/v1/posts/${id}/like`);
+      }
+      const { liked } = response.data;
+      setLikeCount((prevCount) => (liked ? prevCount + 1 : prevCount - 1));
+      setIsLiked(liked);
+    } catch (error) {
+      console.error('Error liking/unliking post:', error);
     }
   };
 
@@ -300,11 +310,12 @@ const PostDetail = () => {
               </div>
 
               {/* Heart icon */}
-              <IconButton onClick={handleHeartClick} style={{ color: 'white' }}>
-                {isHearted ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              <IconButton onClick={handleLikePost} style={{ color: 'white' }}>
+                {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
               {/* Heart count */}
-              <span style={{ marginLeft: '5px', color: 'white' }}>{heartCount}</span>
+              <span style={{ marginLeft: '5px', color: 'white' }}>{likeCount}</span>
+
 
 
               {post.user && post.user.id === user.id && (
@@ -314,9 +325,12 @@ const PostDetail = () => {
                       <ArrowBackIcon />
                     </Button>
                   </Link>
-                  <IconButton onClick={handleEdit} style={{ color: 'white' }}>
-                    <EditIcon />
-                  </IconButton>
+                  <Link to={`/EditPost/${id}`}>
+                    <IconButton style={{ color: 'white' }}>
+                      <EditIcon />
+                    </IconButton>
+                  </Link>
+
                   <IconButton onClick={handleDelete} style={{ color: 'white' }}>
                     <DeleteIcon />
                   </IconButton>
@@ -366,7 +380,7 @@ const PostDetail = () => {
                         </p>
 
                         {replyCommentId === comment._id && (
-                          <form onSubmit={handleReplySubmit} className="reply-form">
+                          <form onSubmit={handleReplySubmit} className="reply-form" style={{ color: 'dark' }}>
                             <label htmlFor="newReply">Add Reply {user.name}:</label>
                             <input
                               type="text"
@@ -397,7 +411,7 @@ const PostDetail = () => {
                         )}
                       </div>
                       {comment.commentor.id === getUser().id && (
-                        <IconButton onClick={() => handleDeleteComment(comment._id)} style={{ color: 'white' }}>
+                        <IconButton onClick={() => handleDeleteComment(comment._id, comment.commentor.id)} style={{ color: 'white' }}>
                           <MoreHorizIcon />
                         </IconButton>
                       )}
@@ -427,6 +441,63 @@ const PostDetail = () => {
           </Button>
         </DialogActions>
       </Dialog>
+    </div>
+  );
+};
+
+const DisplayComment = ({ comment }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(comment.content);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = async () => {
+    try {
+      await axios.put(`http://localhost:3000/api/v1/updateComment/${comment._id}`, { content: editedComment });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating comment:', error);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditedComment(comment.content);
+    setIsEditing(false);
+  };
+
+  const handleChange = (e) => {
+    setEditedComment(e.target.value);
+  };
+
+  return (
+    <div>
+      {isEditing ? (
+        <div>
+          <TextField
+            value={editedComment}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            variant="outlined"
+          />
+          <Button onClick={handleSave} variant="contained" color="primary">
+            Save
+          </Button>
+          <Button onClick={handleCancel} variant="contained" color="secondary">
+            Cancel
+          </Button>
+        </div>
+      ) : (
+        <div>
+
+          {comment.content}
+          <IconButton onClick={handleEdit} style={{ color: 'white' }}>
+            <EditIcon />
+          </IconButton>
+        </div>
+      )}
     </div>
   );
 };

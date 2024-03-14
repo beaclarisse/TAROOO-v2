@@ -26,7 +26,6 @@ exports.getConsultsByUser = async (req, res) => {
     }
 };
 
-
 // exports.getConsultById = async (req, res) => {
 //     const consultId = req.params.id;
 
@@ -48,8 +47,6 @@ exports.getConsultsByUser = async (req, res) => {
 //       handleServerError(res, error, 'Internal Server Error');
 //     }
 //   };
-
-
 
 exports.createConsult = async (req, res) => {
     console.log(req);
@@ -174,8 +171,6 @@ exports.getConsultById = async (req, res) => {
         handleServerError(res, error, 'Internal Server Error');
     }
 };
-
-// Existing code...
 
 const handleServerError = (res, error, defaultMessage) => {
     console.error(error);

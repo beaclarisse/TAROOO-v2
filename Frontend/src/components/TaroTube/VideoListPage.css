@@ -52,12 +52,28 @@
 }
 
 .videoList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.videoItem {
+  width: calc(25% - 20px);
+  margin-bottom: 20px;
+}
+
+.videoItem iframe {
+  width: 100%;
+}
+
+
+/* .videoList {
   max-width: 1200px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px; /* Add space above the video container */
+  margin-top: 20px;
 }
 
 .videoItem {
@@ -72,7 +88,7 @@
   align-items: center;
   text-align: center;
   background-color: white;
-}
+} */
 
 .videoItem:hover {
   transform: scale(1.02);

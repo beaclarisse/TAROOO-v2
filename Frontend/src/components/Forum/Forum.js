@@ -8,14 +8,15 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ReactPaginate from 'react-paginate';
 import Header from '../layout/Header';
+import Loader from '../layout/Loader';
 import "../../App.css";
 
 const Forum = () => {
   const [posts, setPosts] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
+  const [loading, setLoading] = useState(true);
   const postsPerPage = 3;
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +31,17 @@ const Forum = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handlePageLoad = () => {
+      setLoading(false); 
+    };
+
+    window.addEventListener('load', handlePageLoad);
+
+    return () => {
+      window.removeEventListener('load', handlePageLoad);
+    };
+  }, []);
   const pageCount = Math.ceil(posts.length / postsPerPage);
 
   const changePage = ({ selected }) => {
@@ -39,20 +51,28 @@ const Forum = () => {
   const handleCardClick = (postId) => {
     navigate(`/post/${postId}`);
   };
+  
 
   const DisplayPost = ({ post }) => {
     const [user, setUser] = useState(null);
-    const [commentCount, setCommentCount] = useState(0); 
+    const [commentCount, setCommentCount] = useState(0);
 
     useEffect(() => {
       const fetchUserData = async () => {
         try {
-          if (post.user) {
-            const responseUser = await axios.get(`http://localhost:3000/api/v1/user/${post.user}`);
-            setUser(responseUser.data);
+          let userId;
+          if (typeof post.user === 'object') {
+            setUser(post.user);
+            return;
+          } else if (mongoose.Types.ObjectId.isValid(post.user)) {
+
+            userId = post.user;
           } else {
             setUser({ name: "Anonymous" });
+            return;
           }
+          const responseUser = await axios.get(`http://localhost:3000/api/v1/user/${userId}`);
+          setUser(responseUser.data);
         } catch (error) {
           console.error('Error fetching user data:', error);
           setUser({ name: "Anonymous" });
@@ -61,7 +81,8 @@ const Forum = () => {
 
       fetchUserData();
     }, [post.user]);
-  
+
+
     useEffect(() => {
       const fetchCommentCount = async () => {
         try {
@@ -71,7 +92,7 @@ const Forum = () => {
           console.error('Error fetching comment count:', error);
         }
       };
-  
+
       fetchCommentCount();
     }, [post._id]);
 
@@ -106,13 +127,17 @@ const Forum = () => {
     );
   };
 
-  const displayPosts = posts
+  const displayPosts = [...posts]
+    .reverse()
     .slice(pageNumber * postsPerPage, (pageNumber + 1) * postsPerPage)
     .map((post) => <DisplayPost key={post._id} post={post} />);
+
+
 
   return (
     <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#1b1b1b', color: '#fff' }}>
       <Header />
+   
       <div className="flex-grow-1 p-4 rounded">
         <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>
           Post Forum

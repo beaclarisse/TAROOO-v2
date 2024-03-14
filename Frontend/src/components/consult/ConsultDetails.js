@@ -16,7 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Filter from 'bad-words';
 import { ToastContainer, toast } from 'react-toastify';
-
+import './ConsultDetails.css';
 
 const ConsultDetail = () => {
   const [post, setPost] = useState({});
@@ -24,9 +24,8 @@ const ConsultDetail = () => {
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [DeleteCommentId, setDeleteCommentId] = useState(null);
-  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteCommentId, setCommentIdToDelete] = useState(null);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [filter] = useState(new Filter());
   const [replyCommentId, setReplyCommentId] = useState(null);
   const [newReply, setNewReply] = useState('');
@@ -53,17 +52,14 @@ const ConsultDetail = () => {
     fetchData();
   }, [id, isSubmitting]);
 
-
   const handleEdit = async () => {
     try {
-
       const postResponse = await axios.get(`http://localhost:3000/api/v1/updateConsultpost/${id}`);
       navigate(`/edit-post/${id}`, { state: { post: postResponse.data } });
     } catch (error) {
       console.error('Error fetching post for editing:', error);
     }
   };
-
 
   const handleDelete = async () => {
     try {
@@ -74,8 +70,6 @@ const ConsultDetail = () => {
       console.log('Failed to delete post');
     }
   };
-  
-
 
   const handleDeleteComment = (commentId) => {
     setCommentIdToDelete(commentId);
@@ -99,10 +93,9 @@ const ConsultDetail = () => {
     }
   };
 
-  
   const handleCancelDeleteComment = () => {
     setDeleteDialogOpen(false);
-    setDeleteCommentId(null);
+    setCommentIdToDelete(null);
   };
 
   const handleCommentSubmit = async (e) => {
@@ -119,7 +112,6 @@ const ConsultDetail = () => {
           postId: id,
           content: filteredComment,
           commentor: currentUser.id,
-          // Add a flag to indicate if the comment contains profanity
           containsProfanity: newComment !== filteredComment,
         },
         {
@@ -129,7 +121,6 @@ const ConsultDetail = () => {
         }
       );
 
-      // If the comment contains profanity, do not add it to the state
       if (newComment !== filteredComment) {
         toast.warning("Your comment contains profanity and will be deleted.", {
           position: "top-right",
@@ -140,14 +131,12 @@ const ConsultDetail = () => {
           draggable: true,
         });
 
-        // Delayed deletion after 5 seconds
         setTimeout(async () => {
           await axios.delete(
             `http://localhost:3000/api/v1/deleteConsultComment/${response.data.comment._id}`
           );
         }, 5000);
       } else {
-        // If the comment is clean, add it to the state
         setComments([...comments, response.data.comment]);
       }
 
@@ -168,7 +157,7 @@ const ConsultDetail = () => {
 
   const handleReplySubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const currentUser = getUser();
       const response = await axios.post(
@@ -182,9 +171,9 @@ const ConsultDetail = () => {
           },
         }
       );
-  
+
       const newReplyData = response.data.reply || response.data;
-  
+
       setComments((prevComments) => {
         const updatedComments = prevComments.map((prevComment) => {
           if (prevComment._id === replyCommentId) {
@@ -197,119 +186,80 @@ const ConsultDetail = () => {
         });
         return updatedComments;
       });
-  
+
       setNewReply('');
       setReplyCommentId(null);
     } catch (error) {
       console.error('Error adding reply:', error);
     }
   };
-  
-
-
-
-
-
-  // const handleCommentSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     setIsSubmitting(true);
-  //     const currentUser = getUser();
-
-  //     console.log('Current User:', currentUser);
-
-  //     const response = await axios.post(
-  //       `http://localhost:3000/api/v1/addComment`,
-  //       {
-  //         postId: id,
-  //         content: newComment,
-  //         commentor: currentUser.id,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${currentUser.token}`,
-  //         },
-  //       }
-  //     );
-
-  //     console.log('Response:', response.data);
-
-  //     setComments([...comments, response.data.comment]);
-  //     setNewComment('');
-  //   } catch (error) {
-  //     console.error('Error creating comment:', error);
-  //     console.log('Axios Error:', error.response);
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
 
   return (
-    <div className="post-detail-container" style={{ background: '#1b1b1b' }}>
+    <div className="consult-chat-container" style={{ background: '#1b1b1b' }}>
       <Header />
       {[1, 2, 3, 4, 5].map((_, index) => (
         <div key={index} className="space-before-post-container" />
       ))}
-      <div className="content-wrapper">
-        <div className="post-content-wrapper">
-          <div className="user-details">
-            {/* <span className="user-icon">👤</span> */}
-            {post.user && post.user.avatar && (
-              <img src={post.user.avatar} alt="User Avatar" className="user-avatar" />
-            )}
-          </div>
-
-          {/* Updated Post details section */}
-          <div className="post-details-section">
-            <div className="post-container">
-              <div>
-                {/* Use post.poster instead of post.poster.name */}
-                <span className="username" style={{ fontWeight: 'bold' }}><h3></h3>Posted by: {post.user && post.user.name}</span>
-                <p className="post-content">
-                  {post?.content ? post.content : 'No content available'}
-                  {post.images && post.images.length > 0 && (
-                    <div>
-                      {post.images.map((image) => (
-                        <img key={image.public_id} src={image.url} alt="Post" className="post-image" />
-                      ))}
-                    </div>
-                  )}
-                </p>
-              </div>
-              {post.user && post.user.id === user.id && (
-                <div>
-                  <IconButton onClick={handleEdit} style={{ color: 'white' }}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={handleDelete} style={{ color: 'white' }}>
-                    <DeleteIcon />
-                  </IconButton>
-                </div>
+      <div className="consult-content-wrapper">
+        <div className="post-messages-wrapper">
+          {/* Post details section */}
+          <div className="consult-content-wrapper">
+            <div className="user-details">
+              {post.user && post.user.avatar && (
+                <img src={post.user.avatar} alt="User Avatar" className="user-avatar" />
               )}
+            </div>
+
+            {/* Updated Post details section */}
+            <div className="consult-post-details-section">
+              <div className="post-container">
+                <div>
+                  <span className="username" style={{ fontWeight: 'bold' }}>User: {post.user && post.user.name}</span>
+                  <p className="post-content">
+                    {post?.content ? post.content : 'No content available'}
+                    {post.images && post.images.length > 0 && (
+                      <div>
+                        {post.images.map((image) => (
+                          <img key={image.public_id} src={image.url} alt="Post" className="post-image" />
+                        ))}
+                      </div>
+                    )}
+                  </p>
+                </div>
+                {post.user && post.user.id === user.id && (
+                  <div>
+                    <IconButton onClick={handleEdit} style={{ color: 'white' }}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={handleDelete} style={{ color: 'white' }}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-
           {/* Comment form */}
-          <form onSubmit={handleCommentSubmit}>
-            <label htmlFor="newComment">Add Comment:</label>
+          <form onSubmit={handleCommentSubmit} className="comment-form">
+            <label htmlFor="newComment">Reply:</label>
             <textarea
               id="newComment"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
             />
             <button type="submit" disabled={isSubmitting} className="submit-comment-button">
-              {isSubmitting ? 'Submitting...' : 'Submit Comment'}
+              {isSubmitting ? 'Submitting...' : 'Send Reply'}
             </button>
-
           </form>
 
-          {/* Comments section */}
-          <div className="comments-section">
-            <h3>Comments</h3>
+          {/* Message section */}
+          <div className="consult-messages-section">
+          <form onSubmit={handleCommentSubmit} className="consult-comment-form">
+          </form>
+            <h3>Messages</h3>
             {isLoading ? (
-              <p>Loading comments...</p>
+              <p>Loading message...</p>
             ) : (
               <div>
                 {comments.length > 0 ? (
@@ -319,11 +269,8 @@ const ConsultDetail = () => {
                         <span className="username" style={{ fontWeight: 'bold' }}>{comment.commentor.name}</span>
                         <p className="comment-content">
                           {comment?.content ? comment.content : 'No content available'}
-                          {/* Add a button to trigger the reply */}
                           <button onClick={() => handleReply(comment._id)}>Reply</button>
                         </p>
-
-                        {/* Conditionally render the text field for replies */}
                         {replyCommentId === comment._id && (
                           <form onSubmit={handleReplySubmit}>
                             <TextField
@@ -334,12 +281,10 @@ const ConsultDetail = () => {
                               onChange={(e) => setNewReply(e.target.value)}
                             />
                             <button type="submit" disabled={!newReply.trim()} className="submit-reply-button">
-                              Submit Reply
+                              Reply
                             </button>
                           </form>
                         )}
-
-                        {/* Render replies */}
                         {comment.replies && comment.replies.length > 0 && (
                           <div>
                             <h4>Replies:</h4>

@@ -52,6 +52,7 @@ const AdminConsultation = () => {
   };
 
   const DisplayPost = ({ consult }) => {
+    
     return (
       <div className="custom-col-md-6 my-3" key={consult._id} onClick={() => handleCardClick(consult._id)} style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
         <div className="card mb-3 rounded" style={{ width: '100%', height: '7rem', background: '#232b2b', color: '#fff' }}>
@@ -78,7 +79,8 @@ const AdminConsultation = () => {
     );
   };
 
-  const displayPosts = consults
+  const displayPosts = [...consults]
+    .reverse()
     .slice(pageNumber * postsPerPage, (pageNumber + 1) * postsPerPage)
     .map((consult) => <DisplayPost key={consult._id} consult={consult} />);
 

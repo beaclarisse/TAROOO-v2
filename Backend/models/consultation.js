@@ -9,10 +9,6 @@ const consultSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-//   tags: {
-//     type: String,
-//     required: true,
-//   },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',

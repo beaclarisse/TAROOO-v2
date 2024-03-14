@@ -70,15 +70,21 @@ const Header = () => {
                   <Button color="inherit" component={Link} to="/forum">
                     <GroupIcon />
                   </Button>
-                  <Button color="inherit" component={Link} to="/Consultation">
+                  <Button color="inherit" component={Link} to="/Consult">
                     <ForumIcon /> {/* chat consultation */}
                   </Button>
                   <Button color="inherit" component={Link} to="/VideoListPage">
                   <YouTubeIcon /> 
                   </Button>
+
+                  {/* <Button color="inherit" component={Link} to="/user/forumList">
+                  <YouTubeIcon /> 
+                  </Button> */}
+
                   <Button color="inherit" onClick={handleClick}>
                     <Avatar src={user.avatar && user.avatar.url} alt={user && user.name} sx={{ width: 56, height: 56 }}>
                     </Avatar>
+                    
                     <Menu id="dropdown-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                       <MenuItem component={Link} to="/profile">
                         Profile

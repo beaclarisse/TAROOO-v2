@@ -62,6 +62,10 @@ const VideoListPage = () => {
     <div className="root">
       <Header />
       <Paper style={{ background: '#232b2b', color: '#fff', padding: '10px' }}>
+        {/* Title */}
+        <Typography variant="h4" style={{ marginBottom: '20px', textAlign: 'center' }}>
+          Taro Tube
+        </Typography>
         {/* Category Dropdown */}
         <Select
           value={selectedCategory}

@@ -30,6 +30,12 @@ const postSchema = new mongoose.Schema({
       },
     },
   ],
+  likes: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 const Post = mongoose.model('Post', postSchema);

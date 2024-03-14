@@ -224,7 +224,7 @@ footer {
 }
 
 /* Loader */
-.loader {
+/* .loader {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -244,7 +244,7 @@ footer {
   border: 6px solid #fa9c23;
   border-color: #fa9c23 transparent;
   animation: lds-dual-ring 1.2s linear infinite;
-}
+} */
 
 @keyframes lds-dual-ring {
   0% {
@@ -688,16 +688,13 @@ ul.CTAs a {
   color: grey;
 }
 
-/* Add these styles to your CSS file or inline styles in your React components */
-
-/* Forum container */
 .forum-container {
   max-width: 800px; /* Adjust the width as needed */
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff; /* Change to your desired background color */
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 /* Forum header */
@@ -714,7 +711,7 @@ ul.CTAs a {
 
 /* Add post form */
 .add-post-form {
-  background-color: #f9f9f9; /* Change to your desired background color */
+  background-color: #f9f9f9; 
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(167, 163, 163, 0.1);
@@ -738,7 +735,7 @@ textarea {
 
 /* Submit button */
 button[type="submit"] {
-  background-color: #000000; /* Change to your desired button color */
+  background-color: #000000; 
   color: #fff;
   padding: 10px 15px;
   border: none;
@@ -757,7 +754,7 @@ button[type="submit"] {
  
 /* Forum Card
 .custom-col-md-6 {
-  flex: 0 0 50%; /* Set the width to 50% of the container */orum
+  flex: 0 0 50%; /* Set the width to 50% of the container */
   /* max-width: 50%; */
 /* } */
 
@@ -813,7 +810,7 @@ button[type="submit"] {
 
 
 .content-wrapper {
-  max-width: 600px; /* Adjust the maximum width as needed */
+  max-width: 600px;
   width: 100%;
   padding: 20px;
 }
@@ -835,7 +832,7 @@ html, body {
   flex: 1;
 }
 .space-before-post-container {
-  height: 20px; /* Adjust the height as needed for the desired space */
+  height: 20px; 
 }
 
 
@@ -847,29 +844,129 @@ html, body {
 
 .comment-content {
   margin-left: 10px;
-  width: 100%;  /* Adjust the width as needed */
+  width: 100%;  
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
+/* admin consutation */
+.not-opened {
+  border: 2px solid red;
+}
+
+.not-opened-card {
+  border: 2px solid red; 
+}
 
 
+/* loader */
 .loader {
-  width: 80px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  width: 160px;
+  height: 100px;
+  margin-left: -80px;
+  margin-top: -50px;
+  border-radius: 5px;
+  background: #1e3f57;
+  animation: dot1_ 3s cubic-bezier(0.55,0.3,0.24,0.99) infinite;
+}
+
+.loader:nth-child(2) {
+  z-index: 11;
+  width: 150px;
+  height: 90px;
+  margin-top: -45px;
+  margin-left: -75px;
+  border-radius: 3px;
+  background: #3c517d;
+  animation-name: dot2_;
+}
+
+.loader:nth-child(3) {
+  z-index: 12;
+  width: 40px;
   height: 20px;
-  color: #514b82;
-  background:
-    radial-gradient(farthest-side,currentColor 98%,#0000) left  /20px 20px,
-    radial-gradient(farthest-side,currentColor 98%,#0000) right /20px 20px,
-    radial-gradient(farthest-side,#000 98%,#0000) center/5px 5px,
-    linear-gradient(currentColor 0 0) center/100% 2px;
-  background-repeat: no-repeat;
-  animation: l9 1s cubic-bezier(.5,-150,.5,150) infinite;
+  margin-top: 50px;
+  margin-left: -20px;
+  border-radius: 0 0 5px 5px;
+  background: #6bb2cd;
+  animation-name: dot3_;
 }
-@keyframes l9 { 
-    100% { transform:rotate(1deg)} 
+
+@keyframes dot1_ {
+  3%,97% {
+    width: 160px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -80px;
+  }
+
+  30%,36% {
+    width: 80px;
+    height: 120px;
+    margin-top: -60px;
+    margin-left: -40px;
+  }
+
+  63%,69% {
+    width: 40px;
+    height: 80px;
+    margin-top: -40px;
+    margin-left: -20px;
+  }
 }
+
+@keyframes dot2_ {
+  3%,97% {
+    height: 90px;
+    width: 150px;
+    margin-left: -75px;
+    margin-top: -45px;
+  }
+
+  30%,36% {
+    width: 70px;
+    height: 96px;
+    margin-left: -35px;
+    margin-top: -48px;
+  }
+
+  63%,69% {
+    width: 32px;
+    height: 60px;
+    margin-left: -16px;
+    margin-top: -30px;
+  }
+}
+
+@keyframes dot3_ {
+  3%,97% {
+    height: 20px;
+    width: 40px;
+    margin-left: -20px;
+    margin-top: 50px;
+  }
+
+  30%,36% {
+    width: 8px;
+    height: 8px;
+    margin-left: -5px;
+    margin-top: 49px;
+    border-radius: 8px;
+  }
+
+  63%,69% {
+    width: 16px;
+    height: 4px;
+    margin-left: -8px;
+    margin-top: -37px;
+    border-radius: 10px;
+  }
+}  
 
 /* footer {
   text-align: center;

@@ -34,6 +34,7 @@ import "../../App.css";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 
@@ -158,8 +159,23 @@ function Sidebar(props) {
                                 component={Link}
                                 to="/admin/posts"
                             >
-                                <PostAddIcon />
+                                 <PostAddIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Posts</ListItemText>
+                            </IconButton>
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                component={Link}
+                                to="/admin/VideoBrowse"
+                            >
+                                <VideoLibraryIcon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Videos</ListItemText>
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>
@@ -187,6 +203,7 @@ function Sidebar(props) {
                                 color="inherit"
                                 onClick={handleClicks}
                             >
+
                                 <LiveHelpIcon />
                             </IconButton>
                         </ListItemIcon>

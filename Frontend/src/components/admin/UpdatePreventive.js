@@ -18,6 +18,7 @@ import { UPDATE_PREVENTIVE_RESET } from "../../constants/preventiveConstants";
 
 const UpdatePreventive = () => {
 
+    
     const [disease, setDisease] = useState("");
     const [reference, setReference] = useState("");
     const [description, setDescription] = useState("");
@@ -53,9 +54,9 @@ const UpdatePreventive = () => {
         if (preventive && preventive._id !== id) {
             dispatch(getPreventiveDetails(id));
         } else {
-            setName(preventive.disease);
+            setDisease(preventive.disease);
 
-            setPart(preventive.reference);
+            setReference(preventive.reference);
 
             setDescription(preventive.description);
 

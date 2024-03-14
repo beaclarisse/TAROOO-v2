@@ -61,7 +61,7 @@ export const allPreventives = () => async (dispatch) => {
 
     dispatch({
       type: ADMIN_PREVENTIVES_SUCCESS,
-      payload: data.preventives,
+      payload: data.preventive,
     });
   } catch (error) {
     dispatch({

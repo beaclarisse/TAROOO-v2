@@ -33,9 +33,10 @@ export const preventivesReducer = (state = { preventive: [] }, action) => {
             };
 
         case ALL_PREVENTIVES_SUCCESS:
+            console.log(action.payload.preventive)
             return {
                 loading: false,
-                preventives: action.payload.preventives,
+                preventives: action.payload.preventive,
                 preventivesCount: action.payload.preventivesCount,
                 resPerPage: action.payload.resPerPage,
                 filteredPreventivesCount: action.payload.filteredPreventivesCount,

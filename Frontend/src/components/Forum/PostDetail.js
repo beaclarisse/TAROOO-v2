@@ -24,6 +24,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import { useDispatch, useSelector } from "react-redux";
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 
 
 const PostDetail = () => {
@@ -389,7 +390,7 @@ const PostDetail = () => {
                           </IconButton>
 
                           <IconButton onClick={() => toggleRepliesVisibility(comment._id)} style={{ color: 'white' }}>
-                            <DoubleArrowIcon />
+                            <ArrowDropDownCircleIcon />
                           </IconButton>
                         </p>
 

@@ -88,7 +88,7 @@ const DiseasesList = () => {
     };
 
     
-      diseases.forEach((disease) => {
+      diseases?.forEach((disease) => {
         data.rows.push({
           id: disease._id,
           name: disease.name,

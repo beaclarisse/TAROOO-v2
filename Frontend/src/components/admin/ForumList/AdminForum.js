@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CommentIcon from '@mui/icons-material/Comment';
 import Header from '../../layout/Header';
 
@@ -16,9 +15,6 @@ const AdminForum = () => {
         const responsePosts = await axios.get('http://localhost:3000/api/v1/posts');
         const sortedPosts = responsePosts.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setPosts(sortedPosts);
-        const responsePosts = await axios.get('http://localhost:3000/api/v1/posts');
-        const sortedPosts = responsePosts.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setPosts(sortedPosts);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -28,7 +24,6 @@ const AdminForum = () => {
   }, []);
 
   const handleCardClick = (postId) => {
-    navigate(`/post/${postId}`);
     navigate(`/post/${postId}`);
   };
 
@@ -110,23 +105,6 @@ const AdminForum = () => {
           </div>
           {post.avatar && <img src={post.avatar} alt={`${user.name || user.handle}'s avatar`} className="mt-2" style={{ maxWidth: '30px', borderRadius: '50%' }} />}
         </div>
-      </div>
-    );
-  };
-
-  const displayPosts = Array.isArray(posts) && posts.length > 0 ? (
-    posts.map((post) => <DisplayPost key={post._id} post={post} />)
-  ) : (
-    <div>No posts available</div>
-  );
-
-  return (
-    <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#1b1b1b', color: '#fff' }}>
-      <Header />
-      <div className="flex-grow-1 p-4 rounded">
-        <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Admin Forum Lists</h2>
-        <div className="d-flex flex-column">
-          {displayPosts}
       </div>
     );
   };

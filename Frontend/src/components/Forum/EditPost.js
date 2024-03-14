@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Filter from 'bad-words';
 
 const EditPost = () => {
-  const { id } = useParams(); // Get the post ID from the URL
+  const { id } = useParams(); 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [images, setImage] = useState(null);

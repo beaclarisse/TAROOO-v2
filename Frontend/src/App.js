@@ -220,7 +220,7 @@ function App() {
 
           {/* Routes for posts */}
           <Route
-            path="/admin/posts"
+            path="/admin/taros"
             element={
               <ProtectedRoute isAdmin={true}>
                 <PostsList />
@@ -228,7 +228,7 @@ function App() {
             }
           />
           <Route
-            path="/post/new"
+            path="/taro/new"
             element={
               <ProtectedRoute isAdmin={true}>
                 <NewPost />
@@ -236,7 +236,7 @@ function App() {
             }
           />
           <Route
-            path="/update/post/:id"
+            path="/update/taro/:id"
             element={
               <ProtectedRoute isAdmin={true}>
                 <UpdatePost />
@@ -272,7 +272,7 @@ function App() {
           />
 
           {/*  Routes for ordering posts*/}
-          <Route path="/TaroPosts/post/:id"
+          <Route path="/TaroPosts/taro/:id"
             element={
               <ProtectedRoute>
                 <PostDetails />

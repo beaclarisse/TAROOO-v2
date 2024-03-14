@@ -3,28 +3,26 @@ import { useNavigate } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { newPost, clearErrors } from "../../actions/taroAction";
-import { NEW_POST_RESET } from "../../constants/taroConstants";
+import { newTaro, clearErrors } from "../../actions/taroAction";
+import { NEW_TARO_RESET } from "../../constants/taroConstants";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 import {
-  Avatar,
   Button,
   FormGroup,
   Grid,
-  Select,
-  MenuItem,
   Paper,
   Stack,
   TextField,
   Typography,
-  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
+  const [reference, setReference] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [images, setImages] = useState([]);
@@ -38,7 +36,7 @@ const NewPost = () => {
     mode: "onChange",
     defaultValues: {
       title: title,
-      subtitle: subtitle,
+      reference: reference,
       description: description,
       category: category,
     },
@@ -49,8 +47,11 @@ const NewPost = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
-  const newPostState = useSelector((state) => state.newPost || {});
-  const { loading, error, success } = newPostState;
+  const {
+    loading = false,
+    error,
+    success,
+  } = useSelector((state) => state.newTaro || {});
 
   const message = (message = "") =>
     toast.success(message, {
@@ -65,19 +66,20 @@ const NewPost = () => {
 
     if (success) {
       toast("New Post!", "Success");
-      navigate("/admin/posts");
+      navigate("/admin/taros");
 
       message("Post created successfully");
 
-      dispatch({ type: NEW_POST_RESET });
+      dispatch({ type: NEW_TARO_RESET });
     }
   }, [dispatch, error, success, navigate]);
 
+  console.log(success);
   const submitHandler = (data) => {
     const formData = new FormData();
 
     formData.set("title", data.title);
-    formData.set("subtitle", data.subtitle);
+    formData.set("reference", data.reference);
     formData.set("description", data.description);
     formData.set("category", data.category);
 
@@ -85,7 +87,7 @@ const NewPost = () => {
       formData.append("images", image);
     });
 
-    dispatch(newPost(formData));
+    dispatch(newTaro(formData));
   };
 
   const onChange = (e) => {
@@ -215,19 +217,19 @@ const NewPost = () => {
                     )}
 
                     <TextField
-                      label="Subtitle"
+                      label="Reference"
                       variant="standard"
                       id="subtitle_field"
                       type="string"
-                      onChange={(e) => setSubtitle(e.target.value)}
+                      onChange={(e) => setReference(e.target.value)}
                       fullWidth
-                      {...register("subtitle", {
-                        required: "Subtitle is required.",
+                      {...register("reference", {
+                        required: "Reference is required.",
                       })}
                     />
-                    {errors.price && (
+                    {errors.reference && (
                       <Typography style={errorStyle} variant="body1">
-                        {errors.price.message}
+                        {errors.reference.message}
                       </Typography>
                     )}
 

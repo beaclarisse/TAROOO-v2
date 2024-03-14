@@ -157,25 +157,10 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/admin/posts"
+                                to="/admin/taros"
                             >
                                  <PostAddIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Posts</ListItemText>
-                            </IconButton>
-                        </ListItemIcon>
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon style={iconStyle}>
-                            <IconButton
-                                size="medium"
-                                color="inherit"
-                                component={Link}
-                                to="/admin/VideoBrowse"
-                            >
-                                <VideoLibraryIcon />
-                                <ListItemText sx={{ paddingLeft: 3 }}>Videos</ListItemText>
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>
@@ -191,6 +176,21 @@ function Sidebar(props) {
                             >
                                 <HomeRepairServiceIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Diseases</ListItemText>
+                            </IconButton>
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                component={Link}
+                                to="/admin/VideoBrowse"
+                            >
+                                <VideoLibraryIcon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Videos</ListItemText>
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>

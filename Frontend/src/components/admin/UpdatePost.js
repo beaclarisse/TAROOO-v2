@@ -9,17 +9,17 @@ import { Avatar, Button, FormGroup, Grid, Select, MenuItem, Paper, Stack, TextFi
 
 
 import {
-    updatePost,
-    getPostDetails,
+    updateTaro,
+    getTaroDetails,
     clearErrors,
 } from "../../actions/taroAction";
 
-import { UPDATE_POST_RESET } from "../../constants/taroConstants";
+import { UPDATE_TARO_RESET } from "../../constants/taroConstants";
 
 const UpdatePost = () => {
 
     const [title, setTitle] = useState("");
-    const [subtitle, setSubtitle] = useState("");
+    const [reference, setReference] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
     const [images, setImages] = useState([]);
@@ -32,13 +32,13 @@ const UpdatePost = () => {
 
     const dispatch = useDispatch();
 
-    const { error, post } = useSelector((state) => state.postDetails);
+    const { error, taro } = useSelector((state) => state.taroDetails);
 
     const {
         loading,
         error: updateError,
         isUpdated,
-    } = useSelector((state) => state.post);
+    } = useSelector((state) => state.taro);
 
     let { id } = useParams();
 
@@ -55,14 +55,14 @@ const UpdatePost = () => {
         });
 
     useEffect(() => {
-        if (post && post._id !== id) {
-            dispatch(getPostDetails(id));
+        if (taro && taro._id !== id) {
+            dispatch(getTaroDetails(id));
         } else {
-            setTitle(post.title);
-            setSubtitle(post.subtitle);
-            setDescription(post.description);
-            setCategory(post.category);
-            setOldImages(post.images);
+            setTitle(taro.title);
+            setReference(taro.reference);
+            setDescription(taro.description);
+            setCategory(taro.category);
+            setOldImages(taro.images);
         }
 
         if (error) {
@@ -78,13 +78,13 @@ const UpdatePost = () => {
         }
 
         if (isUpdated) {
-            navigate("/admin/posts");
+            navigate("/admin/taros");
 
             successMsg("Post updated successfully");
 
-            dispatch({ type: UPDATE_POST_RESET });
+            dispatch({ type: UPDATE_TARO_RESET });
         }
-    }, [dispatch, error, isUpdated, navigate, updateError, post, id]);
+    }, [dispatch, error, isUpdated, navigate, updateError, taro, id]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -93,7 +93,7 @@ const UpdatePost = () => {
 
         formData.set("title", title);
 
-        formData.set("subtitle", subtitle);
+        formData.set("reference", reference);
 
         formData.set("description", description);
 
@@ -103,7 +103,7 @@ const UpdatePost = () => {
             formData.append("images", image);
         });
 
-        dispatch(updatePost(post._id, formData));
+        dispatch(updateTaro(taro._id, formData));
     };
 
     const onChange = (e) => {
@@ -159,26 +159,26 @@ const UpdatePost = () => {
                                 encType="multipart/form-data"
                             >
                                 <FormGroup>
-                                    <Stack spacing={2} alignItems='center'>
+                                    <Stack spacing={1} alignItems='center'>
 
-                                        <TextField label="Type" fullWidth disabled variant="standard"></TextField>
+                                        <TextField label="Category" fullWidth disabled variant="standard"></TextField>
                                         <Select
-                                            labelId="types"
-                                            label="Types"
-                                            id="types_field"
-                                            value={types}
-                                            onChange={(e) => setTypes(e.target.value)}
+                                            labelId="category"
+                                            label="category"
+                                            id="category_field"
+                                            value={categories}
+                                            onChange={(e) => setCategory(e.target.value)}
                                             fullWidth required
                                         >
-                                            {type.map((type) => (
-                                                <MenuItem key={type} value={type}>
-                                                    {type}
+                                            {categories.map((category) => (
+                                                <MenuItem key={category} value={category}>
+                                                    {category}
                                                 </MenuItem>
                                             ))}
                                         </Select>
-                                        <TextField label='Name' variant='standard' id='name_field'
-                                            type='name' value={name}
-                                            onChange={(e) => setName(e.target.value)} fullWidth required />
+                                        <TextField label='Title' variant='standard' id='title_field'
+                                            type='title' value={title}
+                                            onChange={(e) => setTitle(e.target.value)} fullWidth required />
                                         <TextField
                                             id="description_field"
                                             label="Description"
@@ -190,16 +190,9 @@ const UpdatePost = () => {
                                         />
                                         {/* <InputLabel sx={{ textAlign: 'left', marginRight: '10px' }}>Categories</InputLabel> */}
 
-                                        <TextField label='Price' variant='standard' id='price_field'
-                                            type='number' value={price}
-                                            onChange={(e) => setPrice(e.target.value)} fullWidth required />
-
-                                        <TextField label='Stock' variant='standard' id='stock_field'
-                                            type='number' value={stock}
-                                            onChange={(e) => setStock(e.target.value)} fullWidth required />
-
-                                        {/* <div className="custom-file">
-                                    <label>Images</label> */}
+                                        <TextField label='Reference' variant='standard' id='price_field'
+                                            type='string' value={reference}
+                                            onChange={(e) => setReference(e.target.value)} fullWidth required />
 
                                         <div className="custom-file">
                                             <input
@@ -213,7 +206,7 @@ const UpdatePost = () => {
                                             />
 
                                             <label className="custom-file-label" htmlFor="customFile">
-                                                Choose Images
+                                                Upload Image
                                             </label>
                                         </div>
 
@@ -239,7 +232,6 @@ const UpdatePost = () => {
                                                 height="52"
                                             />
                                         ))}
-                                        {/* </div> */}
                                         <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Post</Button>
                                     </Stack>
                                 </FormGroup>

@@ -3,16 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { MDBDataTable } from "mdbreact";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from 'axios';
+// import axios from 'axios';
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 import {
-  allPosts,
+  allTaros,
   clearErrors,
-  deletePost,
+  deleteTaro,
 } from "../../actions/taroAction";
-import { DELETE_POST_RESET } from "../../constants/taroConstants";
+import { DELETE_TARO_RESET } from "../../constants/taroConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography, Button, Divider } from "@mui/material";
 // import { Card, Col, Row } from "react-bootstrap";
@@ -23,10 +23,10 @@ const PostsList = () => {
   let navigate = useNavigate();
 
   const { loading, error, taros } = useSelector(
-    (state) => state.allPosts || {}
+    (state) => state.taros || {}
   );
   
-  const { isDeleted } = useSelector((state) => state.post);
+  const { isDeleted } = useSelector((state) => state.taro);
 
   const errMsg = (message = "") =>
     toast.error(message, {
@@ -38,12 +38,9 @@ const PostsList = () => {
       position: toast.POSITION.BOTTOM_CENTER,
     });
 
-  // const { error: deleteError, isDeleted } = useSelector(
-  //     (state) => state.post
-  // );
-
+  console.log(taros)
   useEffect(() => {
-    dispatch(allPosts());
+    dispatch(allTaros());
 
     if (error) {
       notify(error);
@@ -52,16 +49,16 @@ const PostsList = () => {
 
     if (isDeleted) {
       successMsg("Post deleted successfully");
-      navigate("/admin/posts");
-      dispatch({ type: DELETE_POST_RESET });
+      navigate("/admin/taros");
+      dispatch({ type: DELETE_TARO_RESET });
     }
   }, [dispatch, alert, error, isDeleted, navigate]);
 
-  const deletePostHandler = (id) => {
-    dispatch(deletePost(id));
+  const deleteTaroHandler = (id) => {
+    dispatch(deleteTaro(id));
   };
 
-  const setPosts = () => {
+  const getTaro = () => {
     const data = {
       columns: [
         {
@@ -75,13 +72,13 @@ const PostsList = () => {
           sort: "asc",
         },
         {
-          label: "Subtitle",
-          field: "subtitle",
+          label: "Category",
+          field: "category",
           sort: "asc",
         },
         {
-          label: "Category",
-          field: "category",
+          label: "Reference",
+          field: "reference",
           sort: "asc",
         },
         {
@@ -93,23 +90,23 @@ const PostsList = () => {
     };
 
     if (taros && taros.length > 0) {
-      taros.forEach((post) => {
+      taros.forEach((taro) => {
         data.rows.push({
-          id: post._id,
-          title: post.title,
-          subtitle: post.subtitle,
-          category: post.category,
+          id: taro._id,
+          title: taro.title,
+          reference: taro.reference,
+          category: taro.category,
           actions: (
             <Fragment>
               <Link
-                to={`/update/post/${post._id}`}
+                to={`/update/taro/${taro._id}`}
                 className="btn btn-primary py-1 px-2"
               >
                 <i className="fa fa-pencil"></i>
               </Link>
               <button
                 className="btn btn-danger py-1 px-2 ml-2"
-                onClick={() => deletePostHandler(post._id)}
+                onClick={() => deleteTaroHandler(taro._id)}
               >
                 <i className="fa fa-trash"></i>
               </button>
@@ -121,24 +118,6 @@ const PostsList = () => {
 
     return data;
   };
-
-  // const deletePostHandler = (id) => {
-  //     dispatch(deletePost(id));
-  // };
-
-  const fetchData = async (endpoint, setData) => {
-    try {
-      const { data } = await axios.get(`/api/v1/admin/${endpoint}`);
-      setData(data[endpoint]);
-      // setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData("posts", setPosts);
-  }, []);
 
   return (
     <Box
@@ -152,14 +131,15 @@ const PostsList = () => {
           <div className="col-12 col-md-2">
             <Sidebar />
           </div>
+
           <div className="col-18 col-md-10">
             <br />
             <br />
             <h1>Posts</h1>
             <hr
               style={{
-                color: "#2f3c4c",
-                backgroundColor: "#2f3c4c",
+                color: "#95bfae",
+                backgroundColor: "#95bfae",
                 height: 5,
               }}
             />
@@ -168,7 +148,7 @@ const PostsList = () => {
               variant="contained"
               color="primary"
               sx={{ marginBottom: 2 }}
-              href="/post/new"
+              href="/taro/new"
             >
               {" "}
               New Post
@@ -177,7 +157,7 @@ const PostsList = () => {
               <Loader />
             ) : (
               <MDBDataTable
-                data={setPosts()}
+                data={getTaro()}
                 className="px-3"
                 bordered
                 striped

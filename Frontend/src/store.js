@@ -11,18 +11,14 @@ import {
 } from "./reducers/userReducers";
 
 import {
-    postsReducer,
-    postDetailsReducer,
-    newReviewReducer,
-    newPostReducer,
-    postReducer,
-    reviewReducer,
-    postReviewsReducer,
+    tarosReducer,
+    taroDetailsReducer,
+    newTaroReducer,
+    taroReducer,
 } from "./reducers/taroReducers";
 
 import {
     diseasesReducer,
-    newServiceReducer,
     diseaseReducer,
     diseaseDetailsReducer,
     newDiseaseReducer,
@@ -36,13 +32,10 @@ const reducer = combineReducers({
     forgotPassword: forgotPasswordReducer,
     userDetails: userDetailsReducer,
 
-    posts: postsReducer,
-    postDetails: postDetailsReducer,
-    newReview: newReviewReducer,
-    newPost: newPostReducer,
-    postReviews: postReviewsReducer,
-    review: reviewReducer,
-    post: postReducer,
+    taros: tarosReducer,
+    taroDetails: taroDetailsReducer,
+    newTaro: newTaroReducer,
+    taro: taroReducer,
 
     diseases: diseasesReducer,
     diseaseDetails: diseaseDetailsReducer,

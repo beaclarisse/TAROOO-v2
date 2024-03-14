@@ -15,12 +15,12 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 
 const TaroPosts = ({ match }) => {
-  const [post, setPost] = useState([]);
+  const [taro, setTaro] = useState([]);
   const [open, setOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedTaro, setSelectedTaro] = useState(null);
 
   const handleOpen = (pos) => {
-    setSelectedPost(pos);
+    setSelectedTaro(pos);
     setOpen(true);
   };
 
@@ -43,19 +43,19 @@ const TaroPosts = ({ match }) => {
     p: 4,
   };
 
-  const getPost = async () => {
+  const getTaro = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}api/v1/post`
+        `${process.env.REACT_APP_API}api/v1/taro`
       );
-      setPost(data.post);
+      setTaro(data.taro);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getPost();
+    getTaro();
   }, []);
 
   return (
@@ -71,9 +71,9 @@ const TaroPosts = ({ match }) => {
         </h1>
         <section id="services" className="container mt-5"></section>
 
-        {post &&
-          post.length > 0 &&
-          post
+        {taro &&
+          taro.length > 0 &&
+          taro
             .reduce((rows, pos, index) => {
               if (index % 3 === 0) rows.push([]);
               rows[rows.length - 1].push(pos);
@@ -129,20 +129,20 @@ const TaroPosts = ({ match }) => {
                 variant="h3"
                 component="h2"
               >
-                {selectedPost && selectedPost.title}
+                {selectedTaro && selectedTaro.title}
               </Typography>
               <Typography
                 id="transition-modal-title"
                 variant="h4"
                 component="h3"
               >
-                {selectedPost && selectedPost.subtitle}
+                {selectedTaro && selectedTaro.subtitle}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {selectedPost && selectedPost.description}
+                {selectedTaro && selectedTaro.description}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {selectedPost && selectedPost.category}
+                {selectedTaro && selectedTaro.category}
               </Typography>
             </Box>
           </Fade>

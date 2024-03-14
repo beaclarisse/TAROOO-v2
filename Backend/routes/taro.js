@@ -8,29 +8,20 @@ const {
 } = require("../middlewares/auth");
 
 const {
-    newPost,
-    getPosts,
-    getSinglePost,
-    updatePost,
-    deletePost,
-    createPostReview,
-    getPostReviews,
-    deleteReview,
-    allPosts,
-    Taro
+    newTaro,
+    getTaro,
+    getSingleTaro,
+    updateTaro,
+    deleteTaro,
+    allTaros,
 } = require("../controllers/taroController");
 
 //Admin Access
-router.post("/post/new", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), newPost);
-router.get("/post", getPosts);
-router.get("/post/:id", getSinglePost);
-router.put("/update/post/:id", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), updatePost);
-router.delete("/remove/post/:id", isAuthenticatedUser, authorizeRoles("admin"), deletePost);
-router.get("/admin/posts", isAuthenticatedUser, authorizeRoles("admin"), allPosts);
-
-//User Access 
-router.put("/create/review", isAuthenticatedUser, createPostReview);
-router.get("/reviews", isAuthenticatedUser, getPostReviews);
-router.delete("/remove/review/:id", isAuthenticatedUser, deleteReview);
+router.post("/taro/new", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), newTaro);
+router.get("/taro", getTaro);
+router.get("/taro/:id", getSingleTaro);
+router.put("/update/taro/:id", isAuthenticatedUser, authorizeRoles("admin"), upload.array("images", 10), updateTaro);
+router.delete("/remove/taro/:id", isAuthenticatedUser, authorizeRoles("admin"), deleteTaro);
+router.get("/admin/taros", isAuthenticatedUser, authorizeRoles("admin"), allTaros);
 
 module.exports = router;

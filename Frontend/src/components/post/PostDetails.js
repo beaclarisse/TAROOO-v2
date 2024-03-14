@@ -9,7 +9,7 @@ import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 // import { NEW_REVIEW_RESET } from "../../constants/taroConstants";
 import {
-  getPostDetails
+  getTaroDetails
 } from "../../actions/taroAction";
 
 import { toast } from "react-toastify";
@@ -24,7 +24,7 @@ const PostDetails = () => {
   const { loading, error, disease } = useSelector((state) => state.diseaseDetails);
 
   useEffect(() => {
-    dispatch(getPostDetails(id));
+    dispatch(getTaroDetails(id));
   }, [dispatch, id]);
 
   // const [rating, setRating] = useState(0);
@@ -53,18 +53,18 @@ const PostDetails = () => {
       ) : (
         <Fragment>
           <div class="container">
-            <MetaData title={post.title} />
+            <MetaData title={taro.title} />
 
             <div className="row d-flex justify-content-around">
               <div className="col-12 col-lg-5 img-fluid" id="post_image">
                 <Carousel pause="hover">
-                  {post.images &&
-                    post.images.map((image) => (
+                  {taro.images &&
+                    taro.images.map((image) => (
                       <Carousel.Item key={image.public_id}>
                         <img
                           className="d-block w-100"
                           src={image.url}
-                          alt={post.title}
+                          alt={taro.title}
                         />
                       </Carousel.Item>
                     ))}
@@ -72,8 +72,8 @@ const PostDetails = () => {
               </div>
 
               <div className="col-12 col-lg-5 mt-5">
-                <h3>{post.title}</h3>
-                <h2>{post.subtitle}</h2>
+                <h3>{taro.title}</h3>
+                <h2>{taro.reference}</h2>
 
                 <p id="post_id">Post # {post._id}</p>
 

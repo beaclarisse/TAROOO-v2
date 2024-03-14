@@ -16,6 +16,7 @@ import * as React from "react";
 // import "../App.css";
 
 const TaroDiseases = () => {
+  const [post, setPost] = useState({});
   const [disease, setDisease] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [selectedDisease, setSelectedDisease] = React.useState(null);
@@ -54,6 +55,7 @@ const TaroDiseases = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}api/v1/disease`
       );
+      setPost(data.disease);
       setDisease(data.disease);
     } catch (error) {
       console.log(error);
@@ -63,7 +65,7 @@ const TaroDiseases = () => {
   useEffect(() => {
     getDisease();
   }, []);
-
+  console.log(post)
   return (
     <Fragment>
       <Header />
@@ -72,9 +74,10 @@ const TaroDiseases = () => {
       <br />
       <Grid>
         <MetaData title={"Learn about Taro Diseases"} />
-        <h1 id="products_heading" style={{ textAlign: "center" }}>
+        <h1 id="products_heading" style={{ textAlign: "center", color: "black" }}>
           <span> Taro Diseases </span>
         </h1>
+
         <section id="services" className="container mt-5"></section>
 
         {disease
@@ -94,13 +97,20 @@ const TaroDiseases = () => {
             >
               {row.map((dis) => (
                 <Grid item key={dis.id} xs={12} sm={6} md={3}>
-                  <Card sx={{ maxWidth: 345, height: "100%" }}>
-                    {/* Card content goes here */}
-                    <CardMedia
-                      sx={{ height: 140 }}
-                      image="../images/taro.jpg"
-                      title="green iguana"
-                    />
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia>
+                      <div>
+                        <div>
+                          <img
+                            key={dis?.images[0]?.public_id}
+                            src={dis?.images[0]?.url}
+                            alt="Post"
+                            className="post-image"
+                            style={{ width: '100%', height: 'auto' }} // Set width to 100%
+                          />
+                        </div>
+                      </div>
+                    </CardMedia>
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         {dis.name}
@@ -116,6 +126,7 @@ const TaroDiseases = () => {
                     </CardActions>
                   </Card>
                 </Grid>
+
               ))}
             </Grid>
           ))}
@@ -129,7 +140,7 @@ const TaroDiseases = () => {
         >
           <Fade in={open}>
             <Box sx={{
-              
+
               position: "absolute",
               top: "50%",
               left: "50%",
@@ -144,21 +155,21 @@ const TaroDiseases = () => {
               overflow: "auto", // Add overflow property
             }}>
               {/* Your text content */}
-            
 
-            <Typography id="transition-modal-title" variant="h4">
-              {selectedDisease && selectedDisease.name}
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              {selectedDisease && selectedDisease.description}
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Reference: {selectedDisease && selectedDisease.part}
-            </Typography>
-          </Box>
-        </Fade>
-      </Modal>
-      {/* {match.path === '/forum' && (
+
+              <Typography id="transition-modal-title" variant="h4">
+                {selectedDisease && selectedDisease.name}
+              </Typography>
+              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                {selectedDisease && selectedDisease.description}
+              </Typography>
+              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                Reference: {selectedDisease && selectedDisease.part}
+              </Typography>
+            </Box>
+          </Fade>
+        </Modal>
+        {/* {match.path === '/forum' && (
           <style>
             {`
               body {
@@ -169,10 +180,10 @@ const TaroDiseases = () => {
           </style>
         )} */}
 
-      <Button onClick={toggleDarkMode}>
+        {/* <Button onClick={toggleDarkMode}>
         {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-      </Button>
-    </Grid>
+      </Button> */}
+      </Grid>
     </Fragment >
   );
 };

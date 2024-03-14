@@ -98,7 +98,7 @@ const VideoBrowse = () => {
     <Paper className="root" style={{ background: "white" }}>
       <Header />
       <Typography variant="h4">TaroTube</Typography>
-      <form className="form">
+      <form fontSize={20} className="form fw-bold my-2" sx={{ fontWeight: 'bold' }}>
         <TextField
           label="Title"
           fullWidth
@@ -125,6 +125,8 @@ const VideoBrowse = () => {
           value={newVideoLink}
           onChange={(e) => setNewVideoLink(e.target.value)}
         />
+        <br />
+        <br />
         <Button variant="contained" color="primary" onClick={handleAddVideo}>
           Add Video
         </Button>

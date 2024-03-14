@@ -80,8 +80,7 @@ const TaroDiseases = () => {
 
         <section id="services" className="container mt-5"></section>
 
-        {disease
-          .reduce((rows, dis, index) => {
+        {disease.reduce((rows, dis, index) => {
             if (index % 3 === 0) rows.push([]);
             rows[rows.length - 1].push(dis);
             return rows;

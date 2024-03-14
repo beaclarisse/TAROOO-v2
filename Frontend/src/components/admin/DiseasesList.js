@@ -71,7 +71,7 @@ const DiseasesList = () => {
           sort: "asc",
         },
         {
-          label: "Part Affected",
+          label: "Reference",
           field: "part",
           sort: "asc",
         },

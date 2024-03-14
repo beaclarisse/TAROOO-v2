@@ -47,7 +47,7 @@ const TaroDiseases = () => {
   const getDisease = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}api/v1/diseases`
+        `${process.env.REACT_APP_API}api/v1/disease`
       );
       setDisease(data.disease);
     } catch (error) {
@@ -101,7 +101,6 @@ const TaroDiseases = () => {
                       </Typography>
                       <Typography variant="body" color="text.secondary">
                         {truncateText(dis.description, 120)}{" "}
-                        {/* Truncate text here */}
                       </Typography>
                     </CardContent>
                     <CardActions>
@@ -131,7 +130,7 @@ const TaroDiseases = () => {
                 {selectedDisease && selectedDisease.description}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Part Affected: {selectedDisease && selectedDisease.part}
+                Reference: {selectedDisease && selectedDisease.part}
               </Typography>
             </Box>
           </Fade>

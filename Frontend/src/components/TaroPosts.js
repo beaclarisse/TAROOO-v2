@@ -15,7 +15,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 
 const TaroPosts = ({ match }) => {
-  const [post, setPost] = useState([]); // Initialize posts state with an empty array
+  const [post, setPost] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -26,13 +26,18 @@ const TaroPosts = ({ match }) => {
 
   const handleClose = () => setOpen(false);
 
+  const truncateText = (text, limit) => {
+    if (text.length <= limit) return text;
+    return text.substring(0, limit) + "...";
+  };
+
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: "background.paper",
+    bgcolor: "black",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
@@ -67,17 +72,24 @@ const TaroPosts = ({ match }) => {
         <section id="services" className="container mt-5"></section>
 
         {post &&
-          post.map((row, rowIndex) => (
-            <Grid
-              container
-              item
-              key={rowIndex}
-              spacing={2}
-              justifyContent="center"
-            >
-              {row.map((pos) => (
+          post.length > 0 &&
+          post
+            .reduce((rows, pos, index) => {
+              if (index % 3 === 0) rows.push([]);
+              rows[rows.length - 1].push(pos);
+              return rows;
+            }, [])
+            .map((row, rowIndex) => (
+              <Grid
+                container
+                item
+                key={rowIndex}
+                spacing={15}
+                justifyContent="center"
+              >
+                {row.map((pos) => (
                 <Grid item key={pos.id} xs={12} sm={6} md={3}>
-                  <Card sx={{ maxWidth: 345 }}>
+                  <Card sx={{ maxWidth: 345, height: "100%" }}>
                     {/* Card content goes here */}
                     <CardMedia
                       sx={{ height: 140 }}
@@ -89,7 +101,7 @@ const TaroPosts = ({ match }) => {
                         {pos.title}
                       </Typography>
                       <Typography variant="body" color="text.secondary">
-                        {pos.description}
+                        {truncateText(dis.description, 120)} {pos.description}
                       </Typography>
                     </CardContent>
                     <CardActions>
@@ -99,9 +111,9 @@ const TaroPosts = ({ match }) => {
                     </CardActions>
                   </Card>
                 </Grid>
-              ))}
-            </Grid>
-          ))}
+                ))}
+              </Grid>
+            ))}
 
         <Modal
           aria-labelledby="transition-modal-title"
@@ -130,7 +142,7 @@ const TaroPosts = ({ match }) => {
                 {selectedPost && selectedPost.description}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {selectedPost && selectedPost.part}
+                {selectedPost && selectedPost.category}
               </Typography>
             </Box>
           </Fade>

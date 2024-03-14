@@ -69,7 +69,7 @@ const NewPost = () => {
 
       message("Post created successfully");
 
-      dispatch({ category: NEW_POST_RESET });
+      dispatch({ type: NEW_POST_RESET });
     }
   }, [dispatch, error, success, navigate]);
 

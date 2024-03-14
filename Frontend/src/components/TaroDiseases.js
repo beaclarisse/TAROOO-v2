@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import * as React from "react";
+// import "../App.css";
 
 const TaroDiseases = () => {
   const [disease, setDisease] = useState([]);

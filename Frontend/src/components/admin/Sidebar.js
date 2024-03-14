@@ -27,7 +27,7 @@ import Typography from '@mui/material/Typography';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import PollIcon from '@mui/icons-material/Poll';
-//
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { Route, Link, Routes } from "react-router-dom";
 import { logout, loadUser } from "../../actions/userActions";
 import "../../App.css";
@@ -60,9 +60,9 @@ function Sidebar(props) {
         right: 0,
         padding: '1rem',
     };
-    
 
-    
+
+
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -97,10 +97,10 @@ function Sidebar(props) {
     const [anchorEls, setAnchorEls] = useState(null);
     const handleClicks = (event) => {
         setAnchorEls(event.currentTarget);
-      };
-      const handleCloses = () => {
+    };
+    const handleCloses = () => {
         setAnchorEls(null);
-      };
+    };
 
     //Avatar DropDown
     const [anchorEl, setAnchorEl] = useState(null);
@@ -134,7 +134,7 @@ function Sidebar(props) {
             {/* <img src="/images/ -logo.png" width="auto" style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px' }} /> */}
             {/* <Toolbar /> */}
             <List>
-                <Typography variant="h6" sx={{ textAlign: 'center' }}>Components</Typography>
+                <Typography variant="h6" sx={{ textAlign: 'center' }}>Dashboard</Typography>
                 <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon style={iconStyle}>
@@ -159,7 +159,7 @@ function Sidebar(props) {
                                 component={Link}
                                 to="/admin/taros"
                             >
-                                 <PostAddIcon />
+                                <PostAddIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Posts</ListItemText>
                             </IconButton>
                         </ListItemIcon>
@@ -187,6 +187,21 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
+                                to="/admin/forum"
+                            >
+                                <ChatBubbleOutlineIcon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Forum List</ListItemText>
+                            </IconButton>
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                component={Link}
                                 to="/admin/VideoBrowse"
                             >
                                 <VideoLibraryIcon />
@@ -201,6 +216,8 @@ function Sidebar(props) {
                             <IconButton
                                 size="medium"
                                 color="inherit"
+                                
+
                                 onClick={handleClicks}
                             >
 
@@ -226,7 +243,7 @@ function Sidebar(props) {
                             {/* <MenuItem component={Link} to="/overallSurvey">
                                 Overall Survey
                             </MenuItem> */}
-                            
+
                         </Menu>
                     </ListItemButton>
                 </ListItem>
@@ -276,7 +293,7 @@ function Sidebar(props) {
                             <MenuItem component={Link} to="/ConsumerDashboard">
                                 Survey for Consumers
                             </MenuItem>
-                            
+
                         </Menu>
                     </ListItemButton>
                 </ListItem>
@@ -331,7 +348,7 @@ function Sidebar(props) {
                         <Fragment>
                             <Button href="/" color="inherit"><Typography>Taro E-Assist</Typography></Button>
                             <Button href="/AdminConsultation" color="inherit"><Typography>Consultation</Typography></Button>
-                            
+
                             <Button sx={{ marginLeft: "auto" }} color="inherit" onClick={handleClick}>
                                 <Avatar src={user.avatar && user.avatar.url}
                                     alt={user && user.name} sx={{ width: 56, height: 54, marginLeft: "" }}>
@@ -346,7 +363,7 @@ function Sidebar(props) {
                             >
                                 <MenuItem component={Link} to="/profile">Profile</MenuItem>
                                 <Divider />
-                                
+
                                 <MenuItem onClick={logoutHandler} to="/">Logout</MenuItem>
                             </Menu>
                         </Fragment>

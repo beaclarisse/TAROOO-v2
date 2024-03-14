@@ -19,10 +19,15 @@ const TaroDiseases = () => {
   const [disease, setDisease] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [selectedDisease, setSelectedDisease] = React.useState(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleOpen = (dis) => {
     setSelectedDisease(dis);
     setOpen(true);
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
   };
 
   const handleClose = () => setOpen(false);
@@ -85,6 +90,7 @@ const TaroDiseases = () => {
               key={rowIndex}
               spacing={15}
               justifyContent="center"
+              marginBlockEnd={8}
             >
               {row.map((dis) => (
                 <Grid item key={dis.id} xs={12} sm={6} md={3}>
@@ -122,21 +128,52 @@ const TaroDiseases = () => {
           closeAfterTransition
         >
           <Fade in={open}>
-            <Box sx={style}>
-              <Typography id="transition-modal-title" variant="h4">
-                {selectedDisease && selectedDisease.name}
-              </Typography>
-              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {selectedDisease && selectedDisease.description}
-              </Typography>
-              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Reference: {selectedDisease && selectedDisease.part}
-              </Typography>
-            </Box>
-          </Fade>
-        </Modal>
-      </Grid>
-    </Fragment>
+            <Box sx={{
+              
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 700,
+              maxHeight: "80vh", // Limit height to 80% of viewport height
+              bgcolor: darkMode ? "#232b2b" : "white",
+              color: darkMode ? "white" : "black",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+              overflow: "auto", // Add overflow property
+            }}>
+              {/* Your text content */}
+            
+
+            <Typography id="transition-modal-title" variant="h4">
+              {selectedDisease && selectedDisease.name}
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              {selectedDisease && selectedDisease.description}
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              Reference: {selectedDisease && selectedDisease.part}
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
+      {/* {match.path === '/forum' && (
+          <style>
+            {`
+              body {
+                background-color: #1b1b1b;
+                color: #ffffff;
+              }
+            `}
+          </style>
+        )} */}
+
+      <Button onClick={toggleDarkMode}>
+        {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      </Button>
+    </Grid>
+    </Fragment >
   );
 };
 

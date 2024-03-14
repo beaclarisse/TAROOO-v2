@@ -126,6 +126,7 @@ const cloudinary = require("cloudinary");
 
 //not yet okay
 
+//Not used
 exports.getAllPostsForAdmin = async (req, res) => {
   try {
     const posts = await Post.find().populate('user', 'name');
@@ -241,17 +242,38 @@ exports.deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
     const post = await Post.findById(postId);
-
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-
     await post.remove();
 
     return res.json({ message: 'Post deleted successfully' });
   } catch (error) {
     console.error('Error deleting post:', error);
     return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.deletePostAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedPost = await Post.findByIdAndDelete(id);
+    if (!deletedPost) {
+      return res.status(404).json({
+        success: false,
+        message: 'Post not found',
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Post deleted successfully',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: 'Error: Something went wrong',
+    });
   }
 };
 

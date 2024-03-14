@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import Header from '../layout/Header';
@@ -23,6 +23,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditAttributesIcon from '@mui/icons-material/EditAttributes';
+import { useDispatch, useSelector } from "react-redux";
 
 
 const PostDetail = () => {
@@ -38,10 +39,14 @@ const PostDetail = () => {
   const [newReply, setNewReply] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
-  const user = getUser();
+ 
   const [repliesVisible, setRepliesVisible] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+
+  const { user } = useSelector(
+    (state) => state.auth
+);
 
   const toggleRepliesVisibility = () => {
     setRepliesVisible((prev) => !prev);
@@ -276,6 +281,10 @@ const PostDetail = () => {
   //   }
   // };
 
+
+  console.log(post?.user?._id)
+  console.log(user)
+  console.log(getUser())
   return (
     <div className="post-detail-container" style={{ background: '#1b1b1b' }}>
       <Header />
@@ -318,28 +327,33 @@ const PostDetail = () => {
 
 
 
-              {post.user && post.user.id === user.id && (
-                <div>
-                  <Link to="/forum">
-                    <Button color="inherit" component={Link} to="/forum">
-                      <ArrowBackIcon />
-                    </Button>
-                  </Link>
-                  <Link to={`/EditPost/${id}`}>
-                    <IconButton style={{ color: 'white' }}>
-                      <EditIcon />
-                    </IconButton>
-                  </Link>
 
-                  <IconButton onClick={handleDelete} style={{ color: 'white' }}>
-                    <DeleteIcon />
-                  </IconButton>
-                </div>
-              )}
+              <div>
+                <Link to="/forum">
+                  <Button color="inherit" component={Link} to="/forum">
+                    <ArrowBackIcon />
+                  </Button>
+                </Link>
+                
+                {post?.user?._id === user?._id && (
+                  <>
+                    <Link to={`/EditPost/${id}`}>
+                      <IconButton style={{ color: 'white' }}>
+                        <EditIcon />
+                      </IconButton>
+                    </Link>
+
+                    <IconButton onClick={handleDelete} style={{ color: 'white' }}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Comments section */}
+          
           <div className="comments-section">
             <h3>Comments</h3>
 
@@ -396,7 +410,7 @@ const PostDetail = () => {
                         )}
 
                         {repliesVisible && comment.replies && comment.replies.length > 0 && (
-                          <div className="replies-container">
+                          <div className="replies-container " style={{ paddingLeft: 40}}>
                             <hr />
                             <p className="replies-heading">Replies:</p>
                             {comment.replies.map((reply) => (

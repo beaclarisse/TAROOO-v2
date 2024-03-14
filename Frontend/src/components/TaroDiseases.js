@@ -90,6 +90,7 @@ const TaroDiseases = () => {
               key={rowIndex}
               spacing={15}
               justifyContent="center"
+              marginBlockEnd={8}
             >
               {row.map((dis) => (
                 <Grid item key={dis.id} xs={12} sm={6} md={3}>
@@ -127,32 +128,37 @@ const TaroDiseases = () => {
           closeAfterTransition
         >
           <Fade in={open}>
-            <Box sx={ {
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 400,
-                bgcolor: darkMode ? "#232b2b" : "white",
-                color: darkMode ? "white" : "black",
-                border: "2px solid #000",
-                boxShadow: 24,
-                p: 4,
-              }}
-              >
-              <Typography id="transition-modal-title" variant="h4">
-                {selectedDisease && selectedDisease.name}
-              </Typography>
-              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {selectedDisease && selectedDisease.description}
-              </Typography>
-              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Reference: {selectedDisease && selectedDisease.part}
-              </Typography>
-            </Box>
-          </Fade>
-        </Modal>
-        {/* {match.path === '/forum' && (
+            <Box sx={{
+              
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 700,
+              maxHeight: "80vh", // Limit height to 80% of viewport height
+              bgcolor: darkMode ? "#232b2b" : "white",
+              color: darkMode ? "white" : "black",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+              overflow: "auto", // Add overflow property
+            }}>
+              {/* Your text content */}
+            
+
+            <Typography id="transition-modal-title" variant="h4">
+              {selectedDisease && selectedDisease.name}
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              {selectedDisease && selectedDisease.description}
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              Reference: {selectedDisease && selectedDisease.part}
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
+      {/* {match.path === '/forum' && (
           <style>
             {`
               body {
@@ -162,12 +168,12 @@ const TaroDiseases = () => {
             `}
           </style>
         )} */}
-        
-        <Button onClick={toggleDarkMode}>
-          {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-        </Button>
-      </Grid>
-    </Fragment>
+
+      <Button onClick={toggleDarkMode}>
+        {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      </Button>
+    </Grid>
+    </Fragment >
   );
 };
 

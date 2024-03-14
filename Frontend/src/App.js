@@ -91,6 +91,10 @@ import AdminConsultation from './components/admin/Dashboard/AdminConsultation';
 
 //Admin
 import AdminForum from './components/admin/ForumList/AdminForum';
+import AddInfographic from './components/admin/AddInfographic';
+
+import Infographic from './components/Infographic';
+import InfographicDetail from './components/InfographicDetail';
 
 //charts
 import Dashboard from "./components/admin/Dashboard/Dashboard";
@@ -298,6 +302,11 @@ function App() {
           <Route path="/user/forumList/:userId" element={<UserPostList />} />
 
           <Route path="/admin/forum" element={<AdminForum />} />
+          <Route path="/admin/AddInfo" element={<AddInfographic />} />
+          <Route path="/Infographic" element={<Infographic />} />
+          <Route path="/Infographic/:id" element={<InfographicDetail />} />
+
+
 
           {/* Post Forum Admin
           <Route path="/admin/forum"

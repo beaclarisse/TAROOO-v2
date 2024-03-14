@@ -158,8 +158,8 @@ const PostsList = () => {
             <h1>Posts</h1>
             <hr
               style={{
-                color: "#2f3c4c",
-                backgroundColor: "#2f3c4c",
+                color: "#000000",
+                backgroundColor: "#000000",
                 height: 5,
               }}
             />

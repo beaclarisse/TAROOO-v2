@@ -37,6 +37,8 @@ import "react-toastify/dist/ReactToastify.css";
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import PhotoAlbumIcon from '@mui/icons-material/PhotoAlbum';
+
 
 const drawerWidth = 180;
 
@@ -48,7 +50,7 @@ function Sidebar(props) {
         setMobileOpen(!mobileOpen);
     };
     const headerStyle = {
-        backgroundColor: "#2f3c4c",
+        backgroundColor: "#000000",
     }
     const iconStyle = {
         color: "white"
@@ -60,9 +62,6 @@ function Sidebar(props) {
         right: 0,
         padding: '1rem',
     };
-
-
-
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -191,6 +190,21 @@ function Sidebar(props) {
                             >
                                 <ChatBubbleOutlineIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Forum List</ListItemText>
+                            </IconButton>
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                component={Link}
+                                to="/admin/AddInfo"
+                            >
+                                 <PhotoAlbumIcon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>InfoChure</ListItemText>
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>
@@ -404,7 +418,7 @@ function Sidebar(props) {
                     variant="permanent"
                     sx={{
                         display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#2f3c4c', color: 'white' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#000000', color: 'white' },
                     }}
                     open
                 >

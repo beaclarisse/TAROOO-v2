@@ -184,8 +184,8 @@ const UsersList = () => {
             <h1>Users</h1>
             <hr
               style={{
-                color: "#95bfae",
-                backgroundColor: "#95bfae",
+                color: "#000000",
+                backgroundColor: "#000000",
                 height: 5,
               }}
             />

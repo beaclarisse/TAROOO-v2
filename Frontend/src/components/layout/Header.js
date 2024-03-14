@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import GroupIcon from '@mui/icons-material/Group';
 import ForumIcon from '@mui/icons-material/Forum';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 
 const Header = () => {
   const notify = (message = "") => {
@@ -75,6 +76,9 @@ const Header = () => {
                   </Button>
                   <Button color="inherit" component={Link} to="/VideoListPage">
                   <YouTubeIcon /> 
+                  </Button>
+                  <Button color="inherit" component={Link} to="/Infographic">
+                  <ArtTrackIcon /> 
                   </Button>
 
                   {/* <Button color="inherit" component={Link} to="/user/forumList">

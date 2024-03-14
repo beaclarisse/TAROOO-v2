@@ -281,7 +281,9 @@ const PostDetail = () => {
       <Header />
       {[1, 2, 3, 4, 5].map((_, index) => (
         <div key={index} className="space-before-post-container" />
-      ))}
+      ))}   <IconButton onClick={handleLikePost} style={{ color: 'white' }}>
+                {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </IconButton>
       <div className="content-wrapper">
         <div className="post-content-wrapper">
           <div className="user-details">
@@ -310,9 +312,7 @@ const PostDetail = () => {
               </div>
 
               {/* Heart icon */}
-              <IconButton onClick={handleLikePost} style={{ color: 'white' }}>
-                {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-              </IconButton>
+           
               {/* Heart count */}
               <span style={{ marginLeft: '5px', color: 'white' }}>{likeCount}</span>
 

@@ -481,7 +481,7 @@ footer {
 }
 
 #edit_profile {
-  background-color: #fa9c23;
+  background-color: #232b2b;
   border-color: #fa9c23;
 }
 
@@ -493,7 +493,7 @@ footer {
 }
 
 .update-btn {
-  background-color: #fa9c23;
+  background-color: #232b2b;
   border-color: #fa9c23;
   color: white;
 }
@@ -566,7 +566,7 @@ body {
 #sidebar {
   min-width: 100%;
   max-width: 100%;
-  background: #232f3e;
+  background: #000000;
   color: #fff;
   transition: all 0.3s;
 }
@@ -577,12 +577,12 @@ body {
 
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #232f3e;
+  background: #000000;
 }
 
 #sidebar ul.components {
   padding: 5px 0px;
-  border-bottom: 1px solid #232f3e;
+  border-bottom: 1px solid #000000;
 }
 
 #sidebar ul li a {
@@ -594,7 +594,7 @@ body {
 }
 
 #sidebar ul li a:hover {
-  color: #232f3e;
+  color: #000000;
   background: #fff;
 }
 
@@ -605,7 +605,7 @@ body {
 #sidebar ul li.active>a,
 a[aria-expanded='true'] {
   color: #fff;
-  background: #232f3e;
+  background: #000000;
 }
 
 a[data-toggle='collapse'] {
@@ -623,7 +623,7 @@ a[data-toggle='collapse'] {
 ul ul a {
   font-size: 1rem !important;
   padding-left: 30px !important;
-  background: #232f3e;
+  background: #232b2b;
 }
 
 ul.CTAs {

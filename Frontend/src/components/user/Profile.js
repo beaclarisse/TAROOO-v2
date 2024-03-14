@@ -6,6 +6,7 @@ import MetaData from "../layout/MetaData";
 import Header from '../layout/Header'
 import Sidebar from "../admin/Sidebar";
 import { Box } from "@mui/material";
+import Button from "@mui/material/Button";
 
 const Profile = () => {
     const { user, loading } = useSelector((state) => state.auth);
@@ -56,7 +57,7 @@ const Profile = () => {
                                         <p>{user.email}</p>
                                         <h4>Joined On</h4>
                                         <p>{String(user.createdAt).substring(0, 10)}</p>
-                                        
+
                                         <Link
                                             to="/password/update"
                                             className="btn btn-primary btn-block mt-3"
@@ -99,13 +100,10 @@ const Profile = () => {
                                                 alt={user.name}
                                             />
                                         </figure>
-
-                                        <Link
-                                            to="/profile/update"
-                                            id="edit_profile"
-                                            className="btn btn-primary btn-block my-5"
-                                        >
-                                            Edit Profile
+                                        <Link to="/profile/update" id="edit_profile" style={{ textDecoration: 'none' }}>
+                                            <Button variant="contained" fullWidth style={{ marginTop: '1rem', background: '#232b2b', color: '#fff' }}>
+                                                Edit Profile
+                                            </Button>
                                         </Link>
                                     </div>
 
@@ -128,11 +126,10 @@ const Profile = () => {
                                             </Link>
                                         )}
 
-                                        <Link
-                                            to="/password/update"
-                                            className="btn btn-primary btn-block mt-3"
-                                        >
-                                            Change Password
+                                        <Link to="/password/update" style={{ textDecoration: 'none' }}>
+                                            <Button variant="contained" fullWidth style={{ marginTop: '1rem', background: '#232b2b', color: '#fff' }}>
+                                                Change Password
+                                            </Button>
                                         </Link>
                                     </div>
                                 </div>

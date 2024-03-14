@@ -1,61 +1,38 @@
 import {
-  ALL_POSTS_REQUEST,
-  ALL_POSTS_SUCCESS,
-  ALL_POSTS_FAIL,
-  POST_DETAILS_REQUEST,
-  POST_DETAILS_SUCCESS,
-  POST_DETAILS_FAIL,
+  ALL_TAROS_REQUEST,
+  ALL_TAROS_SUCCESS,
+  ALL_TAROS_FAIL,
+  TARO_DETAILS_REQUEST,
+  TARO_DETAILS_SUCCESS,
+  TARO_DETAILS_FAIL,
   CLEAR_ERRORS,
-  NEW_REVIEW_REQUEST,
-  NEW_REVIEW_SUCCESS,
-  NEW_REVIEW_RESET,
-  NEW_REVIEW_FAIL,
-  ADMIN_POSTS_REQUEST,
-  ADMIN_POSTS_SUCCESS,
-  ADMIN_POSTS_FAIL,
-  NEW_POST_REQUEST,
-  NEW_POST_SUCCESS,
-  NEW_POST_RESET,
-  NEW_POST_FAIL,
-  DELETE_POST_REQUEST,
-  DELETE_POST_SUCCESS,
-  DELETE_POST_RESET,
-  DELETE_POST_FAIL,
-  UPDATE_POST_REQUEST,
-  UPDATE_POST_SUCCESS,
-  UPDATE_POST_RESET,
-  UPDATE_POST_FAIL,
-  GET_REVIEWS_REQUEST,
-  GET_REVIEWS_SUCCESS,
-  GET_REVIEWS_FAIL,
-  DELETE_REVIEW_REQUEST,
-  DELETE_REVIEW_SUCCESS,
-  DELETE_REVIEW_RESET,
-  DELETE_REVIEW_FAIL,
-  HOME_POSTS_FAIL,
-  HOME_POSTS_SUCCESS,
-  HOME_POSTS_REQUEST,
+  ADMIN_TAROS_REQUEST,
+  ADMIN_TAROS_SUCCESS,
+  ADMIN_TAROS_FAIL,
+  NEW_TARO_REQUEST,
+  NEW_TARO_SUCCESS,
+  NEW_TARO_RESET,
+  NEW_TARO_FAIL,
+  DELETE_TARO_REQUEST,
+  DELETE_TARO_SUCCESS,
+  DELETE_TARO_RESET,
+  DELETE_TARO_FAIL,
+  UPDATE_TARO_REQUEST,
+  UPDATE_TARO_SUCCESS,
+  UPDATE_TARO_RESET,
+  UPDATE_TARO_FAIL,
 } from "../constants/taroConstants";
 
-export const postsReducer = (
-  state = { taros: [], loading: false, error: null },
-  action
-) => {
+export const tarosReducer = ( state = { taro: [] }, action) => {
   switch (action.type) {
-    case ALL_POSTS_REQUEST:
-    case ADMIN_POSTS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null, // Reset error state
-      };
-    case HOME_POSTS_REQUEST:
+    case ALL_TAROS_REQUEST:
+    case ADMIN_TAROS_REQUEST:
       return {
         loading: true,
         taros: [],
       };
-
-    case ALL_POSTS_SUCCESS:
+    
+    case ALL_TAROS_SUCCESS:
       return {
         loading: false,
         taros: action.payload.taros,
@@ -64,29 +41,14 @@ export const postsReducer = (
         filteredPostsCount: action.payload.filteredPostsCount,
       };
 
-    case ADMIN_POSTS_SUCCESS:
+    case ADMIN_TAROS_SUCCESS:
       return {
-        ...state,
         loading: false,
         taros: action.payload,
-        error: null,
       };
 
-    case HOME_POSTS_SUCCESS:
-      return {
-        loading: false,
-        taros: action.payload.taros,
-        filteredPostsCount: action.payload.filteredPostsCount,
-      };
-
-    case ALL_POSTS_FAIL:
-    case ADMIN_POSTS_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    case HOME_POSTS_FAIL:
+    case ALL_TAROS_FAIL:
+    case ADMIN_TAROS_FAIL:
       return {
         loading: false,
         error: action.payload,
@@ -103,28 +65,28 @@ export const postsReducer = (
   }
 };
 
-export const newPostReducer = (state = { post: {} }, action) => {
+export const newTaroReducer = (state = { taro: {} }, action) => {
   switch (action.type) {
-    case NEW_POST_REQUEST:
+    case NEW_TARO_REQUEST:
       return {
         ...state,
         loading: true,
       };
 
-    case NEW_POST_SUCCESS:
+    case NEW_TARO_SUCCESS:
       return {
         loading: false,
         success: action.payload.success,
-        post: action.payload.post,
+        taro: action.payload.taro,
       };
 
-    case NEW_POST_FAIL:
+    case NEW_TARO_FAIL:
       return {
         ...state,
         error: action.payload,
       };
 
-    case NEW_POST_RESET:
+    case NEW_TARO_RESET:
       return {
         ...state,
         success: false,
@@ -141,43 +103,43 @@ export const newPostReducer = (state = { post: {} }, action) => {
   }
 };
 
-export const postReducer = (state = {}, action) => {
+export const taroReducer = (state = {}, action) => {
   switch (action.type) {
-    case DELETE_POST_REQUEST:
-    case UPDATE_POST_REQUEST:
+    case DELETE_TARO_REQUEST:
+    case UPDATE_TARO_REQUEST:
       return {
         ...state,
         loading: true,
       };
 
-    case DELETE_POST_SUCCESS:
+    case DELETE_TARO_SUCCESS:
       return {
         ...state,
         loading: false,
         isDeleted: action.payload,
       };
 
-    case UPDATE_POST_SUCCESS:
+    case UPDATE_TARO_SUCCESS:
       return {
         ...state,
         loading: false,
         isUpdated: action.payload,
       };
 
-    case DELETE_POST_FAIL:
-    case UPDATE_POST_FAIL:
+    case DELETE_TARO_FAIL:
+    case UPDATE_TARO_FAIL:
       return {
         ...state,
         error: action.payload,
       };
 
-    case DELETE_POST_RESET:
+    case DELETE_TARO_RESET:
       return {
         ...state,
         isDeleted: false,
       };
 
-    case UPDATE_POST_RESET:
+    case UPDATE_TARO_RESET:
       return {
         ...state,
         isUpdated: false,
@@ -194,130 +156,24 @@ export const postReducer = (state = {}, action) => {
   }
 };
 
-export const postDetailsReducer = (state = { post: {} }, action) => {
+export const taroDetailsReducer = (state = { taro: {} }, action) => {
   switch (action.type) {
-    case POST_DETAILS_REQUEST:
+    case TARO_DETAILS_REQUEST:
       return {
         ...state,
         loading: true,
       };
 
-    case POST_DETAILS_SUCCESS:
+    case TARO_DETAILS_SUCCESS:
       return {
         loading: false,
-        post: action.payload,
+        taro: action.payload,
       };
 
-    case POST_DETAILS_FAIL:
+    case TARO_DETAILS_FAIL:
       return {
         ...state,
         error: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const newReviewReducer = (state = {}, action) => {
-  switch (action.type) {
-    case NEW_REVIEW_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case NEW_REVIEW_SUCCESS:
-      return {
-        loading: false,
-        success: action.payload,
-      };
-
-    case NEW_REVIEW_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      };
-
-    case NEW_REVIEW_RESET:
-      return {
-        ...state,
-        success: false,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const postReviewsReducer = (state = { review: [] }, action) => {
-  switch (action.type) {
-    case GET_REVIEWS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case GET_REVIEWS_SUCCESS:
-      return {
-        loading: false,
-        reviews: action.payload,
-      };
-
-    case GET_REVIEWS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const reviewReducer = (state = {}, action) => {
-  switch (action.type) {
-    case DELETE_REVIEW_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case DELETE_REVIEW_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        isDeleted: action.payload,
-      };
-
-    case DELETE_REVIEW_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      };
-
-    case DELETE_REVIEW_RESET:
-      return {
-        ...state,
-        isDeleted: false,
       };
 
     case CLEAR_ERRORS:

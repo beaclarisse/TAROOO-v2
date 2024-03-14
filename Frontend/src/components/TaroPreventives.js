@@ -15,15 +15,15 @@ import Fade from "@mui/material/Fade";
 import * as React from "react";
 // import "../App.css";
 
-const TaroDiseases = () => {
+const TaroPreventives = () => {
   const [post, setPost] = useState({});
-  const [disease, setDisease] = useState([]);
+  const [preventive, setPreventive] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [selectedDisease, setSelectedDisease] = React.useState(null);
+  const [selectedPreventive, setSelectedPreventive] = React.useState(null);
   const [darkMode, setDarkMode] = useState(false);
 
-  const handleOpen = (dis) => {
-    setSelectedDisease(dis);
+  const handleOpen = (prev) => {
+    setSelectedPreventive(prev);
     setOpen(true);
   };
 
@@ -50,20 +50,20 @@ const TaroDiseases = () => {
     p: 4,
   };
 
-  const getDisease = async () => {
+  const getPreventive = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}api/v1/disease`
+        `${process.env.REACT_APP_API}api/v1/preventive`
       );
-      setPost(data.disease);
-      setDisease(data.disease);
+      setPost(data.preventive);
+      setPreventive(data.preventive);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getDisease();
+    getPreventive();
   }, []);
   console.log(post)
   return (
@@ -73,16 +73,17 @@ const TaroDiseases = () => {
       <br />
       <br />
       <Grid>
-        <MetaData title={"Learn about Taro Diseases"} />
+        <MetaData title={"Learn about Preventive Measures"} />
         <h1 id="products_heading" style={{ textAlign: "center", color: "black" }}>
-          <span> Taro Diseases </span>
+          <span> Preventive Measures </span>
         </h1>
 
         <section id="services" className="container mt-5"></section>
 
-        {disease.reduce((rows, dis, index) => {
+        {preventive
+          .reduce((rows, prev, index) => {
             if (index % 3 === 0) rows.push([]);
-            rows[rows.length - 1].push(dis);
+            rows[rows.length - 1].push(prev);
             return rows;
           }, [])
           .map((row, rowIndex) => (
@@ -94,15 +95,15 @@ const TaroDiseases = () => {
               justifyContent="center"
               marginBlockEnd={8}
             >
-              {row.map((dis) => (
-                <Grid item key={dis.id} xs={12} sm={6} md={3}>
+              {row.map((prev) => (
+                <Grid item key={prev.id} xs={12} sm={6} md={3}>
                   <Card sx={{ maxWidth: 345 }}>
                     <CardMedia>
                       <div>
                         <div>
                           <img
-                            key={dis?.images[0]?.public_id}
-                            src={dis?.images[0]?.url}
+                            key={prev?.images[0]?.public_id}
+                            src={prev?.images[0]?.url}
                             alt="Post"
                             className="post-image"
                             style={{ width: '100%', height: 'auto' }} // Set width to 100%
@@ -112,14 +113,14 @@ const TaroDiseases = () => {
                     </CardMedia>
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
-                        {dis.name}
+                        {prev.disease}
                       </Typography>
                       <Typography variant="body" color="text.secondary">
-                        {truncateText(dis.description, 120)}{" "}
+                        {truncateText(prev.description, 120)}{" "}
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" onClick={() => handleOpen(dis)}>
+                      <Button size="small" onClick={() => handleOpen(prev)}>
                         Learn More
                       </Button>
                     </CardActions>
@@ -155,36 +156,21 @@ const TaroDiseases = () => {
             }}>
               {/* Your text content */}
 
-
               <Typography id="transition-modal-title" variant="h4">
-                {selectedDisease && selectedDisease.name}
+                {selectedPreventive && selectedPreventive.disease}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {selectedDisease && selectedDisease.description}
+                {selectedPreventive && selectedPreventive.description}
               </Typography>
               <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Reference: {selectedDisease && selectedDisease.part}
+                Reference: {selectedPreventive && selectedPreventive.reference}
               </Typography>
             </Box>
           </Fade>
         </Modal>
-        {/* {match.path === '/forum' && (
-          <style>
-            {`
-              body {
-                background-color: #1b1b1b;
-                color: #ffffff;
-              }
-            `}
-          </style>
-        )} */}
-
-        {/* <Button onClick={toggleDarkMode}>
-        {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-      </Button> */}
       </Grid>
     </Fragment >
   );
 };
 
-export default TaroDiseases;
+export default TaroPreventives;

@@ -221,7 +221,7 @@ const UpdateDisease = () => {
                                             />
                                         ))}
                                         {/* </div> */}
-                                        <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Product</Button>
+                                        <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Disease</Button>
                                     </Stack>
                                 </FormGroup>
                             </form>

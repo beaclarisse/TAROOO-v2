@@ -13,17 +13,10 @@ const taroSchema = new mongoose.Schema({
     required: [true, "Please enter a description"],
   },
 
-  subtitle: {
+  reference: {
     type: String,
-    required: [true, "Please enter a subtitle"],
-    trim: true,
-    maxLength: [50, "Subtitle name cannot exceed 50 characters"],
-  },
-
-  ratings: {
-    type: Number,
-    default: 0,
-  },
+    required: [true, "Please enter a reference"],
+    },
 
   images: [
     {
@@ -47,30 +40,6 @@ const taroSchema = new mongoose.Schema({
       message: "Please select correct type",
     },
   },
-
-  numOfReviews: {
-    type: Number,
-    default: 0,
-  },
-
-  reviews: [
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-
-      rating: {
-        type: Number,
-        required: true,
-      },
-
-      comment: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
 
   user: {
     type: mongoose.Schema.ObjectId,

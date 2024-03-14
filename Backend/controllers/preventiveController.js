@@ -1,10 +1,10 @@
-const Disease = require("../models/disease.js");
+const Preventive = require("../models/preventive.js");
 const APIFeatures = require("../utils/apiFeatures.js");
 const ErrorHandler = require("../utils/errorHandler.js");
 const cloudinary = require("cloudinary");
 
-// Create, Get, Update, Delete Diseases
-exports.newDisease = async (req, res, next) => {
+// // Create, Get, Update, Delete Preventive Measures
+exports.newPreventive = async (req, res, next) => {
   let images = [];
   if (typeof req.body.images === "string") {
     images.push(req.body.images);
@@ -18,7 +18,7 @@ exports.newDisease = async (req, res, next) => {
     let imageDataUri = images[i];
     try {
       const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
-        folder: "diseases",
+        folder: "preventive",
         width: 150,
         crop: "scale",
       });
@@ -35,61 +35,61 @@ exports.newDisease = async (req, res, next) => {
   req.body.images = imagesLinks;
   req.body.user = req.user.id;
 
-  const disease = await Disease.create(req.body);
-  if (!disease)
+  const preventive = await Preventive.create(req.body);
+  if (!preventive)
     return res.status(400).json({
       success: false,
-      message: "Disease post not created",
+      message: "Preventive post not created",
     });
 
   res.status(201).json({
     success: true,
-    disease,
+    preventive,
   });
 };
 
-exports.allDiseases = async (req, res, next) => {
-  const disease = await Disease.find();
-  let filteredPostsCount = disease.length;
+exports.allPreventives = async (req, res, next) => {
+  const preventive = await Preventive.find();
+  let filteredPostsCount = preventive.length;
 
   res.status(200).json({
     success: true,
     filteredPostsCount,
-    disease,
+    preventive,
   });
 };
 
-exports.getDisease = async (req, res, next) => {
-  const disease = await Disease.find();
-  let filteredDiseasesCount = disease.length;
+exports.getPreventives = async (req, res, next) => {
+  const preventive = await Preventive.find();
+  let filteredPreventivesCount = preventive.length;
 
   res.status(200).json({
     success: true,
-    filteredDiseasesCount,
-    disease,
+    filteredPreventivesCount,
+    preventive,
   });
 };
 
-exports.getSingleDisease = async (req, res, next) => {
-  const disease = await Disease.findById(req.params.id);
+exports.getSinglePreventive = async (req, res, next) => {
+  const preventive = await Preventive.findById(req.params.id);
 
-  console.log(disease);
+  console.log(preventive);
 
-  if (!disease) {
-    return next(new ErrorHandler("Disease post not found", 404));
+  if (!preventive) {
+    return next(new ErrorHandler("Preventive post not found", 404));
   }
 
   res.status(200).json({
     success: true,
-    disease,
+    preventive,
   });
 };
 
-exports.updateDisease = async (req, res, next) => {
-  let disease = await Disease.findById(req.params.id);
+exports.updatePreventive = async (req, res, next) => {
+  let preventive = await Preventive.findById(req.params.id);
 
-  if (!disease) {
-    return next(new ErrorHandler("Disease post not found", 404));
+  if (!preventive) {
+    return next(new ErrorHandler("Preventive post not found", 404));
   }
 
   let images = [];
@@ -101,11 +101,11 @@ exports.updateDisease = async (req, res, next) => {
   }
 
   if (images !== undefined) {
-    // Deleting images associated with the disease
+    // Deleting images associated with the preventive
 
-    for (let i = 0; i < disease.images.length; i++) {
+    for (let i = 0; i < preventive.images.length; i++) {
       const result = await cloudinary.v2.uploader.destroy(
-        disease.images[i].public_id
+        preventive.images[i].public_id
       );
     }
 
@@ -113,7 +113,7 @@ exports.updateDisease = async (req, res, next) => {
 
     for (let i = 0; i < images.length; i++) {
       const result = await cloudinary.v2.uploader.upload(images[i], {
-        folder: "diseases",
+        folder: "preventives",
       });
 
       imagesLinks.push({
@@ -125,7 +125,7 @@ exports.updateDisease = async (req, res, next) => {
     req.body.images = imagesLinks;
   }
 
-  disease = await Disease.findByIdAndUpdate(req.params.id, req.body, {
+  preventive = await Preventive.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -133,27 +133,27 @@ exports.updateDisease = async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    disease,
+    preventive,
   });
 };
 
-exports.deleteDisease = async (req, res, next) => {
-  let disease = await Disease.findById(req.params.id);
+exports.deletePreventive = async (req, res, next) => {
+  let preventive = await Preventive.findById(req.params.id);
 
-  if (!disease) {
+  if (!preventive) {
     return res.status(404).json({
       success: false,
-      message: "Disease post not found",
+      message: "Preventive post not found",
     });
   }
 
-  if (!disease) {
-    return next(new ErrorHandler("Disease post not found", 404));
+  if (!preventive) {
+    return next(new ErrorHandler("Preventive post not found", 404));
   }
-  disease = await Disease.findByIdAndRemove(req.params.id);
+  preventive = await Preventive.findByIdAndRemove(req.params.id);
 
   res.status(200).json({
     success: true,
-    disease,
+    preventive,
   });
 };

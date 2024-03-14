@@ -11,6 +11,7 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -156,7 +157,7 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/admin/posts"
+                                to="/admin/taros"
                             >
                                 <PostAddIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>Posts</ListItemText>
@@ -171,10 +172,25 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/admin/VideoBrowse"
+                                to="/admin/diseases"
                             >
-                                <VideoLibraryIcon />
-                                <ListItemText sx={{ paddingLeft: 3 }}>Videos</ListItemText>
+                                <HomeRepairServiceIcon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Diseases</ListItemText>
+                            </IconButton>
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon style={iconStyle}>
+                            <IconButton
+                                size="medium"
+                                color="inherit"
+                                component={Link}
+                                to="/admin/preventives"
+                            >
+                                <HealthAndSafetyIcon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Preventives</ListItemText>
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>
@@ -216,10 +232,10 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/admin/diseases"
+                                to="/admin/VideoBrowse"
                             >
-                                <HomeRepairServiceIcon />
-                                <ListItemText sx={{ paddingLeft: 3 }}>Diseases</ListItemText>
+                                <VideoLibraryIcon />
+                                <ListItemText sx={{ paddingLeft: 3 }}>Videos</ListItemText>
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>

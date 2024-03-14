@@ -5,40 +5,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Avatar, Button, FormGroup, Grid, Select, MenuItem, Paper, Stack, TextField, Typography, InputLabel } from "@mui/material";
+import { Button, FormGroup, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 
 
 import {
-    updateTaro,
-    getTaroDetails,
+    updatePreventive,
+    getPreventiveDetails,
     clearErrors,
-} from "../../actions/taroAction";
+} from "../../actions/preventiveAction";
 
-import { UPDATE_TARO_RESET } from "../../constants/taroConstants";
+import { UPDATE_PREVENTIVE_RESET } from "../../constants/preventiveConstants";
 
-const UpdatePost = () => {
+const UpdatePreventive = () => {
 
-    const [title, setTitle] = useState("");
+    
+    const [disease, setDisease] = useState("");
     const [reference, setReference] = useState("");
     const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
     const [images, setImages] = useState([]);
     const [oldImages, setOldImages] = useState([]);
     const [imagesPreview, setImagesPreview] = useState([]);
-    const categories = [
-        "About",
-        "Benefit"
-    ];
 
     const dispatch = useDispatch();
 
-    const { error, taro } = useSelector((state) => state.taroDetails);
+    const { error, preventive } = useSelector((state) => state.preventiveDetails);
 
     const {
         loading,
         error: updateError,
         isUpdated,
-    } = useSelector((state) => state.taro);
+    } = useSelector((state) => state.preventive);
 
     let { id } = useParams();
 
@@ -55,14 +51,16 @@ const UpdatePost = () => {
         });
 
     useEffect(() => {
-        if (taro && taro._id !== id) {
-            dispatch(getTaroDetails(id));
+        if (preventive && preventive._id !== id) {
+            dispatch(getPreventiveDetails(id));
         } else {
-            setTitle(taro.title);
-            setReference(taro.reference);
-            setDescription(taro.description);
-            setCategory(taro.category);
-            setOldImages(taro.images);
+            setDisease(preventive.disease);
+
+            setReference(preventive.reference);
+
+            setDescription(preventive.description);
+
+            setOldImages(preventive.images);
         }
 
         if (error) {
@@ -78,32 +76,30 @@ const UpdatePost = () => {
         }
 
         if (isUpdated) {
-            navigate("/admin/taros");
+            navigate("/admin/preventives");
 
-            successMsg("Post updated successfully");
+            successMsg("Preventives updated successfully");
 
-            dispatch({ type: UPDATE_TARO_RESET });
+            dispatch({ type: UPDATE_PREVENTIVE_RESET });
         }
-    }, [dispatch, error, isUpdated, navigate, updateError, taro, id]);
+    }, [dispatch, error, isUpdated, navigate, updateError, preventive, id]);
 
     const submitHandler = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
 
-        formData.set("title", title);
+        formData.set("disease", disease);
 
         formData.set("reference", reference);
 
         formData.set("description", description);
 
-        formData.set("category", category);
-
         images.forEach((image) => {
             formData.append("images", image);
         });
 
-        dispatch(updateTaro(taro._id, formData));
+        dispatch(updatePreventive(preventive._id, formData));
     };
 
     const onChange = (e) => {
@@ -133,7 +129,7 @@ const UpdatePost = () => {
     //Paper CSS/Style
     const paperStyle = {
         padding: 40,
-        height: '130vh',
+        height: '90vh',
         width: 1000,
         margin: "100px auto",
         backgroundColor: "#f5f5f5"
@@ -150,35 +146,20 @@ const UpdatePost = () => {
                     <Sidebar />
                 </div>
                 <div className="col-12 col-md-10">
-                    <MetaData title={"Update Post"} />
+                    <MetaData title={"Update Preventives"} />
                     <Grid style={gridStyle}>
                         <Paper elevation={10} style={paperStyle}>
-                            <Typography variant='h3' align='center' padding='10px'>Update Posts</Typography>
+                            <Typography variant='h3' align='center' padding='10px'>Update Preventives</Typography>
                             <form
                                 onSubmit={submitHandler}
                                 encType="multipart/form-data"
                             >
                                 <FormGroup>
-                                    <Stack spacing={1} alignItems='center'>
+                                    <Stack spacing={2} alignItems='center'>
 
-                                        <TextField label="Category" fullWidth disabled variant="standard"></TextField>
-                                        <Select
-                                            labelId="category"
-                                            label="category"
-                                            id="category_field"
-                                            value={categories}
-                                            onChange={(e) => setCategory(e.target.value)}
-                                            fullWidth required
-                                        >
-                                            {categories.map((category) => (
-                                                <MenuItem key={category} value={category}>
-                                                    {category}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                        <TextField label='Title' variant='standard' id='title_field'
-                                            type='title' value={title}
-                                            onChange={(e) => setTitle(e.target.value)} fullWidth required />
+                                        <TextField label='Disease' variant='standard' id='disease_field'
+                                            type='disease' value={disease}
+                                            onChange={(e) => setDisease(e.target.value)} fullWidth required />
                                         <TextField
                                             id="description_field"
                                             label="Description"
@@ -188,11 +169,16 @@ const UpdatePost = () => {
                                             value={description}
                                             onChange={(e) => setDescription(e.target.value)}
                                         />
-                                        {/* <InputLabel sx={{ textAlign: 'left', marginRight: '10px' }}>Categories</InputLabel> */}
-
-                                        <TextField label='Reference' variant='standard' id='price_field'
-                                            type='string' value={reference}
-                                            onChange={(e) => setReference(e.target.value)} fullWidth required />
+                                        <TextField
+                                            id="Reference"
+                                            variant='standard'
+                                            label="reference_field"
+                                            multiline
+                                            rows={3}
+                                            fullWidth required
+                                            value={reference}
+                                            onChange={(e) => setReference(e.target.value)}
+                                        />
 
                                         <div className="custom-file">
                                             <input
@@ -206,7 +192,7 @@ const UpdatePost = () => {
                                             />
 
                                             <label className="custom-file-label" htmlFor="customFile">
-                                                Upload Image
+                                                Choose Images
                                             </label>
                                         </div>
 
@@ -232,7 +218,8 @@ const UpdatePost = () => {
                                                 height="52"
                                             />
                                         ))}
-                                        <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Post</Button>
+                                        {/* </div> */}
+                                        <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Preventives</Button>
                                     </Stack>
                                 </FormGroup>
                             </form>
@@ -244,4 +231,4 @@ const UpdatePost = () => {
     );
 };
 
-export default UpdatePost;
+export default UpdatePreventive;

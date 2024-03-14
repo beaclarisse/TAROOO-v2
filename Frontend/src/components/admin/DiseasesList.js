@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MDBDataTable } from "mdbreact";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from 'axios';
+// import axios from 'axios';
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
@@ -98,7 +98,7 @@ const DiseasesList = () => {
                 <i className="fa fa-pencil"></i>
               </Link>
               <button
-                className="btn btn-danger py-1 px-2 ml-2"
+                className="btn btn-danger py-1 px-2 ml-1"
                 onClick={() => deleteDiseaseHandler(disease._id)}
               >
                 <i className="fa fa-trash"></i>

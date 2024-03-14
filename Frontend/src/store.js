@@ -11,23 +11,27 @@ import {
 } from "./reducers/userReducers";
 
 import {
-    postsReducer,
-    postDetailsReducer,
-    newReviewReducer,
-    newPostReducer,
-    postReducer,
-    reviewReducer,
-    postReviewsReducer,
+    tarosReducer,
+    taroDetailsReducer,
+    newTaroReducer,
+    taroReducer,
 } from "./reducers/taroReducers";
 
 import {
     diseasesReducer,
-    newServiceReducer,
     diseaseReducer,
     diseaseDetailsReducer,
     newDiseaseReducer,
     
 } from "./reducers/diseaseReducers";
+
+import {
+    preventivesReducer,
+    preventiveReducer,
+    preventiveDetailsReducer,
+    newPreventiveReducer,
+    
+} from "./reducers/preventiveReducers";
 
 const reducer = combineReducers({
     auth: authReducer,
@@ -36,18 +40,20 @@ const reducer = combineReducers({
     forgotPassword: forgotPasswordReducer,
     userDetails: userDetailsReducer,
 
-    posts: postsReducer,
-    postDetails: postDetailsReducer,
-    newReview: newReviewReducer,
-    newPost: newPostReducer,
-    postReviews: postReviewsReducer,
-    review: reviewReducer,
-    post: postReducer,
+    taros: tarosReducer,
+    taroDetails: taroDetailsReducer,
+    newTaro: newTaroReducer,
+    taro: taroReducer,
 
     diseases: diseasesReducer,
     diseaseDetails: diseaseDetailsReducer,
     disease: diseaseReducer,
     newDisease: newDiseaseReducer, 
+
+    preventives: preventivesReducer,
+    preventiveDetails: preventiveDetailsReducer,
+    preventive: preventiveReducer,
+    newPreventive: newPreventiveReducer,
 });
 
 const middlware = [thunk];

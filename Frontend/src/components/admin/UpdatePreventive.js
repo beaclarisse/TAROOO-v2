@@ -9,17 +9,17 @@ import { Button, FormGroup, Grid, Paper, Stack, TextField, Typography } from "@m
 
 
 import {
-    updateDisease,
-    getDiseaseDetails,
+    updatePreventive,
+    getPreventiveDetails,
     clearErrors,
-} from "../../actions/diseaseAction";
+} from "../../actions/preventiveAction";
 
-import { UPDATE_DISEASE_RESET } from "../../constants/diseaseConstants";
+import { UPDATE_PREVENTIVE_RESET } from "../../constants/preventiveConstants";
 
-const UpdateDisease = () => {
+const UpdatePreventive = () => {
 
-    const [name, setName] = useState("");
-    const [part, setPart] = useState("");
+    const [disease, setDisease] = useState("");
+    const [reference, setReference] = useState("");
     const [description, setDescription] = useState("");
     const [images, setImages] = useState([]);
     const [oldImages, setOldImages] = useState([]);
@@ -27,13 +27,13 @@ const UpdateDisease = () => {
 
     const dispatch = useDispatch();
 
-    const { error, disease } = useSelector((state) => state.diseaseDetails);
+    const { error, preventive } = useSelector((state) => state.preventiveDetails);
 
     const {
         loading,
         error: updateError,
         isUpdated,
-    } = useSelector((state) => state.disease);
+    } = useSelector((state) => state.preventive);
 
     let { id } = useParams();
 
@@ -50,16 +50,16 @@ const UpdateDisease = () => {
         });
 
     useEffect(() => {
-        if (disease && disease._id !== id) {
-            dispatch(getDiseaseDetails(id));
+        if (preventive && preventive._id !== id) {
+            dispatch(getPreventiveDetails(id));
         } else {
-            setName(disease.name);
+            setName(preventive.disease);
 
-            setPart(disease.part);
+            setPart(preventive.reference);
 
-            setDescription(disease.description);
+            setDescription(preventive.description);
 
-            setOldImages(disease.images);
+            setOldImages(preventive.images);
         }
 
         if (error) {
@@ -75,22 +75,22 @@ const UpdateDisease = () => {
         }
 
         if (isUpdated) {
-            navigate("/admin/diseases");
+            navigate("/admin/preventives");
 
-            successMsg("Diseases updated successfully");
+            successMsg("Preventives updated successfully");
 
-            dispatch({ type: UPDATE_DISEASE_RESET });
+            dispatch({ type: UPDATE_PREVENTIVE_RESET });
         }
-    }, [dispatch, error, isUpdated, navigate, updateError, disease, id]);
+    }, [dispatch, error, isUpdated, navigate, updateError, preventive, id]);
 
     const submitHandler = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
 
-        formData.set("name", name);
+        formData.set("disease", disease);
 
-        formData.set("part", part);
+        formData.set("reference", reference);
 
         formData.set("description", description);
 
@@ -98,7 +98,7 @@ const UpdateDisease = () => {
             formData.append("images", image);
         });
 
-        dispatch(updateDisease(disease._id, formData));
+        dispatch(updatePreventive(preventive._id, formData));
     };
 
     const onChange = (e) => {
@@ -145,10 +145,10 @@ const UpdateDisease = () => {
                     <Sidebar />
                 </div>
                 <div className="col-12 col-md-10">
-                    <MetaData title={"Update Disease"} />
+                    <MetaData title={"Update Preventives"} />
                     <Grid style={gridStyle}>
                         <Paper elevation={10} style={paperStyle}>
-                            <Typography variant='h3' align='center' padding='10px'>Update Disease</Typography>
+                            <Typography variant='h3' align='center' padding='10px'>Update Preventives</Typography>
                             <form
                                 onSubmit={submitHandler}
                                 encType="multipart/form-data"
@@ -156,9 +156,9 @@ const UpdateDisease = () => {
                                 <FormGroup>
                                     <Stack spacing={2} alignItems='center'>
 
-                                        <TextField label='Name' variant='standard' id='name_field'
-                                            type='name' value={name}
-                                            onChange={(e) => setName(e.target.value)} fullWidth required />
+                                        <TextField label='Disease' variant='standard' id='disease_field'
+                                            type='disease' value={disease}
+                                            onChange={(e) => setDisease(e.target.value)} fullWidth required />
                                         <TextField
                                             id="description_field"
                                             label="Description"
@@ -169,18 +169,15 @@ const UpdateDisease = () => {
                                             onChange={(e) => setDescription(e.target.value)}
                                         />
                                         <TextField
-                                            id="Part"
+                                            id="Reference"
                                             variant='standard'
-                                            label="part_field"
+                                            label="reference_field"
                                             multiline
                                             rows={3}
                                             fullWidth required
-                                            value={part}
-                                            onChange={(e) => setPart(e.target.value)}
+                                            value={reference}
+                                            onChange={(e) => setReference(e.target.value)}
                                         />
-
-                                        {/* <div className="custom-file">
-                                    <label>Images</label> */}
 
                                         <div className="custom-file">
                                             <input
@@ -221,7 +218,7 @@ const UpdateDisease = () => {
                                             />
                                         ))}
                                         {/* </div> */}
-                                        <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Disease</Button>
+                                        <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Preventives</Button>
                                     </Stack>
                                 </FormGroup>
                             </form>
@@ -233,4 +230,4 @@ const UpdateDisease = () => {
     );
 };
 
-export default UpdateDisease;
+export default UpdatePreventive;

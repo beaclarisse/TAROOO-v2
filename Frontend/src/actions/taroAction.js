@@ -52,25 +52,24 @@ export const getTaro =
     }
   };
 
-  export const allTaros = () => async (dispatch) => {
-    try {
-      dispatch({ type: ADMIN_TAROS_REQUEST });
-  
-      const { data } = await axios.get(`/api/v1/admin/taros`);
-      console.log(data); 
-      
-      dispatch({
-        type: ADMIN_TAROS_SUCCESS,
-        payload: data.taros,
-      });
-    } catch (error) {
-      dispatch({
-        type: ADMIN_TAROS_FAIL,
-        payload: error.response.data.message
-      });
-    }
-  };
+export const allTaros = () => async (dispatch) => {
+  try {
+    dispatch({ type: ADMIN_TAROS_REQUEST });
 
+    const { data } = await axios.get(`/api/v1/admin/taros`);
+    console.log(data);
+
+    dispatch({
+      type: ADMIN_TAROS_SUCCESS,
+      payload: data.taros,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_TAROS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 export const newTaro = (taroData) => async (dispatch) => {
   try {
@@ -82,11 +81,7 @@ export const newTaro = (taroData) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(
-      `/api/v1/taro/new`,
-      taroData,
-      config
-    );
+    const { data } = await axios.post(`/api/v1/taro/new`, taroData, config);
 
     dispatch({
       type: NEW_TARO_SUCCESS,

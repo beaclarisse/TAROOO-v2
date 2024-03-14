@@ -7,24 +7,24 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 import {
-  allTaros,
+  allPreventives,
   clearErrors,
-  deleteTaro,
-} from "../../actions/taroAction";
-import { DELETE_TARO_RESET } from "../../constants/taroConstants";
+  deletePreventive,
+} from "../../actions/preventiveAction";
+import { DELETE_PREVENTIVE_RESET } from "../../constants/preventiveConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography, Button, Divider } from "@mui/material";
 
-const PostsList = () => {
+const PreventivesList = () => {
   const dispatch = useDispatch();
 
   let navigate = useNavigate();
 
-  const { loading, error, taros } = useSelector(
-    (state) => state.taros || {}
+  const { loading, error, preventives } = useSelector(
+    (state) => state.preventives || {}
   );
   
-  const { isDeleted } = useSelector((state) => state.taro);
+  const { isDeleted } = useSelector((state) => state.preventive);
 
   const errMsg = (message = "") =>
     toast.error(message, {
@@ -36,9 +36,9 @@ const PostsList = () => {
       position: toast.POSITION.BOTTOM_CENTER,
     });
 
-  console.log(taros)
+  console.log(preventives)
   useEffect(() => {
-    dispatch(allTaros());
+    dispatch(allPreventives());
 
     if (error) {
       notify(error);
@@ -46,32 +46,27 @@ const PostsList = () => {
     }
 
     if (isDeleted) {
-      successMsg("Post deleted successfully");
-      navigate("/admin/taros");
-      dispatch({ type: DELETE_TARO_RESET });
+      successMsg("Preventive post deleted successfully");
+      navigate("/admin/preventives");
+      dispatch({ type: DELETE_PREVENTIVE_RESET });
     }
   }, [dispatch, alert, error, isDeleted, navigate]);
 
-  const deleteTaroHandler = (id) => {
-    dispatch(deleteTaro(id));
+  const deletepPreventiveHandler = (id) => {
+    dispatch(deletePreventive(id));
   };
 
-  const getTaro = () => {
+  const getPreventives = () => {
     const data = {
       columns: [
         {
-          label: "Post ID",
+          label: "Preventive ID",
           field: "id",
           sort: "asc",
         },
         {
-          label: "Title",
-          field: "title",
-          sort: "asc",
-        },
-        {
-          label: "Category",
-          field: "category",
+          label: "Disease",
+          field: "disease",
           sort: "asc",
         },
         {
@@ -87,24 +82,23 @@ const PostsList = () => {
       rows: [],
     };
 
-    if (taros && taros.length > 0) {
-      taros.forEach((taro) => {
+    if (preventives && preventives.length > 0) {
+      preventives.forEach((preventive) => {
         data.rows.push({
-          id: taro._id,
-          title: taro.title,
-          reference: taro.reference,
-          category: taro.category,
+          id: preventive._id,
+          disease: preventive.disease,
+          reference: preventive.reference,
           actions: (
             <Fragment>
               <Link
-                to={`/update/taro/${taro._id}`}
+                to={`/update/preventive/${preventive._id}`}
                 className="btn btn-primary py-1 px-2"
               >
                 <i className="fa fa-pencil"></i>
               </Link>
               <button
                 className="btn btn-danger py-1 px-2 ml-2"
-                onClick={() => deleteTaroHandler(taro._id)}
+                onClick={() => deletepPreventiveHandler(preventive._id)}
               >
                 <i className="fa fa-trash"></i>
               </button>
@@ -123,7 +117,7 @@ const PostsList = () => {
       style={{ background: "white" }}
     >
       <Fragment>
-        <MetaData title={"All Posts"} />
+        <MetaData title={"All Preventive Measures"} />
 
         <div className="row">
           <div className="col-12 col-md-2">
@@ -133,7 +127,7 @@ const PostsList = () => {
           <div className="col-18 col-md-10">
             <br />
             <br />
-            <h1>Posts</h1>
+            <h1>Preventive Measures</h1>
             <hr
               style={{
                 color: "#95bfae",
@@ -146,16 +140,16 @@ const PostsList = () => {
               variant="contained"
               color="primary"
               sx={{ marginBottom: 2 }}
-              href="/taro/new"
+              href="/preventive/new"
             >
               {" "}
-              New Post
+              New Preventives
             </Button>
             {loading ? (
               <Loader />
             ) : (
               <MDBDataTable
-                data={getTaro()}
+                data={getPreventives()}
                 className="px-3"
                 bordered
                 striped
@@ -170,4 +164,4 @@ const PostsList = () => {
   );
 };
 
-export default PostsList;
+export default PreventivesList;

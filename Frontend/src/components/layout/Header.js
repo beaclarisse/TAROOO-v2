@@ -64,7 +64,7 @@ const Header = () => {
                   <Button color="inherit" component={Link} to="/TaroDiseases">
                     Diseases
                   </Button>
-                  <Button color="inherit" component={Link} to="/Preventive">
+                  <Button color="inherit" component={Link} to="/TaroPreventives">
                     Preventive Measures
                   </Button>
                   <Button color="inherit" component={Link} to="/forum">

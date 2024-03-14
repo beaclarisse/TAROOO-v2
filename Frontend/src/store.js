@@ -25,6 +25,14 @@ import {
     
 } from "./reducers/diseaseReducers";
 
+import {
+    preventivesReducer,
+    preventiveReducer,
+    preventiveDetailsReducer,
+    newPreventiveReducer,
+    
+} from "./reducers/preventiveReducers";
+
 const reducer = combineReducers({
     auth: authReducer,
     allUsers: allUsersReducer,
@@ -41,6 +49,11 @@ const reducer = combineReducers({
     diseaseDetails: diseaseDetailsReducer,
     disease: diseaseReducer,
     newDisease: newDiseaseReducer, 
+
+    preventives: preventivesReducer,
+    preventiveDetails: preventiveDetailsReducer,
+    preventive: preventiveReducer,
+    newPreventive: newPreventiveReducer,
 });
 
 const middlware = [thunk];

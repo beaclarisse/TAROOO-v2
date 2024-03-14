@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { newDisease, clearErrors } from "../../actions/diseaseAction";
-import { NEW_DISEASE_RESET } from "../../constants/diseaseConstants";
+import { newPreventive, clearErrors } from "../../actions/preventiveAction";
+import { NEW_PREVENTIVE_RESET } from "../../constants/preventiveConstants";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,9 +18,9 @@ import {
   Typography,
 } from "@mui/material";
 
-const NewDisease = () => {
-  const [name, setName] = useState("");
-  const [part, setPart] = useState("");
+const NewPreventive = () => {
+  const [disease, setDisease] = useState("");
+  const [reference, setReference] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -32,8 +32,8 @@ const NewDisease = () => {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      name: name,
-      part: part,
+      disease: disease,
+      reference: reference,
       description: description,
     },
   });
@@ -44,7 +44,7 @@ const NewDisease = () => {
     loading = false,
     error,
     success,
-  } = useSelector((state) => state.newDisease || {});
+  } = useSelector((state) => state.newPreventive || {});
 
   const message = (message = "") =>
     toast.success(message, {
@@ -58,12 +58,12 @@ const NewDisease = () => {
     }
 
     if (success) {
-      toast("New Disease Post!", "Success");
-      navigate("/admin/diseases");
+      toast("New Preventive Post!", "Success");
+      navigate("/admin/preventives");
 
-      message("Disease post created successfully");
+      message("Preventive post created successfully");
 
-      dispatch({ type: NEW_DISEASE_RESET });
+      dispatch({ type: NEW_PREVENTIVE_RESET });
     }
   }, [dispatch, error, success, navigate]);
 
@@ -71,17 +71,17 @@ const NewDisease = () => {
   const submitHandler = (data) => {
     const formData = new FormData();
 
-    formData.set("name", data.name);
+    formData.set("disease", data.disease);
 
     formData.set("description", data.description);
 
-    formData.set("part", data.part);
+    formData.set("reference", data.reference);
 
     images.forEach((image) => {
       formData.append("images", image);
     });
 
-    dispatch(newDisease(formData));
+    dispatch(newPreventive(formData));
   };
 
   const onChange = (e) => {
@@ -136,11 +136,11 @@ const NewDisease = () => {
           <Sidebar />
         </div>
         <div className="col-12 col-md-10">
-          <MetaData title={"New Disease"} />
+          <MetaData title={"New Preventives"} />
           <Grid style={gridStyle}>
             <Paper elevation={10} style={paperStyle}>
               <Typography variant="h3" align="center" padding="10px">
-                New Disease
+                New Preventives
               </Typography>
               <form
                 onSubmit={handleSubmit(submitHandler)}
@@ -149,19 +149,19 @@ const NewDisease = () => {
                 <FormGroup>
                   <Stack spacing={2} alignItems="center">
                     <TextField
-                      label="Name"
+                      label="Disease"
                       variant="standard"
-                      id="name_field"
-                      type="name"
-                      onChange={(e) => setName(e.target.value)}
+                      id="disease_field"
+                      type="disease"
+                      onChange={(e) => setDisease(e.target.value)}
                       fullWidth
-                      {...register("name", {
-                        required: "Name is required.",
+                      {...register("disease", {
+                        required: "Disease is required.",
                       })}
                     />
-                    {errors.name && (
+                    {errors.disease && (
                       <Typography style={errorStyle} variant="body1">
-                        {errors.name.message}
+                        {errors.disease.message}
                       </Typography>
                     )}
 
@@ -185,17 +185,17 @@ const NewDisease = () => {
                     <TextField
                       label="Reference"
                       variant="standard"
-                      id="part_field"
+                      id="reference_field"
                       type="string"
-                      onChange={(e) => setPart(e.target.value)}
+                      onChange={(e) => setReference(e.target.value)}
                       fullWidth
-                      {...register("part", {
+                      {...register("reference", {
                         required: "Reference is required.",
                       })}
                     />
-                    {errors.part && (
+                    {errors.reference && (
                       <Typography style={errorStyle} variant="body1">
-                        {errors.part.message}
+                        {errors.reference.message}
                       </Typography>
                     )}
 
@@ -221,7 +221,7 @@ const NewDisease = () => {
                       color="primary"
                       fullWidth
                     >
-                      Create Disease
+                      Create Preventive
                     </Button>
                   </Stack>
                 </FormGroup>
@@ -234,4 +234,4 @@ const NewDisease = () => {
   );
 };
 
-export default NewDisease;
+export default NewPreventive;

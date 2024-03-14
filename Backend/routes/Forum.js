@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 
 // admin routes
 router.get('/admin/posts', forumController.getAllPostsForAdmin);
+router.delete('/admin/deletePost/:id', forumController.deletePostAdmin);
 // authorizeRoles("admin"),
 
 // user routes

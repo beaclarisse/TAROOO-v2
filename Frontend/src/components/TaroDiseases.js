@@ -19,10 +19,15 @@ const TaroDiseases = () => {
   const [disease, setDisease] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [selectedDisease, setSelectedDisease] = React.useState(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleOpen = (dis) => {
     setSelectedDisease(dis);
     setOpen(true);
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
   };
 
   const handleClose = () => setOpen(false);
@@ -122,7 +127,19 @@ const TaroDiseases = () => {
           closeAfterTransition
         >
           <Fade in={open}>
-            <Box sx={style}>
+            <Box sx={ {
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 400,
+                bgcolor: darkMode ? "#232b2b" : "white",
+                color: darkMode ? "white" : "black",
+                border: "2px solid #000",
+                boxShadow: 24,
+                p: 4,
+              }}
+              >
               <Typography id="transition-modal-title" variant="h4">
                 {selectedDisease && selectedDisease.name}
               </Typography>
@@ -135,6 +152,20 @@ const TaroDiseases = () => {
             </Box>
           </Fade>
         </Modal>
+        {/* {match.path === '/forum' && (
+          <style>
+            {`
+              body {
+                background-color: #1b1b1b;
+                color: #ffffff;
+              }
+            `}
+          </style>
+        )} */}
+        
+        <Button onClick={toggleDarkMode}>
+          {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        </Button>
       </Grid>
     </Fragment>
   );

@@ -88,33 +88,32 @@ const TaroPosts = ({ match }) => {
                 justifyContent="center"
               >
                 {row.map((pos) => (
-                <Grid item key={pos.id} xs={12} sm={6} md={3}>
-                  <Card sx={{ maxWidth: 345, height: "100%" }}>
-                    {/* Card content goes here */}
-                    <CardMedia
-                      sx={{ height: 140 }}
-                      image="../images/taro.jpg"
-                      title="green iguana"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {pos.title}
-                      </Typography>
-                      <Typography variant="body" color="text.secondary">
-                        {truncateText(dis.description, 120)} {pos.description}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small" onClick={() => handleOpen(pos)}>
-                        Learn More
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
+                  <Grid item key={pos.id} xs={12} sm={6} md={3}>
+                    <Card sx={{ maxWidth: 345, height: "100%" }}>
+                      {/* Card content goes here */}
+                      <CardMedia
+                        sx={{ height: 140 }}
+                        image="../images/taro.jpg"
+                        title="green iguana"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {pos.title}
+                        </Typography>
+                        <Typography variant="body" color="text.secondary">
+                          {truncateText(dis.description, 120)} {pos.description}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small" onClick={() => handleOpen(pos)}>
+                          Learn More
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
                 ))}
               </Grid>
             ))}
-
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -123,7 +122,12 @@ const TaroPosts = ({ match }) => {
           closeAfterTransition
         >
           <Fade in={open}>
-            <Box sx={style}>
+            <Box
+              sx={{
+                ...style,
+                bgcolor: "#232b2b",
+              }}
+            >
               <Typography
                 id="transition-modal-title"
                 variant="h3"
@@ -147,6 +151,7 @@ const TaroPosts = ({ match }) => {
             </Box>
           </Fade>
         </Modal>
+
       </Grid>
     </Fragment>
   );

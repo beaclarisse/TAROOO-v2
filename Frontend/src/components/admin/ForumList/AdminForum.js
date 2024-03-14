@@ -23,14 +23,10 @@ const AdminForum = () => {
     fetchData();
   }, []);
 
-  const handleCardClick = (postId) => {
-    navigate(`/post/${postId}`);
-  };
-
   const handleDeletePost = async (postId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/v1/posts/${postId}`);
-      // Remove the deleted post from the state
+      await axios.delete(`http://localhost:3000/api/v1/admin/deletePost/${postId}`);
+   
       setPosts(posts.filter(post => post._id !== postId));
     } catch (error) {
       console.error('Error deleting post:', error);
@@ -83,7 +79,6 @@ const AdminForum = () => {
     }
 
     return (
-      <div className="custom-col-md-6 my-3" key={post._id} onClick={() => handleCardClick(post._id)} style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
         <div className="card mb-3 rounded" style={{ width: '100%', height: '7rem', background: '#232b2b', color: '#fff' }}>
           <div className="card-body d-flex justify-content-between align-items-center">
             <div>
@@ -105,7 +100,6 @@ const AdminForum = () => {
           </div>
           {post.avatar && <img src={post.avatar} alt={`${user.name || user.handle}'s avatar`} className="mt-2" style={{ maxWidth: '30px', borderRadius: '50%' }} />}
         </div>
-      </div>
     );
   };
 

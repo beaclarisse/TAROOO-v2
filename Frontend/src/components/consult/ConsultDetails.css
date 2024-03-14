@@ -1,0 +1,43 @@
+.consult-chat-container {
+    display: flex;
+    padding: 20px;
+    background-color: #1b1b1b;
+  }
+  
+  .consult-content-wrapper {
+    display: flex;
+    flex: 1;
+  }
+  
+  .consult-post-details-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+  }
+  
+  .consult-messages-section {
+    width: 300px;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    margin-left: 20px;
+  }
+  
+  .consult-post-details-section img,
+  .consult-messages-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px; /* Optionally add border-radius to images */
+    max-height: 300px; /* Adjust the max-height to your preference */
+  }
+  
+  .consult-messages-section h3 {
+    margin-top: 0; /* Reset margin for the "Messages" heading */
+  }
+  
+  /* Add more styling based on your preferences */
+  

@@ -98,7 +98,7 @@ const DiseasesList = () => {
                 <i className="fa fa-pencil"></i>
               </Link>
               <button
-                className="btn btn-danger py-1 px-2 ml-2"
+                className="btn btn-danger py-1 px-2 ml-1"
                 onClick={() => deleteDiseaseHandler(disease._id)}
               >
                 <i className="fa fa-trash"></i>

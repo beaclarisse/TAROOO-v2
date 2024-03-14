@@ -103,9 +103,9 @@ exports.updateDisease = async (req, res, next) => {
   if (images !== undefined) {
     // Deleting images associated with the disease
 
-    for (let i = 0; i < product.images.length; i++) {
+    for (let i = 0; i < disease.images.length; i++) {
       const result = await cloudinary.v2.uploader.destroy(
-        product.images[i].public_id
+        disease.images[i].public_id
       );
     }
 

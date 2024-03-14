@@ -154,12 +154,12 @@ const NewPost = () => {
               >
                 <FormGroup>
                   <Stack spacing={1} alignItems="center">
-                    <TextField
+                    {/* <TextField
                       label="Category"
                       fullWidth
                       disabled
                       variant="standard"
-                    ></TextField>
+                    ></TextField> */}
                     <Select
                       labelId="category"
                       label="Category"

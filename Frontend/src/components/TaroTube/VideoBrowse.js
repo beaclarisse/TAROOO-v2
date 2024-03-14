@@ -13,6 +13,7 @@ import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';
 import Header from '../layout/Header'
 import Grid from '@mui/material/Grid';
+import Sidebar from '../admin/Sidebar';
 import './VideoBrowse.css';
 
 const VideoBrowse = () => {
@@ -96,8 +97,8 @@ const VideoBrowse = () => {
 
   return (
     <Paper className="root" style={{ background: "white" }}>
-      <Header />
-      <Typography variant="h4">TaroTube</Typography>
+      <Sidebar />
+      <Typography className="mt-3" variant="h4">TaroTube</Typography>
       <form fontSize={20} className="form fw-bold my-2" sx={{ fontWeight: 'bold' }}>
         <TextField
           label="Title"

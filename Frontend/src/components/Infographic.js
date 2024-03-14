@@ -101,9 +101,6 @@ const Infographic = () => {
     .slice(pageNumber * postsPerPage, (pageNumber + 1) * postsPerPage)
     .map((post) => (<DisplayPost key={post._id} info={post} />));
 
-
-
-
   return (
     <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#1b1b1b', color: '#fff' }}>
       <Header />
@@ -112,19 +109,23 @@ const Infographic = () => {
         <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>
           Brochures
         </h2>
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-row flex-wrap justify-content-between">
           {displayPosts}
-          <div className="pagination-box mt-3">
-            {Array.from({ length: pageCount }, (_, index) => (
-              <button
-                key={index}
-                className={`pagination-number-btn btn btn-sm ${pageNumber === index ? 'active' : ''}`}
-                onClick={() => changePage({ selected: index })}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+        </div>
+        <div className="pagination-box mt-3">
+          <ReactPaginate
+            previousLabel={<NavigateBeforeIcon />}
+            nextLabel={<NavigateNextIcon />}
+            breakLabel={'...'}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+            previousLinkClassName={'pagination-prev'}
+            nextLinkClassName={'pagination-next'}
+            disabledClassName={'pagination-disabled'}
+            pageClassName={'pagination-page'}
+          />
         </div>
       </div>
     </div>

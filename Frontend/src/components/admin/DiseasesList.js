@@ -22,7 +22,7 @@ const DiseasesList = () => {
   let navigate = useNavigate();
 
   const { loading, error, diseases } = useSelector(
-    (state) => state.allDiseases || {}
+    (state) => state.diseases || {}
   );
 
   const { isDeleted } = useSelector((state) => state.disease);
@@ -37,7 +37,7 @@ const DiseasesList = () => {
     position: toast.POSITION.BOTTOM_CENTER,
   });
 
-
+  console.log(diseases)
   useEffect(() => {
     dispatch(allDiseases());
 
@@ -49,7 +49,7 @@ const DiseasesList = () => {
     if (isDeleted) {
         successMsg("Disease deleted successfully");
         navigate("/admin/diseases");
-        dispatch({ type: DELETE_POST_RESET });
+        dispatch({ type: DELETE_DISEASE_RESET });
       }
     }, [dispatch, alert, error, isDeleted, navigate]);
   

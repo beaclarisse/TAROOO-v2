@@ -53,7 +53,7 @@ const NewDisease = () => {
 
         if (success) {
             toast("New Disease Post!", "Success");
-            navigate("/diseases");
+            navigate("/admin/diseases");
 
             message("Disease post created successfully");
 
@@ -61,6 +61,7 @@ const NewDisease = () => {
         }
     }, [dispatch, error, success, navigate]);
 
+    console.log(success)
     const submitHandler = (data) => {
 
         const formData = new FormData();

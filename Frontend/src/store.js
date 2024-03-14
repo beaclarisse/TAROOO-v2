@@ -25,6 +25,8 @@ import {
     newServiceReducer,
     diseaseReducer,
     diseaseDetailsReducer,
+    newDiseaseReducer,
+    
 } from "./reducers/diseaseReducers";
 
 const reducer = combineReducers({
@@ -45,6 +47,7 @@ const reducer = combineReducers({
     diseases: diseasesReducer,
     diseaseDetails: diseaseDetailsReducer,
     disease: diseaseReducer,
+    newDisease: newDiseaseReducer, 
 });
 
 const middlware = [thunk];

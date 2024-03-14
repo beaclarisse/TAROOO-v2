@@ -75,7 +75,7 @@ const UpdateDisease = () => {
         }
 
         if (isUpdated) {
-            navigate("/diseases");
+            navigate("/admin/diseases");
 
             successMsg("Diseases updated successfully");
 
@@ -168,10 +168,16 @@ const UpdateDisease = () => {
                                             value={description}
                                             onChange={(e) => setDescription(e.target.value)}
                                         />
-
-                                        <TextField label='Part' variant='standard' id='part_field'
-                                            type='number' value={part}
-                                            onChange={(e) => setPart(e.target.value)} fullWidth required />
+                                        <TextField
+                                            id="Part"
+                                            variant='standard'
+                                            label="part_field"
+                                            multiline
+                                            rows={3}
+                                            fullWidth required
+                                            value={part}
+                                            onChange={(e) => setPart(e.target.value)}
+                                        />
 
                                         {/* <div className="custom-file">
                                     <label>Images</label> */}

@@ -55,20 +55,16 @@ export const getDiseases =
         export const allDiseases = () => async (dispatch) => {
             try {
                 dispatch({ type: ADMIN_DISEASES_REQUEST });
+                
         
                 const response = await axios.get(`/api/v1/admin/diseases`);
-        
-                if (response.data && response.data.diseases) {
+                console.log(response.data)
+                
                     dispatch({
                         type: ADMIN_DISEASES_SUCCESS,
-                        payload: response.data.diseases,
+                        payload: response.data.disease,
                     });
-                } else {
-                    dispatch({
-                        type: ADMIN_DISEASES_FAIL,
-                        payload: "No diseases data received",
-                    });
-                }
+                
             } catch (error) {
                 dispatch({
                     type: ADMIN_DISEASES_FAIL,

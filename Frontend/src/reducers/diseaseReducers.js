@@ -23,7 +23,7 @@ import {
     UPDATE_DISEASE_FAIL,
 } from "../constants/diseaseConstants";
 
-export const diseasesReducer = (state = { diseases: [] }, action) => {
+export const diseasesReducer = (state = { disease: [] }, action) => {
     switch (action.type) {
         case ALL_DISEASES_REQUEST:
         case ADMIN_DISEASES_REQUEST:
@@ -76,7 +76,7 @@ export const newDiseaseReducer = (state = { disease: {} }, action) => {
         case NEW_DISEASE_SUCCESS:
             return {
                 loading: false,
-                success: action.payload.success,
+                success: true,
                 disease: action.payload.disease,
             };
 

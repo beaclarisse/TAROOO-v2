@@ -90,3 +90,24 @@ const cloudinary = require("cloudinary");
     }
   };
   
+  exports.deleteInfographic = async (req, res) => {
+    try {
+      const infoId = req.params.id;
+      await Infographic.findByIdAndDelete(infoId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting Infographic:', error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+  };
+
+  exports.allInfographic = async (req, res, next) => {
+    const info = await Infographic.find();
+    let filteredPostsCount = info.length;
+  
+    res.status(200).json({
+      success: true,
+      filteredPostsCount,
+      info,
+    });
+  };

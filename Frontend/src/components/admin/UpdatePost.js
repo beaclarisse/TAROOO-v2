@@ -161,12 +161,12 @@ const UpdatePost = () => {
                                 <FormGroup>
                                     <Stack spacing={1} alignItems='center'>
 
-                                        <TextField label="Category" fullWidth disabled variant="standard"></TextField>
+                                    <TextField label="Category" fullWidth disabled variant="standard"></TextField>
                                         <Select
                                             labelId="category"
-                                            label="category"
+                                            label="Category"
                                             id="category_field"
-                                            value={categories}
+                                            value={category}
                                             onChange={(e) => setCategory(e.target.value)}
                                             fullWidth required
                                         >

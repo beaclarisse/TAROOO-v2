@@ -101,6 +101,7 @@ import AddInfographic from './components/admin/AddInfographic';
 
 import Infographic from './components/Infographic';
 import InfographicDetail from './components/InfographicDetail';
+import InfographicList from "./components/admin/InfographicList";
 
 //charts
 import Dashboard from "./components/admin/Dashboard/Dashboard";
@@ -353,6 +354,7 @@ function App() {
           <Route path="/admin/AddInfo" element={<AddInfographic />} />
           <Route path="/Infographic" element={<Infographic />} />
           <Route path="/Infographic/:id" element={<InfographicDetail />} />
+          <Route path="/admin/infographic" element={<InfographicList />} />
 
 
 

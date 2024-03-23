@@ -217,7 +217,7 @@ function Sidebar(props) {
                                 size="medium"
                                 color="inherit"
                                 component={Link}
-                                to="/admin/AddInfo"
+                                to="/admin/infographic"
                             >
                                  <PhotoAlbumIcon />
                                 <ListItemText sx={{ paddingLeft: 3 }}>InfoChure</ListItemText>
@@ -426,9 +426,9 @@ function Sidebar(props) {
                 </Toolbar>
             </AppBar>
             <Box
-                component="nav"
-                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                aria-label="mailbox folders"
+                // component="nav"
+                // sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                // aria-label="mailbox folders"
             >
                 <Drawer
                     variant="permanent"

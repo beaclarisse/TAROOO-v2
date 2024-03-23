@@ -90,7 +90,7 @@ const Login = () => {
             navigate(`/${redirect}`, { replace: true });
         }
         else if (isAuthenticated) {
-            navigate("/admin/posts");
+            navigate("/");
             notify("Login Successfully")
         }
 

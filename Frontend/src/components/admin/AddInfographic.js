@@ -1,13 +1,14 @@
-import React, { Fragment, useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import Header from '../layout/Header'
-import { useNavigate } from 'react-router-dom';
-import Filter from 'bad-words';
-import Sidebar from './Sidebar';
+import React, { Fragment, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import Header from "../layout/Header";
+import { useNavigate } from "react-router-dom";
+import Filter from "bad-words";
+import Sidebar from "./Sidebar";
+import { toast } from "react-toastify";
 
 const AddInfographic = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const filter = new Filter();
   const [images, setImage] = useState(null);
   const { user } = useSelector((state) => state.auth);
@@ -27,54 +28,80 @@ const AddInfographic = () => {
 
     try {
       const formData = new FormData();
-      formData.append('title', title);
-      formData.append('images', images);
-      formData.append('user', user._id);
+      formData.append("title", title);
+      formData.append("images", images);
+      formData.append("user", user._id);
 
-      await axios.post('http://localhost:3000/api/v1/admin/AddInfo', formData, {
+      await axios.post("http://localhost:3000/api/v1/admin/AddInfo", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${user.token}`,
         },
       });
-      navigate('/Infographic');
-    } catch (error) { 
-      console.error('Error adding post:', error);
+      toast.success('Infographic Created successfully');
+      navigate("/admin/infographic");
+    } catch (error) {
+      console.error("Error adding post:", error);
     }
   };
-  
+
   return (
     <Fragment>
-    <div className="container mt-5" style={{ background: '#1b1b1b', padding: '20px', borderRadius: '10px' }}>
-      <Sidebar />
-      <h2>Add Infographic</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="title" className="form-label">
-            Title
-          </label>
-          <input type="text" className="form-control" id="title" value={title} onChange={handleTitleChange} required />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="image" className="form-label">
-            Image
-          </label>
-          <input type="file" className="form-control" id="images" accept="image/*" onChange={handleImageChange} required />
-        </div>
-        {user ? (
-          <button type="submit" className="btn btn-primary" style={{ background: '#232b2b'}} >
-            Add 
-          </button>
-        ) : (
-          <div className="alert alert-danger mt-5" type="alert">
-            Login to post.
+      <div
+        className="container mt-5"
+        style={{
+          background: "white",
+          color: "black",
+          padding: "20px",
+          borderRadius: "10px",
+        }}
+      >
+        <Sidebar />
+        <h2>Add Infographic</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              value={title}
+              onChange={handleTitleChange}
+              required
+            />
           </div>
-        )}
-      </form>
-    </div>
+          <div className="mb-3">
+            <label htmlFor="image" className="form-label">
+              Image
+            </label>
+            <input
+              type="file"
+              className="form-control"
+              id="images"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+            />
+          </div>
+          {user ? (
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ background: "#232b2b" }}
+            >
+              Add
+            </button>
+          ) : (
+            <div className="alert alert-danger mt-5" type="alert">
+              Login to post.
+            </div>
+          )}
+        </form>
+      </div>
     </Fragment>
   );
 };
 
 export default AddInfographic;
-

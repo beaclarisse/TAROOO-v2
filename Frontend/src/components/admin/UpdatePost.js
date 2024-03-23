@@ -159,9 +159,9 @@ const UpdatePost = () => {
                                 encType="multipart/form-data"
                             >
                                 <FormGroup>
-                                    <Stack spacing={1} alignItems='center'>
+                                    <Stack spacing={1} >
 
-                                    <TextField label="Category" fullWidth disabled variant="standard"></TextField>
+                                    <Typography align='left'>category</Typography>
                                         <Select
                                             labelId="category"
                                             label="Category"
@@ -209,29 +209,33 @@ const UpdatePost = () => {
                                                 Upload Image
                                             </label>
                                         </div>
-
+                                        <div align='center'>     
                                         {oldImages &&
                                             oldImages.map((img) => (
                                                 <img
+                                                    
                                                     key={img}
                                                     src={img.url}
                                                     alt={img.url}
                                                     className="mt-3 mr-2"
-                                                    width="55"
-                                                    height="52"
+                                                    width="140"
+                                                    height="140"
                                                 />
                                             ))}
 
                                         {imagesPreview.map((img) => (
                                             <img
+                                                
                                                 src={img}
                                                 key={img}
                                                 alt="Images Preview"
                                                 className="mt-3 mr-2"
-                                                width="55"
-                                                height="52"
+                                                width="140"
+                                                height="140"
                                             />
                                         ))}
+                                        </div> 
+                                        
                                         <Button id="register_button" type="submit" size="large" variant="contained" color="primary" fullWidth>Update Post</Button>
                                     </Stack>
                                 </FormGroup>

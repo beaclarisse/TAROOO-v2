@@ -174,7 +174,7 @@ const UpdatePreventive = () => {
                                             variant='standard'
                                             label="reference_field"
                                             multiline
-                                            rows={3}
+                                            rows={2}
                                             fullWidth required
                                             value={reference}
                                             onChange={(e) => setReference(e.target.value)}
@@ -203,8 +203,8 @@ const UpdatePreventive = () => {
                                                     src={img.url}
                                                     alt={img.url}
                                                     className="mt-3 mr-2"
-                                                    width="55"
-                                                    height="52"
+                                                    width="140"
+                                                    height="140"
                                                 />
                                             ))}
 
@@ -214,8 +214,8 @@ const UpdatePreventive = () => {
                                                 key={img}
                                                 alt="Images Preview"
                                                 className="mt-3 mr-2"
-                                                width="55"
-                                                height="52"
+                                                width="140"
+                                                height="140"
                                             />
                                         ))}
                                         {/* </div> */}

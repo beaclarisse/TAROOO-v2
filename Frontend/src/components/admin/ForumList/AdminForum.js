@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CommentIcon from '@mui/icons-material/Comment';
 import Header from '../../layout/Header';
+import Sidebar from '../Sidebar';
 
 const AdminForum = () => {
   const [posts, setPosts] = useState([]);
@@ -79,7 +80,7 @@ const AdminForum = () => {
     }
 
     return (
-        <div className="card mb-3 rounded" style={{ width: '100%', height: '7rem', background: '#232b2b', color: '#fff' }}>
+        <div className="card mb-3 rounded" style={{ width: '100%', height: '9rem', background: '#232b2b', color: '#fff' }}>
           <div className="card-body d-flex justify-content-between align-items-center">
             <div>
               <h5 className="card-title" style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>{post.title}</h5>
@@ -111,13 +112,18 @@ const AdminForum = () => {
 
   return (
     <div className="d-flex flex-column vh-100" style={{ backgroundColor: '#1b1b1b', color: '#fff' }}>
-      <Header />
-      <div className="flex-grow-1 p-4 rounded">
-        <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Admin Forum Lists</h2>
+      <br />
+      <br />
+      <br />
+      <br />
+      <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Admin Forum Lists</h2>
+      <div className="d-flex flex-grow-1 p-4 rounded" style={{ marginLeft: '250px' }}>
+        
         <div className="d-flex flex-column">
           {displayPosts}
         </div>
       </div>
+      <Sidebar />
     </div>
   );
 };

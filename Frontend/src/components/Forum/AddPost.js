@@ -90,7 +90,7 @@ const AddPost = () => {
           <input type="text" className="form-control" id="tags" value={tags} onChange={handleTagsChange} />
         </div>
         {user ? (
-          <button type="submit" className="btn btn-primary" style={{ background: '#232b2b'}} >
+          <button type="submit" className="btn btn-primary" style={{ background: '#232b2b' }} >
             Add 
           </button>
         ) : (

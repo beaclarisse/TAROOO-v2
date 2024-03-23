@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Header from '../layout/Header'
 import { useNavigate } from 'react-router-dom';
 import Filter from 'bad-words';
+import Sidebar from './Sidebar';
 
 const AddInfographic = () => {
   const [title, setTitle] = useState('');
@@ -43,9 +44,10 @@ const AddInfographic = () => {
   };
   
   return (
+    <Fragment>
     <div className="container mt-5" style={{ background: '#1b1b1b', padding: '20px', borderRadius: '10px' }}>
-      <Header />
-      <h2>Add</h2>
+      <Sidebar />
+      <h2>Add Infographic</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
@@ -70,6 +72,7 @@ const AddInfographic = () => {
         )}
       </form>
     </div>
+    </Fragment>
   );
 };
 

@@ -82,7 +82,7 @@ const Infographic = () => {
       return null;
     }
     return (
-      <div className="custom-col-md-6 my-3" key={info._id} onClick={() => handleCardClick(info._id)} style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
+      <div className="custom-col-md-6 my-3 " key={info._id} onClick={() => handleCardClick(info._id)} style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
         <div className="card mb-3 rounded" style={{ width: '18rem', background: '#232b2b', color: '#fff' }}>
           {/* Render each image from the images array */}
           {info.images.map((image, index) => (

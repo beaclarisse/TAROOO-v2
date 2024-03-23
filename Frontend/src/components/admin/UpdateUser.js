@@ -124,6 +124,7 @@ const UpdateUser = () => {
                                         />
                                         <TextField label="Role" fullWidth disabled variant="standard"></TextField>
                                         <Select
+                                            TextField = "Role"
                                             labelId="roles"
                                             label="Role"
                                             id="role_field"

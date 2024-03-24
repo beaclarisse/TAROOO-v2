@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import Header from '../layout/Header';
 import { useNavigate } from 'react-router-dom';
 import Filter from 'bad-words';
+import filipinoBadWords from '../filipinoBadWords'; 
 
 const AddConsult = () => {
   const [title, setTitle] = useState('');
-  const filter = new Filter();
+  const filter = new Filter({ list: filipinoBadWords });
   const [content, setContent] = useState('');
   const [images, setImage] = useState(null);
 

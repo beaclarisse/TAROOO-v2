@@ -4,19 +4,16 @@ import { useSelector } from 'react-redux';
 import Header from '../layout/Header'
 import { useNavigate } from 'react-router-dom';
 import Filter from 'bad-words';
+import filipinoBadWords from '../filipinoBadWords'; 
 
 const AddPost = () => {
   const [title, setTitle] = useState('');
-  const filter = new Filter();
+  const filter = new Filter({ list: filipinoBadWords });
   const [content, setContent] = useState('');
   const [images, setImage] = useState(null);
   const [tags, setTags] = useState('');
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-
-  // const handleTitleChange = (e) => {
-  //   setTitle(e.target.value);
-  // };
 
   const handleTitleChange = (e) => {
     const cleanedTitle = filter.clean(e.target.value);
@@ -61,36 +58,36 @@ const AddPost = () => {
   };
   
   return (
-    <div className="container mt-5" style={{ background: '#1b1b1b', padding: '20px', borderRadius: '10px' }}>
+    <div style={{ background: '#1b1b1b', padding: '20px', borderRadius: '10px', color: '#fff' }}>
       <Header />
-      <h2>Share Experience</h2>
+      <h2 style={{ color: '#fff' }}>Share Experience</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="title" className="form-label">
+          <label htmlFor="title" className="form-label" style={{ color: '#fff' }}>
             Title
           </label>
-          <input type="text" className="form-control" id="title" value={title} onChange={handleTitleChange} required />
+          <input type="text" className="form-control" id="title" value={title} onChange={handleTitleChange} required style={{ backgroundColor: '#232b2b', color: '#fff' }} />
         </div>
         <div className="mb-3">
-          <label htmlFor="content" className="form-label">
+          <label htmlFor="content" className="form-label" style={{ color: '#fff' }}>
             Content
           </label>
-          <textarea className="form-control" id="content" rows="4" value={content} onChange={handleContentChange} required></textarea>
+          <textarea className="form-control" id="content" rows="4" value={content} onChange={handleContentChange} required style={{ backgroundColor: '#232b2b', color: '#fff' }}></textarea>
         </div>
         <div className="mb-3">
-          <label htmlFor="image" className="form-label">
+          <label htmlFor="image" className="form-label" style={{ color: '#fff' }}>
             Image
           </label>
-          <input type="file" className="form-control" id="images" accept="image/*" onChange={handleImageChange} required />
+          <input type="file" className="form-control" id="images" accept="image/*" onChange={handleImageChange} required style={{ backgroundColor: '#232b2b', color: '#fff' }} />
         </div>
         <div className="mb-3">
-          <label htmlFor="tags" className="form-label">
+          <label htmlFor="tags" className="form-label" style={{ color: '#fff' }}>
             Tags (comma-separated)
           </label>
-          <input type="text" className="form-control" id="tags" value={tags} onChange={handleTagsChange} />
+          <input type="text" className="form-control" id="tags" value={tags} onChange={handleTagsChange} style={{ backgroundColor: '#232b2b', color: '#fff' }} />
         </div>
         {user ? (
-          <button type="submit" className="btn btn-primary" style={{ background: '#232b2b' }} >
+        <button type="submit" className="btn btn-primary" style={{ backgroundColor: '#67568C', border: 'none' }} >
             Add 
           </button>
         ) : (

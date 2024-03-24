@@ -59,13 +59,12 @@ const Infographic = () => {
     useEffect(() => {
       const fetchUserData = async () => {
         try {
-          // Check if info is defined and has a 'user' property
+          
           if (!info?.user) {
             setUser({ name: "Anonymous" });
             return;
           }
 
-          // Assuming the user ID is stored in info.user, fetch user data
           const userId = info.user;
           const responseUser = await axios.get(`http://localhost:3000/api/v1/user/${userId}`);
           setUser(responseUser.data);
@@ -107,7 +106,7 @@ const Infographic = () => {
 
       <div className="flex-grow-1 p-4 rounded">
         <h2 align="center" style={{ fontSize: '2rem', marginBottom: '1rem' }}>
-          Brochures
+          Infographics
         </h2>
         <div className="d-flex flex-row flex-wrap justify-content-between">
           {displayPosts}

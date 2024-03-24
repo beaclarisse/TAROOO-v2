@@ -16,6 +16,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Filter from 'bad-words';
+import filipinoBadWords from '../filipinoBadWords'; 
 import { ToastContainer, toast } from 'react-toastify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -36,7 +37,7 @@ const PostDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteCommentId, setCommentIdToDelete] = useState(null);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [filter] = useState(new Filter());
+  const [filter] = useState(new Filter({ list: filipinoBadWords }));
   const [replyCommentId, setReplyCommentId] = useState(null);
   const [newReply, setNewReply] = useState('');
   const { id } = useParams();

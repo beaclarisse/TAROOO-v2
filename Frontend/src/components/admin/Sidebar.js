@@ -220,7 +220,7 @@ function Sidebar(props) {
                                 to="/admin/infographic"
                             >
                                  <PhotoAlbumIcon />
-                                <ListItemText sx={{ paddingLeft: 3 }}>InfoChure</ListItemText>
+                                <ListItemText sx={{ paddingLeft: 3 }}>Infographics</ListItemText>
                             </IconButton>
                         </ListItemIcon>
                     </ListItemButton>

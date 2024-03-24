@@ -100,7 +100,15 @@ const SUpdateQuestion = () => {
             />
           </div>
           <div>
-            <button onClick={handleUpdateQuestion} className="btn btn-crud">Update Question</button>
+            <button onClick={handleUpdateQuestion} 
+            style={{
+              backgroundColor: "#007bff",
+              color: "#fff",
+              border: "none",
+              padding: "8px 16px",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}>Update Question</button>
           </div>
           <ToastContainer />
         </div>

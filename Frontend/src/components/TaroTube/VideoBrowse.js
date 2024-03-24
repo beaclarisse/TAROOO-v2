@@ -15,6 +15,8 @@ import Header from '../layout/Header'
 import Grid from '@mui/material/Grid';
 import Sidebar from '../admin/Sidebar';
 import './VideoBrowse.css';
+import { toast } from 'react-toastify';
+import { Toast } from 'react-bootstrap';
 
 const VideoBrowse = () => {
   const [videos, setVideos] = useState([]);
@@ -45,6 +47,10 @@ const VideoBrowse = () => {
       console.error('Error fetching videos:', error);
     }
   };
+  const successMsg = (message = "") =>
+        toast.success(message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+        });
 
   const handleAddVideo = async () => {
     try {
@@ -62,6 +68,7 @@ const VideoBrowse = () => {
         setNewVideoDescription('');
         setNewVideoLink('');
         fetchVideos();
+        successMsg("Video added successfully");
       } else {
         console.error('Invalid YouTube video URL');
       }

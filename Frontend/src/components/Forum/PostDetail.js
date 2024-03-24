@@ -9,6 +9,7 @@ import { getUser } from '../../utils/helpers';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -427,7 +428,7 @@ const PostDetail = () => {
                       </div>
                       {comment.commentor.id === getUser().id && (
                         <IconButton onClick={() => handleDeleteComment(comment._id, comment.commentor.id)} style={{ color: 'white' }}>
-                          <MoreHorizIcon />
+                          <DeleteIcon />
                         </IconButton>
                       )}
                     </div>
@@ -512,7 +513,7 @@ const DisplayComment = ({ comment }) => {
             <EditIcon />
           </IconButton>
         </div>
-      )}
+      )}  
     </div>
   );
 };

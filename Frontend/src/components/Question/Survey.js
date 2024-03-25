@@ -62,11 +62,12 @@ const SurveyForm = () => {
   const part6Questions = questions.slice(5, 6);
   const part7Questions = questions.slice(6, 7);
   const part8Questions = questions.slice(7, 8);
+  const part9Questions = questions.slice(8, 9);
 
   return (
 
     <Fragment>
-    <div className="survey-container" style={{ background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '90%', maxWidth: '800px', padding: '40px', margin: '40px auto 0' }}>
+    <div className="survey-container" style={{ background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '120vh', width: '90%', maxWidth: '800px', padding: '40px', margin: '40px auto 0' }}>
         <p className="form-title" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: '#333', marginBottom: '10px', backgroundColor: "white" }}>
         Consumer Questions
       </p>
@@ -218,6 +219,26 @@ const SurveyForm = () => {
               </div>
             ))}
           </form>
+
+          <form onSubmit={handleSubmit}>
+            {part9Questions.map((question, index) => (
+              <div key={question._id} className="question-container">
+                <p className="question-text" style={{ textAlign: 'left', color: 'black' }}>{question.questionText}</p>
+                <select
+                  value={formData[index + 8]?.selectedOption}
+                  onChange={(e) => handleInputChange(index + 8, e)}
+                  style={{ width: '100%', padding: '8px', marginBottom: '10px' }} 
+                >
+                  <option value="">Select an option</option>
+                  {question.options.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </form>
+
+         
 
         </div>
       </div>
